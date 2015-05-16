@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- toolbar goes to side -->
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -9,12 +8,14 @@
         android:layout_weight="1"
         android:gravity="center|bottom"
         android:background="@color/white"
->
+        android:weightSum="1">
+
     <Toolbar
         android:layout_height="30dp"
         android:layout_width="fill_parent"
         android:background="@color/black"
         android:title="MenuBar"
+        android:layout_weight="0.38"
     />
 
     <Button
