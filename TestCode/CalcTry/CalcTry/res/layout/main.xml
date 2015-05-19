@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:orientation="vertical"
+              xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout android:layout_width="match_parent" android:layout_height="fill_parent">
+    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="test" android:text="@string/button_text"/>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="test4" android:text="@string/button_text2"
+            android:layout_gravity="center_horizontal"/>
+</LinearLayout>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/map"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:name="com.google.android.gms.maps.MapFragment"/>
+
+</LinearLayout>
+<!--<LinearLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+    <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+            <!--<EditText-->
+                <!--android:id="@+id/et_1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="eerste getal"-->
+                <!--android:inputType="number"-->
+                <!--android:textSize="40dp"/>-->
+
+        <!--<EditText-->
+                <!--android:id="@+id/et_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="tweede getal"-->
+                <!--android:inputType="number"-->
+                <!--android:textSize="40dp"/>-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="5dp"-->
+            <!--android:background="#ff0"/>-->
+
+    <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:weightSum="5">-->
+
+        <!--<Button-->
+                <!--style="@style/knoppen"-->
+                <!--android:onClick="calc"-->
+                <!--android:id="@+id/P"-->
+                <!--android:text="+"/>-->
+
+        <!--<Button-->
+                <!--style="@style/knoppen"-->
+                <!--android:onClick="calc"-->
+                <!--android:id="@+id/M"-->
+                <!--android:text="-"/>-->
+
+        <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:onClick="calc"-->
+                <!--android:id="@+id/K"-->
+                <!--android:text="*"-->
+                <!--android:textSize="40dp"/>-->
+
+        <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:onClick="calc"-->
+                <!--android:id="@+id/D"-->
+                <!--android:text=":"-->
+                <!--android:textSize="40dp"/>-->
+    <!--</LinearLayout>-->
+<!--</LinearLayout>-->

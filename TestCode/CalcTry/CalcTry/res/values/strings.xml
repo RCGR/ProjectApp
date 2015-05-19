@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CalcTry</string>
+    <string name="button_text">Change Loc</string>
+    <string name="button_text2">Change zoom level</string>
+</resources>
