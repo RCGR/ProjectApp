@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Project4</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#ff0000</color>
+    <color name="darkerRed">#B61818</color>
+
+    <integer name="google_play_services_version">7327000</integer>
+
+</resources>
