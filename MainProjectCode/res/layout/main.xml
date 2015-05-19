@@ -12,7 +12,7 @@
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/map"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
+                android:layout_height="20dp"
 
                 android:name="com.google.android.gms.maps.MapFragment"
                 />
@@ -49,6 +49,7 @@
                     android:id="@+id/stem_button_id"
                     android:text="Stem op uitjes"
                     android:layout_marginTop="1dp"
+                    android:onClick="test1234"
                     android:background="@color/darkerRed"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
