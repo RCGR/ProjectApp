@@ -1,7 +1,19 @@
 package com.RCGR.MainApplication;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MyActivity extends Activity {
     private GoogleMap TheOneMap = null;
@@ -58,9 +70,6 @@ public class MyActivity extends Activity {
 
     public  void test(View v){
         Toast.makeText(v.getContext(), "hoi", Toast.LENGTH_SHORT).show();
-        Notification.Builder asdx = new Notification.Builder(this).setContentTitle("New App Notification").setContentText("Ur mobile phone has just crashed").setSmallIcon(R.drawable.house);
-        NotificationManager mnotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
 
 
 
@@ -74,7 +83,6 @@ public class MyActivity extends Activity {
                     .title("asdasd")
                     .snippet("testlocation.")
                     .anchor(1.0f, 1.0f)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.house))
                     .position(asdasd));
 
 
