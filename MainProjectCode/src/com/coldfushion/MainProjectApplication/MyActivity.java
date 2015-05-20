@@ -185,22 +185,22 @@ int PLACE_PICKER_REQUEST;
             // ...
         }
 
-        while(placeId == null){
-            Toast.makeText(getApplicationContext(), "wachten", Toast.LENGTH_SHORT).show();
-        }
-        Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId).setResultCallback(new ResultCallback<PlaceBuffer>() {
-            @Override
-            public void onResult(PlaceBuffer places) {
-                if (places.getStatus().isSuccess()) {
-                    final Place myPlace = places.get(0);
-                    Toast.makeText(getApplicationContext(), myPlace.getId() + " is het id, dit is de naam: " + myPlace.getName()  , Toast.LENGTH_LONG).show();
-                    Theonemap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace.getLatLng(), 5));
-                    Theonemap.addMarker(new MarkerOptions().title(myPlace.getName().toString()).snippet(myPlace.getAddress().toString()).position(myPlace.getLatLng()));
-
-                }
-                places.release();
-            }
-        });
+//        while(placeId == null){
+//            Toast.makeText(getApplicationContext(), "wachten", Toast.LENGTH_SHORT).show();
+//        }
+//        Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId).setResultCallback(new ResultCallback<PlaceBuffer>() {
+//            @Override
+//            public void onResult(PlaceBuffer places) {
+//                if (places.getStatus().isSuccess()) {
+//                    final Place myPlace = places.get(0);
+//                    Toast.makeText(getApplicationContext(), myPlace.getId() + " is het id, dit is de naam: " + myPlace.getName()  , Toast.LENGTH_LONG).show();
+//                    Theonemap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace.getLatLng(), 5));
+//                    Theonemap.addMarker(new MarkerOptions().title(myPlace.getName().toString()).snippet(myPlace.getAddress().toString()).position(myPlace.getLatLng()));
+//
+//                }
+//                places.release();
+//            }
+//        });
     }
 
 
