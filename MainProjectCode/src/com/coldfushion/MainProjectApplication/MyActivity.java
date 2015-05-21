@@ -2,6 +2,7 @@ package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,10 +17,12 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     GoogleMap Theonemap;
     /**
-     * Called when the activity is first created.
+     * Map stuff down here
      */
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -31,7 +34,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     }
 
     @Override
-    public void onMapReady(GoogleMap map){
+    public void onMapReady(GoogleMap map)
+    {
         LatLng sydney = new LatLng(-33.867, 151.206);
         Theonemap = map;
 
@@ -42,5 +46,15 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 .snippet("The most populous city in Australia.")
                 .position(sydney));
     }
+
+    /*
+     * Uitjes-zoeken stuff
+     */
+
+     public void ZoekNaarUitjes()
+     {
+         Intent i = new Intent(getApplicationContext(), ResultActivity.class);
+         startActivity(i);
+     }
 
 }

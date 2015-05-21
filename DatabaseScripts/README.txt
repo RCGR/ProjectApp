@@ -1,12 +1,18 @@
 DB CREDENTIALS
 
 UITJESDB:
-Host: sql5.freemysqlhosting.net
-Database name: sql577884
-Database user: sql577884
-Database password: hC6*bN8!
-Port number: 3306
---------
+EMAIL:coldfusiondata@gmail.com
+EMAILWW:coldfusion
+
+HOSTACCOUNTNAME:coldfusion
+HOSTACCOUNTWW:coldfusion4
+HOST URL: www.coldfusiondata.site90.net
+
+DB HOSTNAME: mysql3.000webhost.com
+DB NAME: a4934812_uitjes
+DB USERNAME: a4934812_user
+DB PASSWORD: coldfusion4
+--------	
 Tabellen: Uitjes: 
 `uitjesID` INT NOT NULL AUTO_INCREMENT,
   
