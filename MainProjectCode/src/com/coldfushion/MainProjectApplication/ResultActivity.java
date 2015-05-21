@@ -14,18 +14,13 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
+
 
 /**
  * Created by Kraaijeveld on 21-5-2015.
@@ -95,6 +90,8 @@ public class ResultActivity extends ListActivity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
+
+
             JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
 
             // Check your log cat for JSON reponse
