@@ -35,7 +35,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:onClick="ZoekNaarUitjes()"
+                    android:onClick="ZoekNaarUitjes"
                     />
             <Button
                     android:id="@+id/nomineer_button_id"

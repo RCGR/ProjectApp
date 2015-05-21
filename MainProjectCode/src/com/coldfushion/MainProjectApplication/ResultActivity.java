@@ -39,7 +39,7 @@ public class ResultActivity extends ListActivity {
     ArrayList<HashMap<String, String>> uitjesList;
 
     // url waar het PHPscript dat we willen zich bevind
-    private static String url_all_products = "www.coldfusiondata.site90.net/db_get_all.php";
+    private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
 
     // We maken hier vars aan voor de JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -93,7 +93,9 @@ public class ResultActivity extends ListActivity {
 
 
             JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
-
+            if (json == null){
+                Log.d("jsonechek", "jsonempty");
+            }
             // Check your log cat for JSON reponse
             Log.d("Uitjes: ", json.toString());
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -51,7 +52,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
      * Uitjes-zoeken stuff
      */
 
-     public void ZoekNaarUitjes()
+     public void ZoekNaarUitjes(View v)
      {
          Intent i = new Intent(getApplicationContext(), ResultActivity.class);
          startActivity(i);
