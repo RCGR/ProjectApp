@@ -18,21 +18,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a44497b9-49df-4bae-924b-397b13b9903a" name="Default" comment="build first applook with map&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$id.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$integer.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$layout.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$raw.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$raw.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$string.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$style.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$styleable.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$styleable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/main.xml" afterPath="$PROJECT_DIR$/res/layout/main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MainProjectApplication.iws" />
@@ -55,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.77823406">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,7 +56,7 @@
       <file leaf-file-name="JSONParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="16.352942">
+            <state vertical-scroll-proportion="13.676471">
               <caret line="63" column="44" selection-start-line="63" selection-start-column="44" selection-end-line="63" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -92,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7218543">
-              <caret line="157" column="44" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
+            <state vertical-scroll-proportion="-19.67647">
+              <caret line="163" column="5" selection-start-line="163" selection-start-column="5" selection-end-line="163" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -149,9 +135,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
-        <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java" />
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
       </list>
     </option>
   </component>
@@ -690,26 +676,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="16.352942">
-          <caret line="63" column="44" selection-start-line="63" selection-start-column="44" selection-end-line="63" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/resultlist.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.882353">
@@ -734,8 +700,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7218543">
-          <caret line="157" column="44" selection-start-line="157" selection-start-column="44" selection-end-line="157" selection-end-column="44" />
+        <state vertical-scroll-proportion="-19.67647">
+          <caret line="163" column="5" selection-start-line="163" selection-start-column="5" selection-end-line="163" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/JSONParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="13.676471">
+          <caret line="63" column="44" selection-start-line="63" selection-start-column="44" selection-end-line="63" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.77823406">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

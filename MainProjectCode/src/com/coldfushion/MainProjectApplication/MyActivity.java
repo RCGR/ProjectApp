@@ -54,8 +54,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
      public void ZoekNaarUitjes(View v)
      {
-         Intent i = new Intent(getApplicationContext(), ResultActivity.class);
-         startActivity(i);
+         Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
+         startActivity(AlleUitjes);
      }
 
 }
