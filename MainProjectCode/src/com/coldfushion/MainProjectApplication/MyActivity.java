@@ -146,6 +146,32 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     public void selectItem(int position){
         Toast.makeText(getApplicationContext(), mMenuItems[position], Toast.LENGTH_SHORT).show();
         Log.d("test", "doet het");
+
+        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
+            Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
+            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
+            startActivity(DateChooseIntent);
+        }
+        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
+            Toast.makeText(getApplicationContext(), "lcaotie wijzigen", Toast.LENGTH_SHORT).show();
+            Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
+            startActivity(LocationChooseIntent);
+        }
+        else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
+            Toast.makeText(getApplicationContext(), "suggestie maken ofzo", Toast.LENGTH_SHORT).show();
+            Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
+            startActivity(MakeSuggestionIntent);
+        }
+        else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
+            Toast.makeText(getApplicationContext(), "uitjes beoordelen", Toast.LENGTH_SHORT).show();
+            Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
+            startActivity(RateActivityIntent);
+        }
+        else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
+            Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
+            startActivity(AlleUitjes);
+        }
+
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mMenuItems[position]);
