@@ -1,11 +1,11 @@
 DB CREDENTIALS
 
 UITJESDB:
-EMAIL:coldfusiondata@gmail.com
-EMAILWW:coldfusion
+EMAIL: coldfusiondata@gmail.com
+EMAILWW: coldfusion
 
-HOSTACCOUNTNAME:coldfusion
-HOSTACCOUNTWW:coldfusion4
+HOSTACCOUNTNAME: coldfusion
+HOSTACCOUNTWW: coldfusion4
 HOST URL: www.coldfusiondata.site90.net
 
 DB HOSTNAME: mysql3.000webhost.com

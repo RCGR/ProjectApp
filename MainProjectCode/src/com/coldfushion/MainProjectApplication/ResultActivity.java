@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.view.View;
+import android.widget.*;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,10 +18,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 
 /**
@@ -29,6 +27,9 @@ import android.widget.Toast;
  */
 
 public class ResultActivity extends ListActivity {
+
+    TextView textView;
+    Button button;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -54,6 +55,9 @@ public class ResultActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultlist);
+
+        textView = (TextView)findViewById(R.id.textview_noUitjes);
+        button = (Button)findViewById(R.id.ButtonIDGoback);
 
         //Bij het starten van deze activity maken we een KVP hashmap om de uitjes in te bewaren,
         //En starten we de LoadAllUitjes thread.
@@ -128,7 +132,23 @@ public class ResultActivity extends ListActivity {
                     }
                 } else {
                     // no products found
-                    Toast.makeText(getApplicationContext(), "Helaas, er zijn geen uitjes gevonden!", Toast.LENGTH_LONG).show();
+                    Log.d("Uitjes status", "Geen uitjes");
+                    //set the textview to visible
+                    textView.getHandler().post(new Runnable() {
+                        public void run() {
+                            textView.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    textView.setText("Geen uitjes gevonden");
+                    //set the button to visible
+                    button.getHandler().post(new Runnable() {
+                        public void run() {
+                            button.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -161,5 +181,8 @@ public class ResultActivity extends ListActivity {
 
         }
 
+    }
+    public void GoBackButton_Resultlist(View v){
+        this.finish();
     }
 }
