@@ -19,6 +19,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".ResultActivity" />
+        <activity
+                android:name=".LocationChoose"
+                android:label="LocationChoose"/>
+        <activity
+                android:name=".DateChoose"
+                android:label="DateChoose"/>
+        <activity
+                android:name=".MakeSuggestion"
+                android:label="MakeSuggestion"/>
+        <activity
+                android:name=".RateActivities"
+                android:label="RateActivities"/>
 
         <meta-data
                 android:name="com.google.android.gms.version"

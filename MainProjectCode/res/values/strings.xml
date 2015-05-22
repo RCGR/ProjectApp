@@ -11,8 +11,11 @@
 
 
     <string-array name="menu_items">
-        <item>Locatie</item>
-        <item>Datum</item>
-        <item>Suggestie</item>
+        <item>Bekijk uitjes op kaart</item>
+        <item>Locatie wijzigen</item>
+        <item>Datum kiezen</item>
+        <item>Suggestie maken</item>
+        <item>Uitje beoordelen</item>
+        <item>Alle Uitjes</item>
     </string-array>
 </resources>
