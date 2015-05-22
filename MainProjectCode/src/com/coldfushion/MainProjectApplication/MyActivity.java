@@ -127,7 +127,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 .position(sydney));
     }
 
-    /*
+    /*a
      * Uitjes-zoeken stuff
      */
 
