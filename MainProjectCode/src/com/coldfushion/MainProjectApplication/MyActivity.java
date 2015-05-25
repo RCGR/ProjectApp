@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -33,6 +35,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     private String[] mMenuItems;
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
+
+    private LocationManager mLocationManager;
+    private Location MyLoc;
 
     GoogleMap Theonemap;
     /**
@@ -79,9 +84,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if(savedInstanceState == null){
+
             selectItem(0);
-        }
+
 
 
 
@@ -116,15 +121,29 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap map)
     {
-        LatLng sydney = new LatLng(-33.867, 151.206);
+
         Theonemap = map;
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+        Location StartLocation = getLocation();
+        if (StartLocation != null) {
 
-        map.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney));
+            LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(StartLatLng, 13));
+
+            map.addMarker(new MarkerOptions()
+                    .title("Huidige Locatie")
+                    .snippet("Hier bevindt u zich momenteel.")
+                    .position(StartLatLng));
+        }
+        else {
+            LatLng sydney = new LatLng(-33.867, 151.206);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+            map.addMarker(new MarkerOptions()
+                    .title("Sydney")
+                    .snippet("The most populous city in Australia.")
+                    .position(sydney));
+        }
     }
 
     /*a
@@ -196,5 +215,55 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public Location getLocation() {
+        try {
+            mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+
+            boolean GPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean NetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            Location GPSLoc =null;
+            Location NetworkLoc = null;
+
+
+            if(!GPSEnabled && !NetworkEnabled){
+                throw new Exception("Geen netwerk beschikbaar");
+            }
+            else {
+                if (GPSEnabled) {
+                    GPSLoc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                }
+                if (NetworkEnabled){
+                    NetworkLoc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+
+                if (GPSLoc != null && NetworkLoc != null){
+                    if(GPSLoc.getAccuracy() >= NetworkLoc.getAccuracy()){
+                        MyLoc = GPSLoc;
+                    }
+                    else {
+                        MyLoc = NetworkLoc;
+                    }
+                }
+                else {
+                    if (GPSLoc != null){
+                        MyLoc = GPSLoc;
+                    }
+                    else if (NetworkLoc != null){
+                        MyLoc = NetworkLoc;
+                    }
+                }
+
+            }
+
+        }
+        catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+
+        return  MyLoc;
     }
 }

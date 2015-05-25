@@ -1,7 +1,12 @@
 package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +67,12 @@ public class ResultActivity extends ListActivity {
         //Bij het starten van deze activity maken we een KVP hashmap om de uitjes in te bewaren,
         //En starten we de LoadAllUitjes thread.
         uitjesList = new ArrayList<HashMap<String, String>>();
-        new LoadAllUitjes().execute();
+        if (isOnline()) {
+            new LoadAllUitjes().execute();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
+        }
         // Get listview
         ListView lv = getListView();
     }
@@ -95,64 +105,66 @@ public class ResultActivity extends ListActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
 
-
-            JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
-            if (json == null){
-                Log.d("jsonechek", "jsonempty");
-            }
-            // Check your log cat for JSON reponse
-            Log.d("Uitjes: ", json.toString());
-
-            try {
-                // Checking for SUCCESS TAG
-                int success = json.getInt(TAG_SUCCESS);
-
-                if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    uitjes = json.getJSONArray(TAG_UITJES);
-
-                    // looping through All Products
-                    for (int i = 0; i < uitjes.length(); i++) {
-                        JSONObject c = uitjes.getJSONObject(i);
-
-                        // Storing each json item in variable
-                        String id = c.getString(TAG_PID);
-                        String name = c.getString(TAG_NAME);
-
-                        // creating new HashMap
-                        HashMap<String, String> map = new HashMap<String, String>();
-
-                        // adding each child node to HashMap key => value
-                        map.put(TAG_PID, id);
-                        map.put(TAG_NAME, name);
-
-                        // adding HashList to ArrayList
-                        uitjesList.add(map);
-                    }
-                } else {
-                    // no products found
-                    Log.d("Uitjes status", "Geen uitjes");
-                    //set the textview to visible
-                    textView.getHandler().post(new Runnable() {
-                        public void run() {
-                            textView.setVisibility(View.VISIBLE);
-                        }
-                    });
-
-                    textView.setText("Geen uitjes gevonden");
-                    //set the button to visible
-                    button.getHandler().post(new Runnable() {
-                        public void run() {
-                            button.setVisibility(View.VISIBLE);
-                        }
-                    });
-
-
+            if (isOnline()) {
+                JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
+                if (json == null) {
+                    Log.d("jsonechek", "jsonempty");
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                // Check your log cat for JSON reponse
+                Log.d("Uitjes: ", json.toString());
+
+                try {
+                    // Checking for SUCCESS TAG
+                    int success = json.getInt(TAG_SUCCESS);
+
+                    if (success == 1) {
+                        // products found
+                        // Getting Array of Products
+                        uitjes = json.getJSONArray(TAG_UITJES);
+
+                        // looping through All Products
+                        for (int i = 0; i < uitjes.length(); i++) {
+                            JSONObject c = uitjes.getJSONObject(i);
+
+                            // Storing each json item in variable
+                            String id = c.getString(TAG_PID);
+                            String name = c.getString(TAG_NAME);
+
+                            // creating new HashMap
+                            HashMap<String, String> map = new HashMap<String, String>();
+
+                            // adding each child node to HashMap key => value
+                            map.put(TAG_PID, id);
+                            map.put(TAG_NAME, name);
+
+                            // adding HashList to ArrayList
+                            uitjesList.add(map);
+                        }
+                    } else {
+                        // no products found
+                        Log.d("Uitjes status", "Geen uitjes");
+                        //set the textview to visible
+                        textView.getHandler().post(new Runnable() {
+                            public void run() {
+                                textView.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                        textView.setText("Geen uitjes gevonden");
+                        //set the button to visible
+                        button.getHandler().post(new Runnable() {
+                            public void run() {
+                                button.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
 
             return null;
         }
@@ -184,5 +196,35 @@ public class ResultActivity extends ListActivity {
     }
     public void GoBackButton_Resultlist(View v){
         this.finish();
+    }
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            if (isInternetAvailable()) {
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+
+            if (ipAddr.equals("")) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 }
