@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -121,17 +122,12 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap map)
     {
-
         Theonemap = map;
-
         Location StartLocation = getLocation();
-
-
 
         if (StartLocation != null) {
 
             LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
-
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(StartLatLng, 13));
 
             map.addMarker(new MarkerOptions()
@@ -140,13 +136,24 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                     .position(StartLatLng));
         }
         else {
-            LatLng sydney = new LatLng(-33.867, 151.206);
+            LatLng sydney = new LatLng(51.92, 4.48);
+
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
             map.addMarker(new MarkerOptions()
                     .title("Sydney")
                     .snippet("The most populous city in Australia.")
                     .position(sydney));
         }
+
+
+        //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
+        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
+
+
+
+
+
     }
 
     /*a
