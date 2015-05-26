@@ -14,64 +14,30 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:background="#111"/>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
 
-        >
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="fill_parent">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/map"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
+                android:layout_height="fill_parent"
 
                 android:name="com.google.android.gms.maps.MapFragment"
                 />
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center|bottom"
-                android:background="@color/white"
-                android:weightSum="1"
-                >
 
+            <Button android:id="@+id/Main_ShowResults_Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/darkGray"
+                    android:layout_marginBottom="20dp"
+                    android:padding="7dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/main_button_showResults"/>
 
-            <Button
-                    android:id="@+id/zoek_button_id"
-                    android:text="Zoek naar een uitje!"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/darkerRed"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:onClick="ZoekNaarUitjes"
-                    />
-            <Button
-                    android:id="@+id/nomineer_button_id"
-                    android:text="Nomineer een uitje"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/darkerRed"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    />
-            <Button
-                    android:id="@+id/stem_button_id"
-                    android:text="Stem op uitjes"
-                    android:layout_marginTop="1dp"
+    </RelativeLayout>
 
-                    android:background="@color/darkerRed"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    />
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
 </android.support.v4.widget.DrawerLayout>

@@ -23,6 +23,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import org.w3c.dom.Text;
 
 
 /**
@@ -33,6 +34,7 @@ import android.util.Log;
 
 public class ResultActivity extends ListActivity {
 
+    ListView listViewlist;
     TextView textView;
     Button button;
 
@@ -64,6 +66,8 @@ public class ResultActivity extends ListActivity {
         textView = (TextView)findViewById(R.id.textview_noUitjes);
         button = (Button)findViewById(R.id.ButtonIDGoback);
 
+
+
         //Bij het starten van deze activity maken we een KVP hashmap om de uitjes in te bewaren,
         //En starten we de LoadAllUitjes thread.
         uitjesList = new ArrayList<HashMap<String, String>>();
@@ -75,6 +79,7 @@ public class ResultActivity extends ListActivity {
         }
         // Get listview
         ListView lv = getListView();
+        lv.setOnItemClickListener(new UitjeItemClickListener());
     }
 
     /**
@@ -180,11 +185,13 @@ public class ResultActivity extends ListActivity {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
+
                     ListAdapter adapter = new SimpleAdapter(
                             ResultActivity.this, uitjesList,
                             R.layout.resultlistitem, new String[] { TAG_PID,
                             TAG_NAME},
                             new int[] { R.id.uitjesID, R.id.Naam });
+
                     // updating listview
                     setListAdapter(adapter);
                 }
@@ -236,4 +243,28 @@ public class ResultActivity extends ListActivity {
         }
 
     }
+
+
+    //CODE FOR ONCLICK OF THE LIST ITEMS
+//    private class DrawerItemClickListener implements ListView.OnItemClickListener{
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            selectItem(position);
+//        }
+//    }
+    private class UitjeItemClickListener implements ListView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SelectUitje(position, view);
+            Toast.makeText(getApplicationContext(), "" + id, Toast.LENGTH_SHORT).show();
+            TextView x = (TextView)findViewById(R.id.Naam);
+            Toast.makeText(getApplicationContext(), x.getText().toString()+ " asdasd" , Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public void SelectUitje(int number, View view){
+        Toast.makeText(getApplicationContext(),"test " + view.getId() + " " + view , Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -5,10 +5,11 @@
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="darkerRed">#B61818</color>
+    <color name="darkGray">#808080</color>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
+    <string name="main_button_showResults">Toon resultaten</string>
 
     <string-array name="menu_items">
         <item>Bekijk uitjes op kaart</item>
