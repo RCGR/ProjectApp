@@ -143,6 +143,24 @@ public class ResultActivity extends ListActivity {
 
                             // adding HashList to ArrayList
                             uitjesList.add(map);
+
+                            list = (ListView)findViewById(R.id.list);
+
+                            ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList,
+                                    R.layout.resultlistitem,
+                                    new String[] { TAG_PID ,TAG_NAME}, new int[] {
+                                    R.id.uitjesID,R.id.Naam});
+
+                            list.setAdapter(adapter);
+                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    Toast.makeText(ResultActivity.this, "You Clicked at "+uitjesList.get(+position).get("Naam"), Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
                         }
                     } else {
                         // no products found
