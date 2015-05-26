@@ -125,6 +125,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         Theonemap = map;
 
         Location StartLocation = getLocation();
+
+
+
         if (StartLocation != null) {
 
             LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());

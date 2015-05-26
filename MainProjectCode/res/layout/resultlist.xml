@@ -5,6 +5,10 @@
     android:orientation="vertical">
 
     <!-- Deze Lijst gaat items van type resultlistitem.xml bevatten. -->
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="test if it works"/>
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"

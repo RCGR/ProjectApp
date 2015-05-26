@@ -105,7 +105,6 @@ public class ResultActivity extends ListActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
 
-            if (isOnline()) {
                 JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
                 if (json == null) {
                     Log.d("jsonechek", "jsonempty");
@@ -163,7 +162,7 @@ public class ResultActivity extends ListActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+
 
 
             return null;
@@ -197,7 +196,17 @@ public class ResultActivity extends ListActivity {
     public void GoBackButton_Resultlist(View v){
         this.finish();
     }
-    private boolean isOnline() {
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+
+    private boolean isaOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null) {
@@ -214,7 +223,7 @@ public class ResultActivity extends ListActivity {
 
     public boolean isInternetAvailable() {
         try {
-            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+            InetAddress ipAddr = InetAddress.getByName("http://google.com"); //You can replace it with your name
 
             if (ipAddr.equals("")) {
                 return false;
