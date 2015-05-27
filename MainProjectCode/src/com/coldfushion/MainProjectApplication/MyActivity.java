@@ -16,12 +16,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{
@@ -124,6 +127,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         Theonemap = map;
         //get the location of the device to startlocation
         Location StartLocation = getLocation();
+
+
 
         //check if the startlocation is filled
         if (StartLocation != null) {

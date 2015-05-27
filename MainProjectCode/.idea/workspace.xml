@@ -18,34 +18,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a44497b9-49df-4bae-924b-397b13b9903a" name="Default" comment="build first applook with map&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/DateChoose.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/DateChoose.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/LocationChoose.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/LocationChoose.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MakeSuggestion.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MakeSuggestion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$id.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$integer.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$layout.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$raw.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$raw.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$string.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$style.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$styleable.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R$styleable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/RateActivities.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/RateActivities.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$1.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$2.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$3.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/DateChoose.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/DateChoose.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/LocationChoose.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/LocationChoose.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MakeSuggestion.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MakeSuggestion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/RateActivities.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/RateActivities.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/datechoose_layout.xml" afterPath="$PROJECT_DIR$/res/layout/datechoose_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/locationchoose_layout.xml" afterPath="$PROJECT_DIR$/res/layout/locationchoose_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/makesuggestion_layout.xml" afterPath="$PROJECT_DIR$/res/layout/makesuggestion_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/rateactivities_layout.xml" afterPath="$PROJECT_DIR$/res/layout/rateactivities_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MainProjectApplication.iws" />
@@ -68,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MyActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="173" column="8" selection-start-line="173" selection-start-column="8" selection-end-line="177" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.034285713">
+              <caret line="130" column="8" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -80,11 +53,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AutocompletePrediction.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/location/places/AutocompletePrediction.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.64">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8933333">
-              <caret line="207" column="90" selection-start-line="207" selection-start-column="90" selection-end-line="207" selection-end-column="90" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="215" column="5" selection-start-line="215" selection-start-column="5" selection-end-line="215" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -95,7 +78,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="128" column="49" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2951#2952#0" expanded="false" />
+                <element signature="e#3005#3006#0" expanded="false" />
+                <element signature="e#3846#3847#0" expanded="false" />
+                <element signature="e#3890#3891#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,7 +94,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="133" column="41" selection-start-line="133" selection-start-column="41" selection-end-line="133" selection-end-column="41" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2921#2922#0" expanded="false" />
+                <element signature="e#2975#2976#0" expanded="false" />
+                <element signature="e#3816#3817#0" expanded="false" />
+                <element signature="e#3860#3861#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,7 +108,7 @@
       <file leaf-file-name="locationchoose_layout.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/locationchoose_layout.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.9411764">
+            <state vertical-scroll-proportion="0.0">
               <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding />
             </state>
@@ -126,7 +121,7 @@
       <file leaf-file-name="datechoose_layout.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/datechoose_layout.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.352941">
+            <state vertical-scroll-proportion="0.0">
               <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
               <folding />
             </state>
@@ -164,7 +159,6 @@
       <list>
         <option value="$PROJECT_DIR$/res/layout/resultlistitem.xml" />
         <option value="$PROJECT_DIR$/res/layout/resultlist.xml" />
-        <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" />
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/LocationChoose.java" />
         <option value="$PROJECT_DIR$/res/layout/datechoose_layout.xml" />
@@ -174,6 +168,7 @@
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MakeSuggestion.java" />
         <option value="$PROJECT_DIR$/res/layout/locationchoose_layout.xml" />
         <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/DateChoose.java" />
+        <option value="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
       </list>
     </option>
   </component>
@@ -219,7 +214,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -309,7 +304,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -510,13 +505,11 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32590857" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32590857" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -534,7 +527,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32590857" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
     </layout>
@@ -604,14 +599,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/resultlistitem.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1010,19 +997,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="8" selection-start-line="173" selection-start-column="8" selection-end-line="177" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/locationchoose_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.9411764">
+        <state vertical-scroll-proportion="0.0">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
@@ -1041,7 +1018,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/datechoose_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.352941">
+        <state vertical-scroll-proportion="0.0">
           <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
           <folding />
         </state>
@@ -1062,7 +1039,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="128" column="49" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="49" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2951#2952#0" expanded="false" />
+            <element signature="e#3005#3006#0" expanded="false" />
+            <element signature="e#3846#3847#0" expanded="false" />
+            <element signature="e#3890#3891#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1070,15 +1053,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="133" column="41" selection-start-line="133" selection-start-column="41" selection-end-line="133" selection-end-column="41" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2921#2922#0" expanded="false" />
+            <element signature="e#2975#2976#0" expanded="false" />
+            <element signature="e#3816#3817#0" expanded="false" />
+            <element signature="e#3860#3861#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8933333">
-          <caret line="207" column="90" selection-start-line="207" selection-start-column="90" selection-end-line="207" selection-end-column="90" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="215" column="5" selection-start-line="215" selection-start-column="5" selection-end-line="215" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/google-play-services_lib/libs/google-play-services.jar!/com/google/android/gms/location/places/AutocompletePrediction.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.64">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.034285713">
+          <caret line="130" column="8" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
