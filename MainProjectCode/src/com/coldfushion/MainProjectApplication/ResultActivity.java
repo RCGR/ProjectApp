@@ -114,7 +114,6 @@ public class ResultActivity extends ListActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //set the standard selected item on  0 --> the first item (kaart)
-        
 
         //end code for the drawer
 
@@ -183,34 +182,33 @@ public class ResultActivity extends ListActivity {
         }
     }
     public void selectItem(int position){
-
-
         if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
+            this.finish();
             Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
             Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
             startActivity(DateChooseIntent);
         }
+        else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
+            finish();
+        }
         else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
+            this.finish();
             Toast.makeText(getApplicationContext(), "lcaotie wijzigen", Toast.LENGTH_SHORT).show();
             Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
             startActivity(LocationChooseIntent);
         }
         else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
+            this.finish();
             Toast.makeText(getApplicationContext(), "suggestie maken ofzo", Toast.LENGTH_SHORT).show();
             Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
             startActivity(MakeSuggestionIntent);
         }
         else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
+            this.finish();
             Toast.makeText(getApplicationContext(), "uitjes beoordelen", Toast.LENGTH_SHORT).show();
             Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
             startActivity(RateActivityIntent);
         }
-        else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
-            Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-            //Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
-            //startActivity(AlleUitjes);
-        }
-
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mMenuItems[position]);

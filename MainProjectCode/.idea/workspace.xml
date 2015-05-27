@@ -18,24 +18,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a44497b9-49df-4bae-924b-397b13b9903a" name="Default" comment="build first applook with map&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$2.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$DrawerItemClickListener.class" />
-      <change type="DELETED" beforePath="C:\Users\ceesjan\Documents\Hogeschool\Project\04\Code\ProjectApp\MainProjectCode\out\production\MainProjectCode\com\coldfushion\MainProjectApplication\ResultActivity$UitjeItemClickListener.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/MainProjectCode.unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity$1.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity$DrawerItemClickListener.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity$DrawerItemClickListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/MyActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$1.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$2.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$DrawerItemClickListener.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$DrawerItemClickListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$1.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$2.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$3.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity$LoadAllUitjes.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity.class" afterPath="$PROJECT_DIR$/out/production/MainProjectCode/com/coldfushion/MainProjectApplication/ResultActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/MyActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" afterPath="$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/resultlist.xml" afterPath="$PROJECT_DIR$/res/layout/resultlist.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/resultlistitem.xml" afterPath="$PROJECT_DIR$/res/layout/resultlistitem.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MainProjectApplication.iws" />
@@ -88,13 +80,15 @@
       <file leaf-file-name="ResultActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7406082">
-              <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.80500895">
+              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
               <folding>
                 <element signature="e#3261#3281#0" expanded="true" />
                 <element signature="e#3283#3304#0" expanded="true" />
-                <element signature="e#5237#5238#0" expanded="true" />
-                <element signature="e#5291#5292#0" expanded="true" />
+                <element signature="e#5228#5229#0" expanded="true" />
+                <element signature="e#5282#5283#0" expanded="true" />
+                <element signature="e#6123#6124#0" expanded="true" />
+                <element signature="e#6167#6168#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -651,8 +645,10 @@
           <folding>
             <element signature="e#3261#3281#0" expanded="true" />
             <element signature="e#3283#3304#0" expanded="true" />
-            <element signature="e#5237#5238#0" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#6123#6124#0" expanded="true" />
+            <element signature="e#6167#6168#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -717,8 +713,10 @@
           <folding>
             <element signature="e#3261#3281#0" expanded="true" />
             <element signature="e#3283#3304#0" expanded="true" />
-            <element signature="e#5237#5238#0" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#6123#6124#0" expanded="true" />
+            <element signature="e#6167#6168#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -879,8 +877,10 @@
           <folding>
             <element signature="e#3261#3281#0" expanded="true" />
             <element signature="e#3283#3304#0" expanded="true" />
-            <element signature="e#5237#5238#0" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#6123#6124#0" expanded="true" />
+            <element signature="e#6167#6168#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -926,8 +926,10 @@
           <folding>
             <element signature="e#3261#3281#0" expanded="true" />
             <element signature="e#3283#3304#0" expanded="true" />
-            <element signature="e#5237#5238#0" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#6123#6124#0" expanded="true" />
+            <element signature="e#6167#6168#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1105,13 +1107,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/coldfushion/MainProjectApplication/ResultActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7406082">
-          <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.80500895">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
             <element signature="e#3261#3281#0" expanded="true" />
             <element signature="e#3283#3304#0" expanded="true" />
-            <element signature="e#5237#5238#0" expanded="true" />
-            <element signature="e#5291#5292#0" expanded="true" />
+            <element signature="e#5228#5229#0" expanded="true" />
+            <element signature="e#5282#5283#0" expanded="true" />
+            <element signature="e#6123#6124#0" expanded="true" />
+            <element signature="e#6167#6168#0" expanded="true" />
           </folding>
         </state>
       </provider>
