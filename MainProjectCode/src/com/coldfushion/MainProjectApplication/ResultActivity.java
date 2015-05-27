@@ -2,6 +2,8 @@ package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,6 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import org.apache.http.NameValuePair;
@@ -33,6 +40,16 @@ import org.w3c.dom.Text;
  */
 
 public class ResultActivity extends ListActivity {
+
+    //start of drawer code
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private String[] mMenuItems;
+    private CharSequence mTitle;
+    private CharSequence mDrawerTitle;
+    //end of drawer code
 
     ListView listViewlist;
     TextView textView;
@@ -63,10 +80,55 @@ public class ResultActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultlist);
 
+        //code for the drawer
+        mTitle = mDrawerTitle = getTitle();
+        mMenuItems = getResources().getStringArray(R.array.menu_items);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        //set up the drawer's list view with items and click listener
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mMenuItems));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+                selectItem(5);
+            }
+
+            public void onDrawerOpened(View view) {
+                mDrawerList.bringToFront();
+                mDrawerLayout.requestLayout();
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+            }
+
+
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        //set the standard selected item on  0 --> the first item (kaart)
+
+        //end code for the drawer
+
+
         textView = (TextView)findViewById(R.id.textview_noUitjes);
         button = (Button)findViewById(R.id.ButtonIDGoback);
 
-
+        //getlistview
+        listViewlist = getListView();
+        listViewlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    Toast.makeText(ResultActivity.this, "You Clicked at " + uitjesList.get(+position).get("uitjesID"), Toast.LENGTH_SHORT).show();
+                }
+        });
 
         //Bij het starten van deze activity maken we een KVP hashmap om de uitjes in te bewaren,
         //En starten we de LoadAllUitjes thread.
@@ -77,10 +139,102 @@ public class ResultActivity extends ListActivity {
         else {
             Toast.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
         }
-        // Get listview
-        ListView lv = getListView();
-        lv.setOnItemClickListener(new UitjeItemClickListener());
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        selectItem(5);
+    }
+
+    //start of drawer code
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectItem(5);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+    /* Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle action buttons
+        return super.onOptionsItemSelected(item);
+    }
+    private class DrawerItemClickListener implements ListView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+    public void selectItem(int position){
+        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
+            this.finish();
+            Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
+            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
+            startActivity(DateChooseIntent);
+        }
+        else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
+            finish();
+        }
+        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
+            this.finish();
+            Toast.makeText(getApplicationContext(), "lcaotie wijzigen", Toast.LENGTH_SHORT).show();
+            Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
+            startActivity(LocationChooseIntent);
+        }
+        else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
+            this.finish();
+            Toast.makeText(getApplicationContext(), "suggestie maken ofzo", Toast.LENGTH_SHORT).show();
+            Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
+            startActivity(MakeSuggestionIntent);
+        }
+        else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
+            this.finish();
+            Toast.makeText(getApplicationContext(), "uitjes beoordelen", Toast.LENGTH_SHORT).show();
+            Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
+            startActivity(RateActivityIntent);
+        }
+        // update selected item and title, then close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mMenuItems[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+    //end of drawer code
 
     /**
      * Deze achtergrondthread doet het daadwerkelijke werk:
@@ -100,6 +254,7 @@ public class ResultActivity extends ListActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+
         }
 
         /**
@@ -144,23 +299,6 @@ public class ResultActivity extends ListActivity {
                             // adding HashList to ArrayList
                             uitjesList.add(map);
 
-                            list = (ListView)findViewById(R.id.list);
-
-                            ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList,
-                                    R.layout.resultlistitem,
-                                    new String[] { TAG_PID ,TAG_NAME}, new int[] {
-                                    R.id.uitjesID,R.id.Naam});
-
-                            list.setAdapter(adapter);
-                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view,
-                                                        int position, long id) {
-                                    Toast.makeText(ResultActivity.this, "You Clicked at "+uitjesList.get(+position).get("Naam"), Toast.LENGTH_SHORT).show();
-
-                                }
-                            })
                         }
                     } else {
                         // no products found
@@ -206,9 +344,9 @@ public class ResultActivity extends ListActivity {
 
                     ListAdapter adapter = new SimpleAdapter(
                             ResultActivity.this, uitjesList,
-                            R.layout.resultlistitem, new String[] { TAG_PID,
+                            R.layout.resultlistitem, new String[]{TAG_PID,
                             TAG_NAME},
-                            new int[] { R.id.uitjesID, R.id.Naam });
+                            new int[]{R.id.uitjesID, R.id.Naam});
 
                     // updating listview
                     setListAdapter(adapter);
@@ -231,37 +369,6 @@ public class ResultActivity extends ListActivity {
 
 
 
-    private boolean isaOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            // There are no active networks.
-            return false;
-        } else
-            if (isInternetAvailable()) {
-                return true;
-            }
-            else{
-                return false;
-            }
-    }
-
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("http://google.com"); //You can replace it with your name
-
-            if (ipAddr.equals("")) {
-                return false;
-            } else {
-                return true;
-            }
-
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
 
     //CODE FOR ONCLICK OF THE LIST ITEMS
 //    private class DrawerItemClickListener implements ListView.OnItemClickListener{
@@ -270,19 +377,8 @@ public class ResultActivity extends ListActivity {
 //            selectItem(position);
 //        }
 //    }
-    private class UitjeItemClickListener implements ListView.OnItemClickListener{
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SelectUitje(position, view);
-            Toast.makeText(getApplicationContext(), "" + id, Toast.LENGTH_SHORT).show();
-            TextView x = (TextView)findViewById(R.id.Naam);
-            Toast.makeText(getApplicationContext(), x.getText().toString()+ " asdasd" , Toast.LENGTH_SHORT).show();
 
-        }
-    }
 
-    public void SelectUitje(int number, View view){
-        Toast.makeText(getApplicationContext(),"test " + view.getId() + " " + view , Toast.LENGTH_SHORT).show();
-    }
+
 
 }

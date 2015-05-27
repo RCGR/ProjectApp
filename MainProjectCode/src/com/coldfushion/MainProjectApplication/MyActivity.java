@@ -2,7 +2,6 @@ package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,13 +20,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{
 
+    //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -36,26 +34,25 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     private String[] mMenuItems;
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
+    //end of drawer code
+
 
     private LocationManager mLocationManager;
     private Location MyLoc;
 
     GoogleMap Theonemap;
-    /**
-     * Map stuff down here
-     */
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        //set the map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        //for the menu drawer
         mTitle = mDrawerTitle = getTitle();
         mMenuItems = getResources().getStringArray(R.array.menu_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -71,33 +68,35 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle  = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
-            public void onDrawerClosed(View view){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
+                selectItem(0);
             }
-            public void onDrawerOpened(View view){
+
+            public void onDrawerOpened(View view) {
                 mDrawerList.bringToFront();
                 mDrawerLayout.requestLayout();
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
+
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-            selectItem(0);
-
-
-
-
-
+        //set the standard selected item on  0 --> the first item (kaart)
+        selectItem(0);
+        //end of menu drawer
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectItem(0);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         return super.onCreateOptionsMenu(menu);
     }
     /* Called whenever we call invalidateOptionsMenu() */
@@ -116,17 +115,19 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
         // Handle action buttons
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
     public void onMapReady(GoogleMap map)
     {
+        //set the map also in theonemap so that we can edit it later on.
         Theonemap = map;
+        //get the location of the device to startlocation
         Location StartLocation = getLocation();
 
+        //check if the startlocation is filled
         if (StartLocation != null) {
-
+            //set the map to location of the device
             LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(StartLatLng, 13));
 
@@ -136,6 +137,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                     .position(StartLatLng));
         }
         else {
+            //need to set location to standard position if the location of the device is not known
             LatLng sydney = new LatLng(51.92, 4.48);
 
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
@@ -145,13 +147,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                     .position(sydney));
         }
 
-
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
         //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-
-
-
-
 
 
     }
@@ -160,12 +157,6 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
      * Uitjes-zoeken stuff
      */
 
-     public void ZoekNaarUitjes(View v)
-     {
-         Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
-         startActivity(AlleUitjes);
-     }
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -173,8 +164,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
     }
     public void selectItem(int position){
-        Toast.makeText(getApplicationContext(), mMenuItems[position], Toast.LENGTH_SHORT).show();
-        Log.d("test", "doet het");
+
 
         if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
             Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
@@ -227,29 +217,36 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
+    // get location of the device
     public Location getLocation() {
         try {
             mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-
+            //check if gps or network is on.
             boolean GPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean NetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
+            //define the locations for gps and network
             Location GPSLoc =null;
             Location NetworkLoc = null;
 
-
+            //throw exception if none of the services is available
             if(!GPSEnabled && !NetworkEnabled){
                 throw new Exception("Geen netwerk beschikbaar");
             }
             else {
                 if (GPSEnabled) {
+                    //get the location with gps
                     GPSLoc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 }
                 if (NetworkEnabled){
+                    //get the location with network
                     NetworkLoc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
 
+                //check if the locations are both not null
                 if (GPSLoc != null && NetworkLoc != null){
+                    //check for the location with the highest accuracy and give it as result
                     if(GPSLoc.getAccuracy() >= NetworkLoc.getAccuracy()){
                         MyLoc = GPSLoc;
                     }
@@ -258,6 +255,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                     }
                 }
                 else {
+                    //return the location of gps or network depending on who isnt null
                     if (GPSLoc != null){
                         MyLoc = GPSLoc;
                     }
@@ -265,15 +263,13 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         MyLoc = NetworkLoc;
                     }
                 }
-
             }
-
         }
         catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
             e.printStackTrace();
         }
-
+        //return location
         return  MyLoc;
     }
 }
