@@ -1,19 +1,34 @@
 package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
+import android.widget.*;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -28,6 +43,115 @@ public class LocationChoose extends Activity {
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     //end of drawer code
+
+    /*
+
+    JSON STUFF
+
+     */
+
+    // Progress Dialog
+    private ProgressDialog pDialog;
+
+    // Creating JSON Parser object
+    JSONParser jParser = new JSONParser();
+
+    ArrayList<HashMap<String, String>> locationList;
+
+    // url waar het PHPscript dat we willen zich bevind
+    private static String url_location = "https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCT-InirSIGccbPP_94ry1iuwKR3xgxopY";
+
+    // We maken hier vars aan voor de JSON Node names
+    private static final String TAG_RESULT = "result";
+    private static final String TAG_LAT = "lat";
+    private static final String TAG_LONG = "lng";
+
+    // Hier maken we de JSONArray
+    JSONArray location = null;
+
+    class GetPlaceLatLng extends AsyncTask<String, String, String> {
+
+        /**
+         * Voordat we de taak starten laten we netjes een "zandloper" zien
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(LocationChoose.this);
+            pDialog.setMessage("... even geduld!");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        /**
+         * getting All from url
+         * */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+
+            JSONObject json = jParser.makeHttpRequest(url_location, "GET", params);
+            if (json == null) {
+                Log.d("jsonechek", "jsonempty");
+            }
+            // Check your log cat for JSON reponse
+            Log.d("Location: ", json.toString());
+
+                try
+                {
+                    // products found
+                    // Getting Array of Products
+                    location = json.getJSONArray(TAG_RESULT);
+
+                    // looping through All Products
+                    for (int i = 0; i < location.length(); i++)
+                    {
+                        JSONObject c = location.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String lat = c.getString(TAG_LAT);
+                        String lng = c.getString(TAG_LONG);
+
+                        // creating new HashMap
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // adding each child node to HashMap key => value
+                        map.put(TAG_LAT, lat);
+                        map.put(TAG_LONG, lng);
+
+                        // adding HashList to ArrayList
+                        locationList.add(map);
+
+                    }
+
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+        return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url)
+        {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+
+            /*
+            *
+            * TO DO: IETS DOEN MET DE TERUGGEGEVEN JSON!
+            *
+             */
+        }
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,13 +196,13 @@ public class LocationChoose extends Activity {
         //end code for the drawer
     }
 
+    //start of drawer code
     @Override
     protected void onStart() {
         super.onStart();
         selectItem(1);
     }
 
-    //start of drawer code
     @Override
     protected void onResume() {
         super.onResume();
@@ -162,4 +286,9 @@ public class LocationChoose extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     //end of drawer code
+
+    //location choose event click
+    public void ChooseLocation(View  view){
+        Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+    }
 }
