@@ -90,6 +90,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         //set the standard selected item on  0 --> the first item (kaart)
         selectItem(0);
         //end of menu drawer
+
     }
 
     @Override
@@ -158,6 +159,29 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                String result = data.getStringExtra("result");
+                String x = result.substring(10, result.length()-1);
+
+                double latitude = Double.parseDouble(x.substring(0, x.indexOf(",")));
+                double longitude = Double.parseDouble(x.substring(x.indexOf(",") + 1));
+
+                LatLng NewLocation = new LatLng(latitude, longitude);
+
+                Theonemap.moveCamera(CameraUpdateFactory.newLatLngZoom(NewLocation, 13));
+                Theonemap.addMarker(new MarkerOptions().snippet( "nieuwe locatie ").position(NewLocation).title("Location"));
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "Geen nieuwe locatie gevonden", Toast.LENGTH_SHORT).show();
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
+
     /*a
      * Uitjes-zoeken stuff
      */
@@ -172,22 +196,19 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
 
         if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
-            Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
             Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
             startActivity(DateChooseIntent);
         }
         else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
-            Toast.makeText(getApplicationContext(), "lcaotie wijzigen", Toast.LENGTH_SHORT).show();
             Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
-            startActivity(LocationChooseIntent);
+            startActivityForResult(LocationChooseIntent, 1);
+
         }
         else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
-            Toast.makeText(getApplicationContext(), "suggestie maken ofzo", Toast.LENGTH_SHORT).show();
             Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
             startActivity(MakeSuggestionIntent);
         }
         else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
-            Toast.makeText(getApplicationContext(), "uitjes beoordelen", Toast.LENGTH_SHORT).show();
             Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
             startActivity(RateActivityIntent);
         }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -21,6 +24,16 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.widget.*;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.PlaceRequest;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,10 +43,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.logging.LogRecord;
+
 /**
  * Created by ceesjan on 22-5-2015.
  */
-public class LocationChoose extends Activity {
+public class LocationChoose extends Activity implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -44,114 +60,14 @@ public class LocationChoose extends Activity {
     private CharSequence mDrawerTitle;
     //end of drawer code
 
-    /*
 
-    JSON STUFF
-
-     */
-
-    // Progress Dialog
-    private ProgressDialog pDialog;
-
-    // Creating JSON Parser object
-    JSONParser jParser = new JSONParser();
-
-    ArrayList<HashMap<String, String>> locationList;
-
-    // url waar het PHPscript dat we willen zich bevind
-    private static String url_location = "https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCT-InirSIGccbPP_94ry1iuwKR3xgxopY";
-
-    // We maken hier vars aan voor de JSON Node names
-    private static final String TAG_RESULT = "result";
-    private static final String TAG_LAT = "lat";
-    private static final String TAG_LONG = "lng";
-
-    // Hier maken we de JSONArray
-    JSONArray location = null;
-
-    class GetPlaceLatLng extends AsyncTask<String, String, String> {
-
-        /**
-         * Voordat we de taak starten laten we netjes een "zandloper" zien
-         * */
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(LocationChoose.this);
-            pDialog.setMessage("... even geduld!");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        /**
-         * getting All from url
-         * */
-        protected String doInBackground(String... args) {
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // getting JSON string from URL
-
-            JSONObject json = jParser.makeHttpRequest(url_location, "GET", params);
-            if (json == null) {
-                Log.d("jsonechek", "jsonempty");
-            }
-            // Check your log cat for JSON reponse
-            Log.d("Location: ", json.toString());
-
-                try
-                {
-                    // products found
-                    // Getting Array of Products
-                    location = json.getJSONArray(TAG_RESULT);
-
-                    // looping through All Products
-                    for (int i = 0; i < location.length(); i++)
-                    {
-                        JSONObject c = location.getJSONObject(i);
-
-                        // Storing each json item in variable
-                        String lat = c.getString(TAG_LAT);
-                        String lng = c.getString(TAG_LONG);
-
-                        // creating new HashMap
-                        HashMap<String, String> map = new HashMap<String, String>();
-
-                        // adding each child node to HashMap key => value
-                        map.put(TAG_LAT, lat);
-                        map.put(TAG_LONG, lng);
-
-                        // adding HashList to ArrayList
-                        locationList.add(map);
-
-                    }
-
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-        return null;
-        }
-
-        /**
-         * After completing background task Dismiss the progress dialog
-         * **/
-        protected void onPostExecute(String file_url)
-        {
-            // dismiss the dialog after getting all products
-            pDialog.dismiss();
-
-            /*
-            *
-            * TO DO: IETS DOEN MET DE TERUGGEGEVEN JSON!
-            *
-             */
-        }
-
-    }
-
+    Boolean latlngset = false;
+    WebView webview;
+    MyJavaScriptInterface myjavascriptinterface = new MyJavaScriptInterface(this);
+    GoogleApiClient mGoogleApiClient;
+    private LatLng newlatlng;
+    String placeId;
+    ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -188,12 +104,26 @@ public class LocationChoose extends Activity {
                 invalidateOptionsMenu();
             }
 
-
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //set the standard selected item on  0 --> the first item (kaart)
-
         //end code for the drawer
+
+        webview = (WebView) findViewById(R.id.WebviewLocationChoose);
+        webview.getSettings().setJavaScriptEnabled(true);
+
+        webview.addJavascriptInterface(myjavascriptinterface, "HTMLViewer");
+
+        webview.loadUrl("http://school.ceesjannolen.nl/app/index.html");
+
+        //googleapiclient
+        mGoogleApiClient = new GoogleApiClient.Builder(LocationChoose.this).addApi(Places.GEO_DATA_API).addConnectionCallbacks(this).build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
     }
 
     //start of drawer code
@@ -201,17 +131,23 @@ public class LocationChoose extends Activity {
     protected void onStart() {
         super.onStart();
         selectItem(1);
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         selectItem(1);
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
     }
+
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -229,33 +165,30 @@ public class LocationChoose extends Activity {
         // Handle action buttons
         return super.onOptionsItemSelected(item);
     }
-    private class DrawerItemClickListener implements ListView.OnItemClickListener{
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
     }
-    public void selectItem(int position){
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
+
+    public void selectItem(int position) {
+        if (mMenuItems[position].toLowerCase().equals("datum kiezen")) {
             this.finish();
             Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
             startActivity(DateChooseIntent);
-        }
-        else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
+        } else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")) {
             this.finish();
-        }
-        else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
+        } else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
             this.finish();
             Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
             startActivity(AlleUitjes);
-        }
-
-        else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
+        } else if (mMenuItems[position].toLowerCase().equals("suggestie maken")) {
             this.finish();
             Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
             startActivity(MakeSuggestionIntent);
-        }
-        else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
+        } else if (mMenuItems[position].toLowerCase().equals("uitje beoordelen")) {
             this.finish();
             Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
             startActivity(RateActivityIntent);
@@ -288,7 +221,79 @@ public class LocationChoose extends Activity {
     //end of drawer code
 
     //location choose event click
-    public void ChooseLocation(View  view){
-        Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+    public void ChooseLocation(View view) {
+
+        while (myjavascriptinterface.getPlaceID().equals("")) {
+
+            webview.loadUrl("javascript:window.HTMLViewer.getHTML(document.getElementById('placeid').innerHTML);");
+        }
+        placeId = myjavascriptinterface.getPlaceID();
+
+        Test(placeId);
+
+
+
     }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        //mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
+        Log.i("Log Scues Apicleint", "Google Places API connected.");
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this,
+                "Google Places API connection failed with error code:" +
+                        connectionResult.getErrorCode(),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        //mPlaceArrayAdapter.setGoogleApiClient(null);
+        Log.e("error apicleint", "Google Places API connection suspended.");
+    }
+
+    public void Test(String placeId) {
+        Log.d("place id = : ", placeId);
+        if (mGoogleApiClient.isConnected() && mGoogleApiClient != null) {
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+        } else {
+            Toast.makeText(getApplicationContext(), " googleapicleint error", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                Log.e("errormesgae", "Place query did not complete. Error: " +
+                        places.getStatus().toString());
+                places.release();
+                return;
+            }
+            // Selecting the first object buffer.
+            final Place place = places.get(0);
+            Log.d("PLACE FOUND", place.getName() + " latlng= " + place.getLatLng());
+            newlatlng = place.getLatLng();
+            Log.d(" latlng set", newlatlng.toString());
+            places.release();
+            Toast.makeText(getApplicationContext(), newlatlng.toString(), Toast.LENGTH_SHORT).show();
+
+String result = newlatlng.toString();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result",result);
+            setResult(RESULT_OK, returnIntent);
+            finish();
+
+        }
+    };
+
+
 }
