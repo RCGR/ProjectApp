@@ -13,15 +13,31 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:background="#111"/>
-    <WebView
+
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"/>
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kies deze locatie"
-            android:onClick="ChooseLocation"/>
+            android:orientation="vertical"
+            android:layout_height="fill_parent">
+
+        <WebView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/WebviewLocationChoose">
+        </WebView>
+
+
+        <Button android:id="@+id/ChooseLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="ChooseLocation"
+                android:layout_marginBottom="20dp"
+                android:padding="7dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Kies deze locatie"/>
+
+    </RelativeLayout>
 
 
 
