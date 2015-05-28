@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -22,22 +23,29 @@ import java.util.List;
  * Created by ceesjan on 28-5-2015.
  */
 public class DetailUitje extends Activity {
+    TextView textViewBeschrijving;
+    TextView textViewCategorie;
+    TextView textViewWeertype;
+    TextView textViewEmail;
+    TextView textViewStraat;
+    TextView textViewPostcode;
+    TextView textViewStad;
+    TextView textViewName;
 
     // Progress Dialog
     private ProgressDialog pDialog;
 
+    ArrayList<HashMap<String, String>> uitjesList;
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
-    ArrayList<HashMap<String, String>> uitjesList;
-
     // url waar het PHPscript dat we willen zich bevind
     private String id_detail = "";
-    private String url_get_details = "http://coldfusiondata.site90.net/db_get_details.php?id="+ id_detail;
-
+    private String url_get_details = "http://coldfusiondata.site90.net/db_get_details.php?id=";
 
     // We maken hier vars aan voor de JSON Node names
     private static final String TAG_UITJES = "Uitjes";
+    private static final String TAG_NAME = "Naam";
     private static final String TAG_WEERTYPE = "WeerType";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_BESCHRIJVING = "Beschrijving";
@@ -58,9 +66,23 @@ public class DetailUitje extends Activity {
         Bundle extras = getIntent().getExtras();
         Toast.makeText(getApplicationContext(), extras.get("number").toString(), Toast.LENGTH_SHORT).show();
         id_detail = extras.get("number").toString();
+        textViewBeschrijving = (TextView)findViewById(R.id.beschrijving);
+        textViewCategorie = (TextView)findViewById(R.id.Categorie);
+        textViewWeertype = (TextView)findViewById(R.id.weertype);
+        textViewEmail = (TextView)findViewById(R.id.email);
+        textViewStraat = (TextView)findViewById(R.id.Straat);
+        textViewPostcode = (TextView)findViewById(R.id.Postcode);
+        textViewStad = (TextView)findViewById(R.id.stad);
+        textViewName = (TextView)findViewById(R.id.Naam);
+
+        uitjesList = new ArrayList<HashMap<String, String>>();
+        new LoadDetailUitje().execute();
+
+
+
 
     }
-    class LoadAllUitjes extends AsyncTask<String, String, String> {
+    class LoadDetailUitje extends AsyncTask<String, String, String> {
 
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
@@ -102,21 +124,17 @@ public class DetailUitje extends Activity {
                     // Getting Array of Products
                     uitjes = json.getJSONArray(TAG_UITJES);
 
-                    // looping through All Products
-                    for (int i = 0; i < uitjes.length(); i++) {
-                        JSONObject c = uitjes.getJSONObject(i);
-
+                    JSONObject x = uitjes.getJSONObject(0);
                         // Storing each json item in variable
-                        String categorie = c.getString(TAG_CATEGORIE);
-                        String beschrijving = c.getString(TAG_BESCHRIJVING);
-                        String stad = c.getString(TAG_STAD);
-                        String straat = c.getString(TAG_STRAAT);
-                        String postcode = c.getString(TAG_POSTCODE);
-                        String email = c.getString(TAG_EMAIL);
-                        String weertype = c.getString(TAG_WEERTYPE);
+                        String naam = x.getString(TAG_NAME);
+                        String categorie = x.getString(TAG_CATEGORIE);
+                        String beschrijving = x.getString(TAG_BESCHRIJVING);
+                        String stad = x.getString(TAG_STAD);
+                        String straat = x.getString(TAG_STRAAT);
+                        String postcode = x.getString(TAG_POSTCODE);
+                        String email = x.getString(TAG_EMAIL);
+                        String weertype = x.getString(TAG_WEERTYPE);
 
-
-                        // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
@@ -130,20 +148,17 @@ public class DetailUitje extends Activity {
                         // adding HashList to ArrayList
                         uitjesList.add(map);
 
-                    }
+
+
                 } else {
                     // no products found
                     Log.d("Uitjes status", "Details ophalen mislukt");
                     //set the textview to visible
 
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
 
             return null;
         }
@@ -158,10 +173,18 @@ public class DetailUitje extends Activity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     /**
-                     * Updating parsed JSON data into ListView
+                     * Updating parsed JSON data into textviews
                      * */
 
-                    //code als die klaar is
+
+            textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
+            textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
+            textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
+            textViewEmail.setText(uitjesList.get(0).get(TAG_EMAIL));
+            textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
+            textViewName.setText(uitjesList.get(0).get(TAG_NAME));
+            textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
+            textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                 }
             });
 
