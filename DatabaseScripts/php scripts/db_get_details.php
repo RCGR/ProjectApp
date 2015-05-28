@@ -6,7 +6,7 @@
  */
  
 //Deze vars worden ingevuld door onze applicatie
-$id = GET["id"];
+$id = $_GET["id"];
 
 // Deze array gaat de JSON-response bevatten
 $response = array();
