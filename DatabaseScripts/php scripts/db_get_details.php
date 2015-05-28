@@ -18,7 +18,7 @@ require_once 'db_connect.php';
 $db = new DB_CONNECT();
  
 // We voeren een query uit, en gooien het resultaat in $result
-$result = mysql_query("SELECT Beschrijving, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = " '".$id."') or die(mysql_error());
+$result = mysql_query("SELECT Beschrijving, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
  
 // We kijken of we een resultaat krijgen, zo ja:
 if (mysql_num_rows($result) > 0)
@@ -41,7 +41,7 @@ if (mysql_num_rows($result) > 0)
         $uitje["Stad"] = $row["Stad"];
  
         // Hier pushen we alle rijen in de vader-array 'Uitjes'.
-        array_push($response["UitjesDetails"], $uitje);
+        array_push($response["Uitjes"], $uitje);
     }
 
     // Succes! We geven de succes-rij in de JSON-array code 1.
