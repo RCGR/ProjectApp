@@ -126,7 +126,11 @@ public class ResultActivity extends ListActivity {
         listViewlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                    Toast.makeText(ResultActivity.this, "You Clicked at " + uitjesList.get(+position).get("uitjesID"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ResultActivity.this, "You Clicked at " + uitjesList.get(position).get("uitjesID"), Toast.LENGTH_SHORT).show();
+                Intent DetailPageIntent = new Intent(getApplicationContext(), DetailUitje.class);
+                DetailPageIntent.putExtra("number", uitjesList.get(position).get("uitjesID"));
+                startActivity(DetailPageIntent);
+
                 }
         });
 

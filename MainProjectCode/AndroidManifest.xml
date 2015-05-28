@@ -31,6 +31,9 @@
         <activity
                 android:name=".RateActivities"
                 android:label="RateActivities"/>
+        <activity
+                android:name=".DetailUitje"
+                android:label="DetailUitje"/>
 
         <meta-data
                 android:name="com.google.android.gms.version"
