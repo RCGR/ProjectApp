@@ -69,7 +69,7 @@ public class LocationChoose extends Activity {
     // Hier maken we de JSONArray
     JSONArray location = null;
 
-    class LoadAllUitjes extends AsyncTask<String, String, String> {
+    class GetPlaceLatLng extends AsyncTask<String, String, String> {
 
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
@@ -196,13 +196,13 @@ public class LocationChoose extends Activity {
         //end code for the drawer
     }
 
+    //start of drawer code
     @Override
     protected void onStart() {
         super.onStart();
         selectItem(1);
     }
 
-    //start of drawer code
     @Override
     protected void onResume() {
         super.onResume();
@@ -286,4 +286,9 @@ public class LocationChoose extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     //end of drawer code
+
+    //location choose event click
+    public void ChooseLocation(View  view){
+        Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+    }
 }
