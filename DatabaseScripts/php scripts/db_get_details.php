@@ -18,7 +18,7 @@ require_once 'db_connect.php';
 $db = new DB_CONNECT();
  
 // We voeren een query uit, en gooien het resultaat in $result
-$result = mysql_query("SELECT Beschrijving, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
+$result = mysql_query("SELECT Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
  
 // We kijken of we een resultaat krijgen, zo ja:
 if (mysql_num_rows($result) > 0)
@@ -34,6 +34,7 @@ if (mysql_num_rows($result) > 0)
         // Voor nu halen we alleen UitjesID en Naam op.
         $uitje = array();
         $uitje["Beschrijving"] = $row["Beschrijving"];
+	$uitje["WeerType"] = $row["WeerType"];
         $uitje["Categorie"] = $row["Categorie"];
         $uitje["Email"] = $row["Email"];
         $uitje["Straat"] = $row["Straat"];

@@ -32,15 +32,21 @@ public class DetailUitje extends Activity {
     ArrayList<HashMap<String, String>> uitjesList;
 
     // url waar het PHPscript dat we willen zich bevind
-    private static String url_get_details = "http://coldfusiondata.site90.net/db_get_details.php?id=";
     private String id_detail = "";
+    private String url_get_details = "http://coldfusiondata.site90.net/db_get_details.php?id="+ id_detail;
 
 
     // We maken hier vars aan voor de JSON Node names
-    private static final String TAG_SUCCESS = "success";
     private static final String TAG_UITJES = "Uitjes";
-    private static final String TAG_PID = "uitjesID";
-    private static final String TAG_NAME = "Naam";
+    private static final String TAG_WEERTYPE = "WeerType";
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_BESCHRIJVING = "Beschrijving";
+    private static final String TAG_CATEGORIE = "Categorie";
+    private static final String TAG_EMAIL = "Email";
+    private static final String TAG_STRAAT = "Straat";
+    private static final String TAG_POSTCODE = "PostCode";
+    private static final String TAG_STAD = "Stad";
+
 
     // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
@@ -101,16 +107,26 @@ public class DetailUitje extends Activity {
                         JSONObject c = uitjes.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String id = c.getString(TAG_PID);
-                        String name = c.getString(TAG_NAME);
+                        String categorie = c.getString(TAG_CATEGORIE);
+                        String beschrijving = c.getString(TAG_BESCHRIJVING);
+                        String stad = c.getString(TAG_STAD);
+                        String straat = c.getString(TAG_STRAAT);
+                        String postcode = c.getString(TAG_POSTCODE);
+                        String email = c.getString(TAG_EMAIL);
+                        String weertype = c.getString(TAG_WEERTYPE);
+
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
-                        map.put(TAG_PID, id);
-                        map.put(TAG_NAME, name);
-
+                        map.put(TAG_CATEGORIE, categorie);
+                        map.put(TAG_BESCHRIJVING, beschrijving);
+                        map.put(TAG_STAD, stad);
+                        map.put(TAG_STRAAT, straat);
+                        map.put(TAG_POSTCODE, postcode);
+                        map.put(TAG_EMAIL, email);
+                        map.put(TAG_WEERTYPE, weertype);
                         // adding HashList to ArrayList
                         uitjesList.add(map);
 
