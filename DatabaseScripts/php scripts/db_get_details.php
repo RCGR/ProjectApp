@@ -18,7 +18,7 @@ require_once 'db_connect.php';
 $db = new DB_CONNECT();
  
 // We voeren een query uit, en gooien het resultaat in $result
-$result = mysql_query("SELECT Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
+$result = mysql_query("SELECT Naam, Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
  
 // We kijken of we een resultaat krijgen, zo ja:
 if (mysql_num_rows($result) > 0)
@@ -33,6 +33,7 @@ if (mysql_num_rows($result) > 0)
         // Hier maken we weer een subarray voor iedere rij van ieder resultaat.
         // Voor nu halen we alleen UitjesID en Naam op.
         $uitje = array();
+	$uitje["Naam"] = $row["Naam"];
         $uitje["Beschrijving"] = $row["Beschrijving"];
 	$uitje["WeerType"] = $row["WeerType"];
         $uitje["Categorie"] = $row["Categorie"];
