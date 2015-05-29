@@ -14,4 +14,10 @@
             android:dividerHeight="0dp"
             android:background="#111"/>
 
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="XXXXXX"/>
+
+
 </android.support.v4.widget.DrawerLayout>

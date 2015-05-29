@@ -10,9 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.*;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -27,6 +25,15 @@ public class MakeSuggestion extends Activity {
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     //end of drawer code
+
+
+    EditText editText_naam;
+    EditText editText_beschrijving;
+
+    Spinner spinner_weer;
+    Spinner spinner_categorie;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,22 @@ public class MakeSuggestion extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //set the standard selected item on  0 --> the first item (kaart)
 
-        //end code for the drawer
+        //end code for the drawer'
+
+
+        editText_naam = (EditText)findViewById(R.id.EditText_Suggestion_Name);
+        editText_beschrijving = (EditText)findViewById(R.id.EditText_Suggestion_Beschrijving);
+
+        spinner_categorie = (Spinner)findViewById(R.id.spinner_Categorie);
+        spinner_weer = (Spinner)findViewById(R.id.spinner_weertype);
+
+        String[] weeritems = new String[]{"Zonnig", "Bewolkt", "Regen"};
+        ArrayAdapter<String> weer_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, weeritems);
+        spinner_weer.setAdapter(weer_adapter);
+
+        String[] categorieen = new String[]{"Pretpark", "Restaurant", "Museum"};
+        ArrayAdapter<String> categorie_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorieen);
+        spinner_categorie.setAdapter(categorie_adapter);
     }
     @Override
     protected void onStart() {

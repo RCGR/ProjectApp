@@ -34,6 +34,9 @@
         <activity
                 android:name=".DetailUitje"
                 android:label="DetailUitje"/>
+        <activity
+                android:name=".RateUitjeItem"
+                android:label="RateUitjeItem"/>
         <activity android:name=".getCurrentWeather" />
 
         <meta-data

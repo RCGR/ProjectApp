@@ -13,5 +13,48 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:background="#111"/>
+    <ScrollView android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/EditText_Suggestion_Name"
+                    android:hint="Naam"
+                    />
+
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_Categorie">
+
+            </Spinner>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_weertype">
+
+            </Spinner>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/EditText_Suggestion_Beschrijving"
+                    android:hint="Beschrijving"
+                    />
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Selecteer Locatie"/>
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Suggereer uitje"/>
+        </LinearLayout>
+
+    </ScrollView>
 
 </android.support.v4.widget.DrawerLayout>

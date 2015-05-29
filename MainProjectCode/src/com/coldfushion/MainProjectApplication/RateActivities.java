@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -27,6 +28,7 @@ public class RateActivities extends Activity {
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     //end of drawer code
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class RateActivities extends Activity {
         //set the standard selected item on  0 --> the first item (kaart)
 
         //end code for the drawer
+
     }
     @Override
     protected void onStart() {
@@ -163,4 +166,9 @@ public class RateActivities extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     //end of drawer code
+
+    public void XXXXXX(View v){
+        Intent x = new Intent(getApplicationContext(), RateUitjeItem.class);
+        startActivity(x);
+    }
 }
