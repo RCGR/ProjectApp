@@ -21,7 +21,7 @@ $CoordinaatVar = $_GET["CoordinaatVar"];
 $response = array();
  
 // Hier includen we de db_connect.php
-require_once 'db_connect.php';
+require_once 'db_connect_suggestion.php';
  
 // We maken verbinding met onze database
 $db = new DB_CONNECT();
