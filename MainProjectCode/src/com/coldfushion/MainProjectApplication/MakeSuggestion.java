@@ -1,16 +1,28 @@
 package com.coldfushion.MainProjectApplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -92,6 +104,8 @@ public class MakeSuggestion extends Activity {
         ArrayAdapter<String> categorie_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorieen);
         spinner_categorie.setAdapter(categorie_adapter);
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();

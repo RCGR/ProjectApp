@@ -39,6 +39,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Rate_Email"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Rate_upvotes"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Rate_downvotes"/>
+
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:weightSum="2"
@@ -46,12 +56,14 @@
             <Button android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="LEUK UITJE! :D"/>
+                    android:text="LEUK UITJE! :D"
+                    android:onClick="giveUpVote"/>
 
             <Button android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="SAAI UITJE :("
+                    android:onClick="giveDownVote"
                     />
         </LinearLayout>
 
