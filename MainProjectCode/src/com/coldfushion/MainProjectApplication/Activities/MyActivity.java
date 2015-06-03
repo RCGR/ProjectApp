@@ -1,4 +1,4 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
 
@@ -16,15 +16,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.google.android.gms.location.places.AutocompletePrediction;
+import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.List;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{

@@ -1,20 +1,18 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Helpers;
 
 import android.app.Activity;
 import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 /**
  * Created by Kraaijeveld on 29-5-2015.

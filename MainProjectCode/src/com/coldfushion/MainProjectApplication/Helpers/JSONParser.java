@@ -1,4 +1,4 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Helpers;
 
 
 import java.io.BufferedReader;

@@ -1,33 +1,24 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import com.coldfushion.MainProjectApplication.R;
 
 /**
  * Created by ceesjan on 22-5-2015.
  */
-public class MakeSuggestion extends Activity {
+public class DateChoose extends Activity {
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -38,20 +29,10 @@ public class MakeSuggestion extends Activity {
     private CharSequence mDrawerTitle;
     //end of drawer code
 
-
-    EditText editText_naam;
-    EditText editText_beschrijving;
-
-    Spinner spinner_weer;
-    Spinner spinner_categorie;
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.makesuggestion_layout);
-
+        setContentView(R.layout.datechoose_layout);
         //code for the drawer
         mTitle = mDrawerTitle = getTitle();
         mMenuItems = getResources().getStringArray(R.array.menu_items);
@@ -72,7 +53,7 @@ public class MakeSuggestion extends Activity {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
-                selectItem(3);
+                selectItem(2);
             }
 
             public void onDrawerOpened(View view) {
@@ -85,38 +66,21 @@ public class MakeSuggestion extends Activity {
 
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //set the standard selected item on  0 --> the first item (kaart)
-
-        //end code for the drawer'
 
 
-        editText_naam = (EditText)findViewById(R.id.EditText_Suggestion_Name);
-        editText_beschrijving = (EditText)findViewById(R.id.EditText_Suggestion_Beschrijving);
-
-        spinner_categorie = (Spinner)findViewById(R.id.spinner_Categorie);
-        spinner_weer = (Spinner)findViewById(R.id.spinner_weertype);
-
-        String[] weeritems = new String[]{"Zonnig", "Bewolkt", "Regen"};
-        ArrayAdapter<String> weer_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, weeritems);
-        spinner_weer.setAdapter(weer_adapter);
-
-        String[] categorieen = new String[]{"Pretpark", "Restaurant", "Museum"};
-        ArrayAdapter<String> categorie_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorieen);
-        spinner_categorie.setAdapter(categorie_adapter);
+        //end code for the drawer
     }
-
-
     @Override
     protected void onStart() {
         super.onStart();
-        selectItem(3);
+        selectItem(2);
     }
 
     //start of drawer code
     @Override
     protected void onResume() {
         super.onResume();
-        selectItem(3);
+        selectItem(2);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -147,9 +111,7 @@ public class MakeSuggestion extends Activity {
     }
     public void selectItem(int position){
         if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
-            this.finish();
-            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
-            startActivity(DateChooseIntent);
+
         }
         else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
             this.finish();
@@ -166,7 +128,9 @@ public class MakeSuggestion extends Activity {
         }
 
         else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
-
+            this.finish();
+            Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
+            startActivity(MakeSuggestionIntent);
         }
         else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
             this.finish();
@@ -199,4 +163,5 @@ public class MakeSuggestion extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     //end of drawer code
+
 }

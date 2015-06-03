@@ -1,6 +1,5 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +30,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import org.w3c.dom.Text;
 
 
 /**

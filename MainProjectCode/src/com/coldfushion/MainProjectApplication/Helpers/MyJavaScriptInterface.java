@@ -1,4 +1,4 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Helpers;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

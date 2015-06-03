@@ -1,15 +1,14 @@
-package com.coldfushion.MainProjectApplication;
+package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
