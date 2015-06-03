@@ -14,10 +14,27 @@
             android:dividerHeight="0dp"
             android:background="#111"/>
 
-    <Button
-            android:layout_width="match_parent"
+
+    <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="XXXXXX"/>
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_noUitjes"
+            android:visibility="invisible"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Ga terug"
+            android:layout_marginTop="30dp"
+            android:onClick="GoBackButton_Resultlist"
+            android:id="@+id/ButtonIDGoback"
+            android:visibility="invisible"/>
+
+
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -193,8 +193,6 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
     }
     public void selectItem(int position){
-
-
         if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
             Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
             startActivity(DateChooseIntent);
