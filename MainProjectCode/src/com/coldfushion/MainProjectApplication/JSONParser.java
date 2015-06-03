@@ -117,6 +117,8 @@ public class JSONParser {
 
         }catch(Exception e){
             Log.e("log_tag", "Error in http connection "+e.toString());
+           //Netter om door te gooien
+           // throw new JSonParseException(e);
         }
 
         // Convert response to string

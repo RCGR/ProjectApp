@@ -163,7 +163,7 @@ public class RateUitjeItem extends Activity {
                          "&PostCodeVar="
                          + postcode +
                          "&StadVar="
-                         + stad +
+                         + stad + "CoordinaatVar" + stad ;
 
                         //To do: Add COORDINATE!
                         //add uitje to DB and remove from suggestion
