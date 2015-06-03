@@ -16,7 +16,7 @@ require_once 'db_connect.php';
  
 // We maken verbinding met onze database
 $db = new DB_CONNECT();
- 
+
 // We voeren een query uit, en gooien het resultaat in $result
 $result = mysql_query("SELECT Naam, Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
  
@@ -33,9 +33,9 @@ if (mysql_num_rows($result) > 0)
         // Hier maken we weer een subarray voor iedere rij van ieder resultaat.
         // Voor nu halen we alleen UitjesID en Naam op.
         $uitje = array();
-	$uitje["Naam"] = $row["Naam"];
+	    $uitje["Naam"] = $row["Naam"];
         $uitje["Beschrijving"] = $row["Beschrijving"];
-	$uitje["WeerType"] = $row["WeerType"];
+	    $uitje["WeerType"] = $row["WeerType"];
         $uitje["Categorie"] = $row["Categorie"];
         $uitje["Email"] = $row["Email"];
         $uitje["Straat"] = $row["Straat"];
@@ -49,6 +49,9 @@ if (mysql_num_rows($result) > 0)
     // Succes! We geven de succes-rij in de JSON-array code 1.
     $response["success"] = 1;
  
+    //We filteren de response
+    
+   
     // We outputten de JSON response.
     echo json_encode($response);
 
