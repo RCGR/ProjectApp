@@ -1,0 +1,12 @@
+1. git status
+2. git add -A
+3. git rm --cached MainProjectCode\.idea\workspace.xml
+4. git commit -m "MESSAGE"
+5. git push origin master 
+
+---
+1. git pull
+
+
+
+
