@@ -75,3 +75,16 @@ Weer:
 `weerType` VARCHAR(45) NOT NULL,
   
 `timePulled` VARCHAR(45) NOT NULL,
+
+
+_____________________________________________________
+
+Keywords voor de uitjes DB
+
+Weertype: Sunny, Cloudy en Rainy
+
+Categorie: Attractie, Attractiepark, Museum, Dierentuin, Kids, Cafe
+
+
+Beschrijving mag geen vreemde tekens bevatten zoals: ë, é, è, ï, ~ en ` (vergroot: \).
+Die laatste moet vervangen worden door ' (vergroot /).
