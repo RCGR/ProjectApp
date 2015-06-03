@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.coldfushion.MainProjectApplication.Helpers.MenuSelectItem;
 import com.coldfushion.MainProjectApplication.R;
 
 /**
@@ -110,32 +111,26 @@ public class DateChoose extends Activity {
         }
     }
     public void selectItem(int position){
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
-
-        }
-        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
-            this.finish();
-            Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
-            startActivity(LocationChooseIntent);
-        }
-        else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
-            this.finish();
-        }
-        else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
-            this.finish();
-            Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
-            startActivity(AlleUitjes);
-        }
-
-        else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
-            this.finish();
-            Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
-            startActivity(MakeSuggestionIntent);
-        }
-        else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
-            this.finish();
-            Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
-            startActivity(RateActivityIntent);
+        MenuSelectItem msi = new MenuSelectItem(getApplicationContext());
+        switch (msi.nameToInt(position)){
+            case 0: this.finish(); break;
+            case 1: this.finish();
+                    Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
+                    startActivity(LocationChooseIntent);
+                    break;
+            case 2: break;
+            case 3: this.finish();
+                    Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
+                    startActivity(MakeSuggestionIntent);
+                    break;
+            case 4: this.finish();
+                    Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
+                    startActivity(RateActivityIntent);
+                    break;
+            case 5: this.finish();
+                    Intent AlleUitjes = new Intent(getApplicationContext(), ResultActivity.class);
+                    startActivity(AlleUitjes);
+                    break;
         }
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);

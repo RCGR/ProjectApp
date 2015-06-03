@@ -13,7 +13,7 @@ public class MyJavaScriptInterface {
     public String PlaceID = "";
 
 
-    MyJavaScriptInterface(Context ctx) {
+    public MyJavaScriptInterface(Context ctx) {
         this.ctx = ctx;
     }
 

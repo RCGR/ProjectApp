@@ -53,42 +53,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //for the menu drawer
-        mTitle = mDrawerTitle = getTitle();
-        mMenuItems = getResources().getStringArray(R.array.menu_items);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        //set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mMenuItems));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu();
-                selectItem(0);
-            }
-
-            public void onDrawerOpened(View view) {
-                mDrawerList.bringToFront();
-                mDrawerLayout.requestLayout();
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //set the standard selected item on  0 --> the first item (kaart)
-        selectItem(0);
-        //end of menu drawer
-
+        loadUI();
     }
 
     @Override
@@ -133,22 +98,12 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         if (StartLocation != null) {
             //set the map to location of the device
             LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(StartLatLng, 13));
-
-            map.addMarker(new MarkerOptions()
-                    .title("Huidige Locatie")
-                    .snippet("Hier bevindt u zich momenteel.")
-                    .position(StartLatLng));
+            setMap(map, StartLatLng, "Huidige Locatie", "Hier bevindt u zich momenteel");
         }
         else {
             //need to set location to standard position if the location of the device is not known
             LatLng sydney = new LatLng(51.92, 4.48);
-
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-            map.addMarker(new MarkerOptions()
-                    .title("Sydney")
-                    .snippet("The most populous city in Australia.")
-                    .position(sydney));
+            setMap(map, sydney, "Start Locatie", "Dit is uw startlocatie");
         }
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
@@ -163,14 +118,11 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             if(resultCode == RESULT_OK){
                 String result = data.getStringExtra("result");
                 String x = result.substring(10, result.length()-1);
-
                 double latitude = Double.parseDouble(x.substring(0, x.indexOf(",")));
                 double longitude = Double.parseDouble(x.substring(x.indexOf(",") + 1));
 
                 LatLng NewLocation = new LatLng(latitude, longitude);
-
-                Theonemap.moveCamera(CameraUpdateFactory.newLatLngZoom(NewLocation, 13));
-                Theonemap.addMarker(new MarkerOptions().snippet( "nieuwe locatie ").position(NewLocation).title("Location"));
+                setMap(Theonemap, NewLocation, "Location", "Dit is uw locatie");
 
             }
             if (resultCode == RESULT_CANCELED) {
@@ -178,7 +130,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 //Write your code if there's no result
             }
         }
-    }//onActivityResult
+    }
 
     /*a
      * Uitjes-zoeken stuff
@@ -293,5 +245,52 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
         //return location
         return  MyLoc;
+    }
+
+    private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title(markerTitle)
+                .snippet(markerSnippet)
+                .position(latLng));
+    }
+
+    private void loadUI(){
+        //for the menu drawer
+        mTitle = mDrawerTitle = getTitle();
+        mMenuItems = getResources().getStringArray(R.array.menu_items);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        //set up the drawer's list view with items and click listener
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mMenuItems));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+                selectItem(0);
+            }
+
+            public void onDrawerOpened(View view) {
+                mDrawerList.bringToFront();
+                mDrawerLayout.requestLayout();
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+            }
+
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        //set the standard selected item on  0 --> the first item (kaart)
+        selectItem(0);
+        //end of menu drawer
     }
 }
