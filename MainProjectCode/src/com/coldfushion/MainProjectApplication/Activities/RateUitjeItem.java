@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
@@ -34,6 +36,20 @@ public class RateUitjeItem extends Activity {
     TextView textViewUpVote;
     TextView textViewDownVote;
 
+    private int upVotes;
+    private int downVotes;
+    private int totalVotes;
+
+    String naam = "";
+    String categorie = "";
+    String beschrijving = "";
+    String stad = "";
+    String straat = "";
+    String postcode = "";
+    String email = "";
+    String weertype = "";
+    String coordinaat = "";
+
     // Progress Dialog
     private ProgressDialog pDialog;
 
@@ -56,6 +72,7 @@ public class RateUitjeItem extends Activity {
     private static final String TAG_STRAAT = "Straat";
     private static final String TAG_POSTCODE = "PostCode";
     private static final String TAG_STAD = "Stad";
+    private static final String TAG_COORDINAAT = "Coordinaat";
     private static final String TAG_UPVOTECOUNT = "upVoteCount";
     private static final String TAG_DOWNVOTECOUNT = "downVoteCount";
 
@@ -132,59 +149,37 @@ public class RateUitjeItem extends Activity {
 
                     JSONObject x = uitjes.getJSONObject(0);
                     // Storing each json item in variable
-                    String naam = x.getString(TAG_NAME);
-                    String categorie = x.getString(TAG_CATEGORIE);
-                    String beschrijving = x.getString(TAG_BESCHRIJVING);
-                    String stad = x.getString(TAG_STAD);
-                    String straat = x.getString(TAG_STRAAT);
-                    String postcode = x.getString(TAG_POSTCODE);
-                    String email = x.getString(TAG_EMAIL);
-                    String weertype = x.getString(TAG_WEERTYPE);
-                    String upvotecount = x.getString(TAG_UPVOTECOUNT);
-                    String downvotecount = x.getString(TAG_DOWNVOTECOUNT);
+                    naam = x.getString(TAG_NAME);
+                    categorie = x.getString(TAG_CATEGORIE);
+                    beschrijving = x.getString(TAG_BESCHRIJVING);
+                    stad = x.getString(TAG_STAD);
+                    straat = x.getString(TAG_STRAAT);
+                    postcode = x.getString(TAG_POSTCODE);
+                    email = x.getString(TAG_EMAIL);
+                    weertype = x.getString(TAG_WEERTYPE);
+                    coordinaat = x.getString(TAG_COORDINAAT);
+                    upVotes = x.getInt(TAG_UPVOTECOUNT);
+                    downVotes = x.getInt(TAG_DOWNVOTECOUNT);
 
-                    //VoteCounter stuff
-                    //Call checkmethod when loading
-                    //Call addVoteMethod when buttonpress
-                    if(Integer.parseInt(upvotecount) > 10)
-                    {
-                        String parameters_url =
-                         "NaamVar="
-                         + naam +
-                         "&BeschrijvingVar="
-                         + beschrijving +
-                         "&CategorieVar="
-                         + categorie +
-                         "&EmailVar="
-                         + email +
-                         "&StraatVar="
-                         + straat +
-                         "&PostCodeVar="
-                         + postcode +
-                         "&StadVar="
-                         + stad + "CoordinaatVar" + stad ;
+                    totalVotes = upVotes + downVotes;
 
-                        //To do: Add COORDINATE!
-                        //add uitje to DB and remove from suggestion
-
-                        final String insert_url = "http://coldfusiondata.site90.net/db_insert.php?" + parameters_url + "";
-                        jParser.makeHttpRequest(insert_url, "POST", params);
-
-                        //Eerst zetten we de suggestie in de uitjesdatabase,
-                        //Daarna wordt de suggestie uit de suggestieDB verwijderd
-
-                        final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
-                        jParser.makeHttpRequest(delete_url, "POST", params);
-                    }
-                    else if(Integer.parseInt(downvotecount) > 5)
-                    {
-                        final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
-                        jParser.makeHttpRequest(delete_url, "POST", params);
-                        //remove uitje from suggestion
-                    }
+//                    //VoteCounter stuff
+//                    //Call checkmethod when loading
+//                    //Call addVoteMethod when buttonpress
+//                    if(upVotes > 10)
+//                    {
+//
+//                    }
+//                    else if(downVotes > 5)
+//                    {
+//                        final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
+//                        jParser.makeHttpRequest(delete_url, "POST", params);
+//                        //remove uitje from suggestion
+//                    }
                     HashMap<String, String> map = new HashMap<String, String>();
 
                     // adding each child node to HashMap key => value
+                    map.put(TAG_NAME, naam);
                     map.put(TAG_CATEGORIE, categorie);
                     map.put(TAG_BESCHRIJVING, beschrijving);
                     map.put(TAG_STAD, stad);
@@ -192,8 +187,9 @@ public class RateUitjeItem extends Activity {
                     map.put(TAG_POSTCODE, postcode);
                     map.put(TAG_EMAIL, email);
                     map.put(TAG_WEERTYPE, weertype);
-                    map.put(TAG_UPVOTECOUNT, upvotecount);
-                    map.put(TAG_DOWNVOTECOUNT, downvotecount);
+                    map.put(TAG_UPVOTECOUNT, upVotes+"");
+                    map.put(TAG_DOWNVOTECOUNT, downVotes+"");
+                    map.put(TAG_COORDINAAT, coordinaat);
                     // adding HashList to ArrayList
                     uitjesList.add(map);
 
@@ -219,12 +215,11 @@ public class RateUitjeItem extends Activity {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
             // updating UI from Background Thread
-            runOnUiThread(new Runnable() {
-                public void run() {
+
                     /*
                     * Updating parsed JSON data into textviews
                     */
-
+                    Log.d("TEST", uitjesList.size()+"");
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
                     textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
@@ -235,51 +230,83 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
                     textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
-                }
-            });
+
 
         }
 
-        public void giveUpVote()
-        {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            boolean hasVoted = false;
-            if(hasVoted == true)
-            {
-                Toast.makeText(getApplicationContext(), "U hebt al gestemd op dit uitje!" ,Toast.LENGTH_LONG);
+
+
+
+
+
+
+
+
+
+
+
+    }
+    public void giveUpVote(View view)
+    {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            upVotes++;
+            totalVotes++;
+            int x = (upVotes/totalVotes) *100 ;
+            Log.d("upvotes", upVotes+"");
+            Log.d("x", x+"");
+            if (totalVotes >= 10 && x > 75) {
+                String newNaam = naam.replace(" ", "+");
+                String newBeschrijving = beschrijving.replace(" ", "+");
+                String newCategorie = categorie.replace(" ", "+");
+                String newemail = email.replace(" ", "+");
+                String newStraat = straat.replace(" ", "+");
+                String newPostcode = postcode.replace(" ", "+");
+                String newStad = stad.replace(" ", "+");
+                String parameters_url =
+
+                        "NaamVar="+ newNaam +"&BeschrijvingVar="+ newBeschrijving +
+                                "&CategorieVar="+ newCategorie +"&EmailVar="+ newemail +
+                                "&StraatVar="+ newStraat +"&PostCodeVar="+ newPostcode +
+                                "&StadVar="+ newStad +"&CoordinaatVar="+ coordinaat ;
+
+                //To do: Add COORDINATE!
+                //add uitje to DB and remov1e from suggestion
+
+                final String insert_url = "http://coldfusiondata.site90.net/db_insert.php?" + parameters_url + "";
+                Log.d("String url", insert_url);
+                jParser.makeHttpRequest(insert_url, "POST", params);
+
+                //Eerst zetten we de suggestie in de uitjesdatabase,
+                //Daarna wordt de suggestie uit de suggestieDB verwijderd
+
+                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
+                jParser.makeHttpRequest(delete_url, "POST", params);
             }
-            else
-            {
+            else {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
                 final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
                 jParser.makeHttpRequest(upvote_url, "POST", params);
             }
 
-        }
 
-        public void giveDownVote()
+
+    }
+
+    public void giveDownVote(View view)
+    {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        boolean hasVoted = false;
+        if(hasVoted == true)
         {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            boolean hasVoted = false;
-            if(hasVoted == true)
-            {
-                Toast.makeText(getApplicationContext(), "U hebt al gestemd op dit uitje!" ,Toast.LENGTH_LONG);
-            }
-            else
-            {
-                final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
-                jParser.makeHttpRequest(downvote_url, "POST", params);
-            }
+            Toast.makeText(getApplicationContext(), "U hebt al gestemd op dit uitje!" ,Toast.LENGTH_LONG);
         }
-
-
-
-
-
-
-
-
-
-
+        else
+        {
+            final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
+            jParser.makeHttpRequest(downvote_url, "POST", params);
+        }
     }
  }
 
