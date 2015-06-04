@@ -103,6 +103,19 @@ public class RateUitjeItem extends Activity {
         new LoadDetailsSuggestedUitjes().execute();
     }
 
+    //onclick methods for xml
+    public void giveDownVote(View view)
+    {
+        new giveDownVoteThread().execute();
+    }
+
+    public void giveUpVote(View view)
+    {
+        new giveUpVoteThread().execute();
+    }
+
+
+
     class LoadDetailsSuggestedUitjes extends AsyncTask<String, String, String> {
 
         /*
@@ -211,7 +224,8 @@ public class RateUitjeItem extends Activity {
                 * After completing background task Dismiss the progress dialog
         * */
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String file_url)
+        {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
             // updating UI from Background Thread
@@ -230,31 +244,45 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
                     textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
+        }
+    }
 
+
+    // to do : call appropriate methods of this class when button is clicked
+
+    //
+    //UPVOTE
+    //
+
+    class giveUpVoteThread extends AsyncTask<String, String, String>
+    {
+
+        /**
+         * Voordat we de taak starten laten we netjes een "zandloper" zien
+         */
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RateUitjeItem.this);
+            pDialog.setMessage("Uw stem wordt verwerkt...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-    }
-    public void giveUpVote(View view)
-    {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        /**
+         * getting All from url
+         */
+        protected String doInBackground(String... args) {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             upVotes++;
             totalVotes++;
-            int x = (upVotes/totalVotes) *100 ;
-            Log.d("upvotes", upVotes+"");
-            Log.d("x", x+"");
+            int x = (upVotes / totalVotes) * 100;
+            Log.d("upvotes", upVotes + "");
+            Log.d("x", x + "");
             if (totalVotes >= 10 && x > 75) {
                 String newNaam = naam.replace(" ", "+");
                 String newBeschrijving = beschrijving.replace(" ", "+");
@@ -265,10 +293,10 @@ public class RateUitjeItem extends Activity {
                 String newStad = stad.replace(" ", "+");
                 String parameters_url =
 
-                        "NaamVar="+ newNaam +"&BeschrijvingVar="+ newBeschrijving +
-                                "&CategorieVar="+ newCategorie +"&EmailVar="+ newemail +
-                                "&StraatVar="+ newStraat +"&PostCodeVar="+ newPostcode +
-                                "&StadVar="+ newStad +"&CoordinaatVar="+ coordinaat ;
+                        "NaamVar=" + newNaam + "&BeschrijvingVar=" + newBeschrijving +
+                                "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
+                                "&StraatVar=" + newStraat + "&PostCodeVar=" + newPostcode +
+                                "&StadVar=" + newStad + "&CoordinaatVar=" + coordinaat;
 
                 //To do: Add COORDINATE!
                 //add uitje to DB and remov1e from suggestion
@@ -280,35 +308,70 @@ public class RateUitjeItem extends Activity {
                 //Eerst zetten we de suggestie in de uitjesdatabase,
                 //Daarna wordt de suggestie uit de suggestieDB verwijderd
 
-                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
+                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
                 jParser.makeHttpRequest(delete_url, "POST", params);
             }
-            else {
+            else
+            {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
                 jParser.makeHttpRequest(upvote_url, "POST", params);
             }
-
-
-
-    }
-
-    public void giveDownVote(View view)
-    {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        boolean hasVoted = false;
-        if(hasVoted == true)
-        {
-            Toast.makeText(getApplicationContext(), "U hebt al gestemd op dit uitje!" ,Toast.LENGTH_LONG);
-        }
-        else
-        {
-            final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
-            jParser.makeHttpRequest(downvote_url, "POST", params);
+            return null;
         }
     }
- }
+
+    //
+    //DOWNVOTE
+    //
+
+    class giveDownVoteThread extends AsyncTask<String, String, String> {
+
+        /**
+         * Voordat we de taak starten laten we netjes een "zandloper" zien
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RateUitjeItem.this);
+            pDialog.setMessage("Uw stem wordt verwerkt...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        /**
+         * getting All from url
+         */
+        protected String doInBackground(String... args) {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            downVotes++;
+            totalVotes++;
+            int x = (downVotes / totalVotes) * 100;
+            Log.d("downvotes", upVotes + "");
+            Log.d("x", x + "");
+
+            if (totalVotes >= 10 && x > 50)
+            {
+                //delete
+                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                jParser.makeHttpRequest(delete_url, "POST", params);
+            }
+            else
+            {
+                final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
+                jParser.makeHttpRequest(downvote_url, "POST", params);
+            }
+            return null;
+        }
+
+    }
+}
+
+
 
 
 
