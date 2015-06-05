@@ -1,11 +1,9 @@
 package com.coldfushion.MainProjectApplication.Helpers;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -148,5 +146,26 @@ public class JSONParser{
         }
 
         return jArray;
+    }
+
+    public void x(String url){
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpResponse httpResponse = httpClient.execute(new HttpGet(url));
+
+
+            InputStream inputStream = null;
+            inputStream = httpResponse.getEntity().getContent();
+
+            // convert inputstream to string
+            if(inputStream != null){
+
+            }
+
+            else
+                Log.d("FAIILL", "worked not");
+        }catch (Exception e){
+            Log.d("erorr", e.getLocalizedMessage());
+        }
     }
     }

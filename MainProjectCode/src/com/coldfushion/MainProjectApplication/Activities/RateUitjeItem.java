@@ -180,7 +180,7 @@ public class RateUitjeItem extends Activity {
                     upVotes = x.getInt(TAG_UPVOTECOUNT);
                     downVotes = x.getInt(TAG_DOWNVOTECOUNT);
 
-                    totalVotes = upVotes + downVotes;
+
 
 //                    //VoteCounter stuff
 //                    //Call checkmethod when loading
@@ -213,6 +213,7 @@ public class RateUitjeItem extends Activity {
                     uitjesList.add(map);
 
 
+                    totalVotes = upVotes + downVotes;
                 } else {
                     // no products found
                     Log.d("Uitjes status", "Details ophalen mislukt");
@@ -262,7 +263,7 @@ public class RateUitjeItem extends Activity {
 
     class giveUpVoteThread extends AsyncTask<String, String, String>
     {
-
+        double x;
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
          */
@@ -275,6 +276,9 @@ public class RateUitjeItem extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+            upVotes++;
+            totalVotes++;
+            x = (upVotes / totalVotes);
 
         }
 
@@ -284,11 +288,13 @@ public class RateUitjeItem extends Activity {
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-            upVotes++;
-            totalVotes++;
-            int x = (upVotes / totalVotes) * 100;
-            Log.d("upvotes", upVotes + "");
+
+            Log.d("totalvotes", totalVotes+ "");
+            Log.d("upvotes", upVotes+ "");
+
+
             Log.d("x", x + "");
+
             if (totalVotes >= 10 && x > 75) {
                 String newNaam = naam.replace(" ", "+");
                 String newBeschrijving = beschrijving.replace(" ", "+");
@@ -311,7 +317,7 @@ public class RateUitjeItem extends Activity {
                 Log.d("String url", insert_url);
                 try{
                 //ERRORS
-                jParser.getJSONfromURL(insert_url);
+                jParser.x(insert_url);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -321,7 +327,7 @@ public class RateUitjeItem extends Activity {
 
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
                 try{
-                jParser.getJSONfromURL(delete_url);
+                jParser.x(delete_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
                 }catch (Exception e){
                     e.printStackTrace();
@@ -332,14 +338,19 @@ public class RateUitjeItem extends Activity {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
-                try {
-                jParser.getJSONfromURL(upvote_url);
+
+                jParser.x(upvote_url);
                 //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("x", x + "");
+            pDialog.dismiss();
         }
     }
 
@@ -369,36 +380,40 @@ public class RateUitjeItem extends Activity {
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
+
             downVotes++;
             totalVotes++;
-            int x = (downVotes / totalVotes) * 100;
-            Log.d("downvotes", upVotes + "");
+            Log.d("totalvotes", totalVotes+ "");
+            Log.d("downvotes", downVotes+ "");
+            double x = (downVotes / totalVotes) * 100;
+            Log.d("downvotes", downVotes + "");
             Log.d("x", x + "");
 
             if (totalVotes >= 10 && x > 50)
             {
                 //delete
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
-                try{
-                jParser.getJSONfromURL(delete_url);
+
+                jParser.x(delete_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
             }
             else
             {
                 final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
-                try {
-                jParser.getJSONfromURL(downvote_url);
+
+                jParser.x(downvote_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
             }
             return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            pDialog.dismiss();
+        }
     }
 }
 
