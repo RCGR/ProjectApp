@@ -25,7 +25,7 @@ import android.util.Log;
 /**
  * Created by ceesjan on 21-5-2015.
  */
-public class JSONParser {
+public class JSONParser{
         static InputStream is = null;
         static JSONObject jObj = null;
         static String json = "";
@@ -38,7 +38,7 @@ public class JSONParser {
         // function get json from url
         // by making HTTP POST or GET method
         public JSONObject makeHttpRequest(String url, String method,
-                                          List<NameValuePair> params) {
+                                          List<NameValuePair> params) throws JSONException{
 
             // Making HTTP request
             try {
@@ -92,12 +92,15 @@ public class JSONParser {
             // try parse the string to a JSON object
             try {
                 jObj = new JSONObject(json);
+
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
 
             // return JSON String
-            return jObj;
+            //return jObj;
+            return new JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1));
+
 
         }
 

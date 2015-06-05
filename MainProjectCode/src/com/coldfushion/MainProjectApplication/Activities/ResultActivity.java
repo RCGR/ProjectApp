@@ -298,6 +298,7 @@ public class ResultActivity extends ListActivity {
                             // adding each child node to HashMap key => value
                             map.put(TAG_PID, id);
                             map.put(TAG_NAME, name);
+                            map.values();
 
                             // adding HashList to ArrayList
                             uitjesList.add(map);
@@ -345,11 +346,7 @@ public class ResultActivity extends ListActivity {
                      * Updating parsed JSON data into ListView
                      * */
 
-                    ListAdapter adapter = new SimpleAdapter(
-                            ResultActivity.this, uitjesList,
-                            R.layout.resultlistitem, new String[]{TAG_PID,
-                            TAG_NAME},
-                            new int[]{R.id.uitjesID, R.id.Naam});
+                    ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList, R.layout.resultlistitem, new String[]{TAG_PID,TAG_NAME}, new int[]{R.id.uitjesID, R.id.Naam});
 
                     // updating listview
                     setListAdapter(adapter);
