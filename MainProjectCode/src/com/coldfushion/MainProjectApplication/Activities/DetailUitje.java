@@ -109,7 +109,7 @@ public class DetailUitje extends Activity {
             JSONObject json = null;
             try {
             json = jParser.makeHttpRequest(final_url, "GET", params);
-            }catch (JSONException e){
+            }catch (Exception e){
                 e.printStackTrace();
             }
             if (json == null) {
