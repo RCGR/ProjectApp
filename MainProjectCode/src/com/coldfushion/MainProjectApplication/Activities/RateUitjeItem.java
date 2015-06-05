@@ -144,7 +144,13 @@ public class RateUitjeItem extends Activity {
 
             String final_url = url_get_details + id_detail;
 
-            JSONObject json = jParser.makeHttpRequest(final_url, "GET", params);
+            JSONObject json = null;
+            try {
+                json =jParser.makeHttpRequest(final_url, "GET", params);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
             if (json == null) {
                 Log.d("jsonechek", "jsonempty");
             }
@@ -303,20 +309,32 @@ public class RateUitjeItem extends Activity {
 
                 final String insert_url = "http://coldfusiondata.site90.net/db_insert.php?" + parameters_url + "";
                 Log.d("String url", insert_url);
+                try{
                 jParser.makeHttpRequest(insert_url, "POST", params);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
 
                 //Eerst zetten we de suggestie in de uitjesdatabase,
                 //Daarna wordt de suggestie uit de suggestieDB verwijderd
 
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                try{
                 jParser.makeHttpRequest(delete_url, "POST", params);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
             else
             {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
+                try {
                 jParser.makeHttpRequest(upvote_url, "POST", params);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
             return null;
         }
@@ -358,12 +376,20 @@ public class RateUitjeItem extends Activity {
             {
                 //delete
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                try{
                 jParser.makeHttpRequest(delete_url, "POST", params);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
             else
             {
                 final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
+                try {
                 jParser.makeHttpRequest(downvote_url, "POST", params);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
             return null;
         }

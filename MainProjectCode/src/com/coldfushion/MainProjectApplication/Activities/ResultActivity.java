@@ -268,7 +268,12 @@ public class ResultActivity extends ListActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // getting JSON string from URL
 
-                JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
+            JSONObject json = null;
+            try {
+                json = jParser.makeHttpRequest(url_all_products, "GET", params);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
                 if (json == null) {
                     Log.d("jsonechek", "jsonempty");
                 }

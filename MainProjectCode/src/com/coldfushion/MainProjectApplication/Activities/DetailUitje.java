@@ -106,8 +106,12 @@ public class DetailUitje extends Activity {
             // getting JSON string from URL
 
             String final_url = url_get_details + id_detail;
-
-            JSONObject json = jParser.makeHttpRequest(final_url, "GET", params);
+            JSONObject json = null;
+            try {
+            json = jParser.makeHttpRequest(final_url, "GET", params);
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
             if (json == null) {
                 Log.d("jsonechek", "jsonempty");
             }
