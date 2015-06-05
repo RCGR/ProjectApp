@@ -263,7 +263,7 @@ public class RateUitjeItem extends Activity {
 
     class giveUpVoteThread extends AsyncTask<String, String, String>
     {
-        double x;
+        double x = 0;
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
          */
@@ -278,7 +278,7 @@ public class RateUitjeItem extends Activity {
             pDialog.show();
             upVotes++;
             totalVotes++;
-            x = (upVotes / totalVotes);
+            x = upVotes / totalVotes;
 
         }
 
