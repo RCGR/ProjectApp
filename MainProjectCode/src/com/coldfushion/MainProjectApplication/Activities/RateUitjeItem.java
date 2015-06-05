@@ -8,7 +8,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
@@ -314,7 +314,7 @@ public class RateUitjeItem extends Activity {
                 Log.d("String url", insert_url);
                 try{
                 //ERRORS
-                jParser.x(insert_url);
+                jParser.simpleGetJSONfromURL(insert_url);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -324,7 +324,7 @@ public class RateUitjeItem extends Activity {
 
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
                 try{
-                jParser.x(delete_url);
+                jParser.simpleGetJSONfromURL(delete_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
                 }catch (Exception e){
                     e.printStackTrace();
@@ -336,7 +336,7 @@ public class RateUitjeItem extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
 
-                jParser.x(upvote_url);
+                jParser.simpleGetJSONfromURL(upvote_url);
                 //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
 
             }
@@ -373,6 +373,7 @@ public class RateUitjeItem extends Activity {
         /**
          * getting All from url
          */
+
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -390,7 +391,7 @@ public class RateUitjeItem extends Activity {
                 //delete
                 final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
 
-                jParser.x(delete_url);
+                jParser.simpleGetJSONfromURL(delete_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
 
             }
@@ -398,7 +399,7 @@ public class RateUitjeItem extends Activity {
             {
                 final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
 
-                jParser.x(downvote_url);
+                jParser.simpleGetJSONfromURL(downvote_url);
                 //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
 
             }

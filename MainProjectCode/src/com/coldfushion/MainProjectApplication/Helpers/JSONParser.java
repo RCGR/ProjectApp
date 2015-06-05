@@ -105,7 +105,8 @@ public class JSONParser{
 
 
     //Simple version For GetWeather()
-    public static JSONObject getJSONfromURL(String url){
+    public static JSONObject getJSONfromURL(String url)
+    {
         InputStream is = null;
         String result = "";
         JSONObject jArray = null;
@@ -148,8 +149,13 @@ public class JSONParser{
         return jArray;
     }
 
-    public void x(String url){
-        try {
+    //Dit is een bare-minimum JSON-ophaalmethode
+    //Hierdoor krijgen we geen errors bij PHP scripts die geen JSON returnen
+    public void simpleGetJSONfromURL(String url)
+    {
+
+        try
+        {
             HttpClient httpClient = new DefaultHttpClient();
             HttpResponse httpResponse = httpClient.execute(new HttpGet(url));
 
@@ -158,14 +164,16 @@ public class JSONParser{
             inputStream = httpResponse.getEntity().getContent();
 
             // convert inputstream to string
-            if(inputStream != null){
+            if(inputStream != null)
+            {
 
             }
-
             else
-                Log.d("FAIILL", "worked not");
-        }catch (Exception e){
-            Log.d("erorr", e.getLocalizedMessage());
+            Log.d("Critical failure", "the inputstream was null");
+        }
+        catch (Exception e)
+        {
+            Log.d("Exception was thrown: ", e.getLocalizedMessage());
         }
     }
-    }
+}
