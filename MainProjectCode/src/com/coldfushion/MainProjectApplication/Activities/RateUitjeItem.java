@@ -263,7 +263,6 @@ public class RateUitjeItem extends Activity {
 
     class giveUpVoteThread extends AsyncTask<String, String, String>
     {
-        double x = 0;
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
          */
@@ -276,9 +275,7 @@ public class RateUitjeItem extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-            upVotes++;
-            totalVotes++;
-            x = upVotes / totalVotes;
+
 
         }
 
@@ -288,11 +285,11 @@ public class RateUitjeItem extends Activity {
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-
+            upVotes++;
+            totalVotes++;
             Log.d("totalvotes", totalVotes+ "");
             Log.d("upvotes", upVotes+ "");
-
-
+            double x = upVotes / totalVotes * 100.0;
             Log.d("x", x + "");
 
             if (totalVotes >= 10 && x > 75) {
@@ -349,7 +346,6 @@ public class RateUitjeItem extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("x", x + "");
             pDialog.dismiss();
         }
     }
@@ -385,7 +381,7 @@ public class RateUitjeItem extends Activity {
             totalVotes++;
             Log.d("totalvotes", totalVotes+ "");
             Log.d("downvotes", downVotes+ "");
-            double x = (downVotes / totalVotes) * 100;
+            double x = (downVotes / totalVotes) * 100.0;
             Log.d("downvotes", downVotes + "");
             Log.d("x", x + "");
 
