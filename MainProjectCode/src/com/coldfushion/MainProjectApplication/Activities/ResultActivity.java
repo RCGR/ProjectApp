@@ -271,7 +271,7 @@ public class ResultActivity extends ListActivity {
             JSONObject json = null;
             try {
                 json = jParser.makeHttpRequest(url_all_products, "GET", params);
-            }catch (JSONException e){
+            }catch (Exception e){
                 e.printStackTrace();
             }
                 if (json == null) {
