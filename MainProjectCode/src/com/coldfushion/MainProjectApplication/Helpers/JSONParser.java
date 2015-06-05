@@ -38,7 +38,7 @@ public class JSONParser{
         // function get json from url
         // by making HTTP POST or GET method
         public JSONObject makeHttpRequest(String url, String method,
-                                          List<NameValuePair> params) throws JSONException{
+                                          List<NameValuePair> params) {
 
             // Making HTTP request
             try {
@@ -77,7 +77,7 @@ public class JSONParser{
 
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "iso-8859-1"), 8);
+                        is, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
                 String line = null;
                 while ((line = reader.readLine()) != null) {
@@ -99,7 +99,7 @@ public class JSONParser{
 
             // return JSON String
             //return jObj;
-            return new JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1));
+           return jObj;
 
 
         }
