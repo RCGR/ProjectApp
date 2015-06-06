@@ -381,6 +381,7 @@ public class ResultActivity extends ListActivity {
                                 return +1;
                             }
                             else
+
                             {
                                 return -1;
                             }

@@ -18,7 +18,7 @@ require_once 'db_connect_suggestion.php';
 $db = new DB_CONNECT();
  
 // We voeren een query uit, en gooien het resultaat in $result
-$result = mysql_query("SELECT Naam, Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
+$result = mysql_query("SELECT Naam, Beschrijving, WeerType, Categorie, Email, Straat, PostCode, Stad, Coordinaat, upVoteCount, downVoteCount FROM Uitjes WHERE uitjesID = '".$id."'") or die(mysql_error());
  
 // We kijken of we een resultaat krijgen, zo ja:
 if (mysql_num_rows($result) > 0)
@@ -41,7 +41,10 @@ if (mysql_num_rows($result) > 0)
         $uitje["Straat"] = $row["Straat"];
         $uitje["PostCode"] = $row["PostCode"];
         $uitje["Stad"] = $row["Stad"];
- 
+        $uitje["Coordinaat"] = $row["Coordinaat"];
+        $uitje["upVoteCount"] = $row["upVoteCount"];
+        $uitje["downVoteCount"] = $row["downVoteCount"];
+        
         // Hier pushen we alle rijen in de vader-array 'Uitjes'.
         array_push($response["Uitjes"], $uitje);
     }
