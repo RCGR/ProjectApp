@@ -1,4 +1,3 @@
-
 <?php
  
 /*
@@ -32,6 +31,7 @@ if (mysql_num_rows($result) > 0)
         $uitje = array();
         $uitje["uitjesID"] = $row["uitjesID"];
         $uitje["Naam"] = $row["Naam"];
+        $uitje["weerType"] = $row["WeerType"];
  
         // Hier pushen we alle rijen in de vader-array 'Uitjes'.
         array_push($response["Uitjes"], $uitje);
@@ -54,4 +54,4 @@ else
     // echo no users JSON
     echo json_encode($response);
 }
-?>
+?>			
