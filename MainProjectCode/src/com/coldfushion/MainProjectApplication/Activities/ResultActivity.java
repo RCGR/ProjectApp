@@ -44,6 +44,8 @@ import android.util.Log;
 
 public class ResultActivity extends ListActivity {
 
+
+    getCurrentWeather currentweather;
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -263,6 +265,7 @@ public class ResultActivity extends ListActivity {
             pDialog.setCancelable(false);
             pDialog.show();
 
+            currentweather = new getCurrentWeather(getApplicationContext());
         }
 
         /**
@@ -303,6 +306,9 @@ public class ResultActivity extends ListActivity {
                             String name = c.getString(TAG_NAME);
                             String weertype = c.getString(TAG_WEERTYPE);
 
+                            Log.d("weertype van "+ name, weertype + " <--");
+
+
                             // creating new HashMap
                             HashMap<String, String> map = new HashMap<String, String>();
 
@@ -316,8 +322,8 @@ public class ResultActivity extends ListActivity {
                             // adding HashList to ArrayList
                             uitjesList.add(map);
 
-
                         }
+
                     } else {
                         // no products found
                         Log.d("Uitjes status", "Geen uitjes");
@@ -335,14 +341,10 @@ public class ResultActivity extends ListActivity {
                                 button.setVisibility(View.VISIBLE);
                             }
                         });
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
 
             return null;
         }
@@ -366,7 +368,9 @@ public class ResultActivity extends ListActivity {
                         public int compare(String uitjeweer, String huidigweer)
                         {
                             //We sorteren de uitjes op weerovereenkomst
-                            getCurrentWeather currentweather = new getCurrentWeather();
+
+
+
                             String filteredweather = currentweather.filterWeatherText();
 
                             String x = TAG_WEERTYPE;
