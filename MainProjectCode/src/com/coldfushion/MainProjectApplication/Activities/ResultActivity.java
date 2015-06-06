@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -60,7 +64,7 @@ public class ResultActivity extends ListActivity {
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
-    ArrayList<HashMap<String, String>> uitjesList;
+    List<HashMap<String, String>> uitjesList;
 
     // url waar het PHPscript dat we willen zich bevind
     private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
@@ -70,6 +74,7 @@ public class ResultActivity extends ListActivity {
     private static final String TAG_UITJES = "Uitjes";
     private static final String TAG_PID = "uitjesID";
     private static final String TAG_NAME = "Naam";
+    private static final String TAG_WEERTYPE = "weerType";
 
     // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
@@ -296,6 +301,7 @@ public class ResultActivity extends ListActivity {
                             // Storing each json item in variable
                             String id = c.getString(TAG_PID);
                             String name = c.getString(TAG_NAME);
+                            String weertype = c.getString(TAG_WEERTYPE);
 
                             // creating new HashMap
                             HashMap<String, String> map = new HashMap<String, String>();
@@ -303,10 +309,13 @@ public class ResultActivity extends ListActivity {
                             // adding each child node to HashMap key => value
                             map.put(TAG_PID, id);
                             map.put(TAG_NAME, name);
+                            map.put(TAG_WEERTYPE, weertype);
+
                             map.values();
 
                             // adding HashList to ArrayList
                             uitjesList.add(map);
+
 
                         }
                     } else {
@@ -351,7 +360,35 @@ public class ResultActivity extends ListActivity {
                      * Updating parsed JSON data into ListView
                      * */
 
-                    ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList, R.layout.resultlistitem, new String[]{TAG_PID,TAG_NAME}, new int[]{R.id.uitjesID, R.id.Naam});
+                    //Voordat we de JSON in de listview zetten, bouwen we deze comparator
+                    final Comparator<String> weatherComparator = new Comparator<String>()
+                    {
+                        public int compare(String uitjeweer, String huidigweer)
+                        {
+                            //We sorteren de uitjes op weerovereenkomst
+                            getCurrentWeather currentweather = new getCurrentWeather();
+                            String filteredweather = currentweather.filterWeatherText();
+
+                            String x = TAG_WEERTYPE;
+                            String y = filteredweather;
+
+                            if(x.equals(y))
+                            {
+                                return +1;
+                            }
+                            else
+                            {
+                                return -1;
+                            }
+                        }
+                    };
+
+                    //Daarna maken we de Array die de ListAdapter zometeen nodig heeft
+                    String[] ArrayAdapter = new String[]{TAG_PID,TAG_NAME, TAG_WEERTYPE};
+                    //En sorteren we deze aan de hand vd criteria in de comparator
+                    Arrays.sort(ArrayAdapter, weatherComparator);
+                    //Last but not least stoppen we de array daadwerkelijk in de ListAdapater
+                    ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList, R.layout.resultlistitem, ArrayAdapter, new int[]{R.id.uitjesID, R.id.Naam});
 
                     // updating listview
                     setListAdapter(adapter);

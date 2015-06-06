@@ -4,6 +4,8 @@ import android.app.Activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +26,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+import java.util.Locale;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{
@@ -100,7 +106,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
             setMap(map, StartLatLng, "Huidige Locatie", "Hier bevindt u zich momenteel");
         }
-        else {
+        else
+        {
             //need to set location to standard position if the location of the device is not known
             LatLng sydney = new LatLng(51.92, 4.48);
             setMap(map, sydney, "Start Locatie", "Dit is uw startlocatie");
@@ -201,7 +208,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             boolean NetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             //define the locations for gps and network
-            Location GPSLoc =null;
+            Location GPSLoc = null;
             Location NetworkLoc = null;
 
             //throw exception if none of the services is available
@@ -243,9 +250,12 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG);
             e.printStackTrace();
         }
+
         //return location
-        return  MyLoc;
+        return MyLoc;
     }
+
+
 
     private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));

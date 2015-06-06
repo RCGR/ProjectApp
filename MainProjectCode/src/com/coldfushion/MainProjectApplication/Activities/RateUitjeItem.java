@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
 import com.coldfushion.MainProjectApplication.R;
@@ -76,8 +77,9 @@ public class RateUitjeItem extends Activity {
     private static final String TAG_UPVOTECOUNT = "upVoteCount";
     private static final String TAG_DOWNVOTECOUNT = "downVoteCount";
 
+    public boolean hasVoted;
 
-            // Hier maken we de uitjes JSONArray
+    // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
 
     @Override
@@ -292,53 +294,66 @@ public class RateUitjeItem extends Activity {
             double x = upVotes / totalVotes * 100.0;
             Log.d("x", x + "");
 
-            if (totalVotes >= 10 && x > 75) {
-                String newNaam = naam.replace(" ", "+");
-                String newBeschrijving = beschrijving.replace(" ", "+");
-                String newCategorie = categorie.replace(" ", "+");
-                String newemail = email.replace(" ", "+");
-                String newStraat = straat.replace(" ", "+");
-                String newPostcode = postcode.replace(" ", "+");
-                String newStad = stad.replace(" ", "+");
-                String parameters_url =
+            if(hasVoted == false)
+            {
+                if (totalVotes >= 10 && x > 75)
+                {
+                    String newNaam = naam.replace(" ", "+");
+                    String newBeschrijving = beschrijving.replace(" ", "+");
+                    String newCategorie = categorie.replace(" ", "+");
+                    String newemail = email.replace(" ", "+");
+                    String newStraat = straat.replace(" ", "+");
+                    String newPostcode = postcode.replace(" ", "+");
+                    String newStad = stad.replace(" ", "+");
+                    String parameters_url =
 
-                        "NaamVar=" + newNaam + "&BeschrijvingVar=" + newBeschrijving +
-                                "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
-                                "&StraatVar=" + newStraat + "&PostCodeVar=" + newPostcode +
-                                "&StadVar=" + newStad + "&CoordinaatVar=" + coordinaat;
+                            "NaamVar=" + newNaam + "&BeschrijvingVar=" + newBeschrijving +
+                                    "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
+                                    "&StraatVar=" + newStraat + "&PostCodeVar=" + newPostcode +
+                                    "&StadVar=" + newStad + "&CoordinaatVar=" + coordinaat;
 
-                //To do: Add COORDINATE!
-                //add uitje to DB and remov1e from suggestion
+                    final String insert_url = "http://coldfusiondata.site90.net/db_insert.php?" + parameters_url + "";
+                    Log.d("String url", insert_url);
+                    try
+                    {
+                        //ERRORS
+                        jParser.simpleGetJSONfromURL(insert_url);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
 
-                final String insert_url = "http://coldfusiondata.site90.net/db_insert.php?" + parameters_url + "";
-                Log.d("String url", insert_url);
-                try{
-                //ERRORS
-                jParser.simpleGetJSONfromURL(insert_url);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                    //Eerst zetten we de suggestie in de uitjesdatabase,
+                    //Daarna wordt de suggestie uit de suggestieDB verwijderd
 
-                //Eerst zetten we de suggestie in de uitjesdatabase,
-                //Daarna wordt de suggestie uit de suggestieDB verwijderd
+                    final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                    try
+                    {
+                        jParser.simpleGetJSONfromURL(delete_url);
+                        //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
 
-                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
-                try{
-                jParser.simpleGetJSONfromURL(delete_url);
-                //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                    }
+                    else
+                    {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
+
+                        jParser.simpleGetJSONfromURL(upvote_url);
+                        //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
+                     }
+
+            hasVoted = true;
             }
             else
             {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
-
-                jParser.simpleGetJSONfromURL(upvote_url);
-                //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
-
+                Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT);
             }
             return null;
         }
@@ -386,22 +401,29 @@ public class RateUitjeItem extends Activity {
             Log.d("downvotes", downVotes + "");
             Log.d("x", x + "");
 
-            if (totalVotes >= 10 && x > 50)
+            if(hasVoted == false)
             {
-                //delete
-                final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                if (totalVotes >= 10 && x > 50) {
+                    //delete
+                    final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
 
-                jParser.simpleGetJSONfromURL(delete_url);
-                //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
+                    jParser.simpleGetJSONfromURL(delete_url);
+                    //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
 
+                }
+                else
+                {
+                    final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
+
+                    jParser.simpleGetJSONfromURL(downvote_url);
+                    //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
+
+                }
+                hasVoted = true;
             }
             else
             {
-                final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
-
-                jParser.simpleGetJSONfromURL(downvote_url);
-                //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
-
+                Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT);
             }
             return null;
         }
