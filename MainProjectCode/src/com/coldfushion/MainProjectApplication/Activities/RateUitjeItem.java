@@ -305,9 +305,10 @@ public class RateUitjeItem extends Activity {
                     String newStraat = straat.replace(" ", "+");
                     String newPostcode = postcode.replace(" ", "+");
                     String newStad = stad.replace(" ", "+");
+                    String newWeerType = weertype;
                     String parameters_url =
 
-                            "NaamVar=" + newNaam + "&BeschrijvingVar=" + newBeschrijving +
+                            "NaamVar=" + newNaam + "&WeerTypeVar=" + newWeerType + "&BeschrijvingVar=" + newBeschrijving +
                                     "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
                                     "&StraatVar=" + newStraat + "&PostCodeVar=" + newPostcode +
                                     "&StadVar=" + newStad + "&CoordinaatVar=" + coordinaat;
