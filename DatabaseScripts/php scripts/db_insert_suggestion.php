@@ -27,8 +27,8 @@ require_once 'db_connect_suggestion.php';
 $db = new DB_CONNECT();
  
 // We voeren een query uit, en gooien het resultaat in $result
-$result = mysql_query("INSERT INTO Uitjes(Naam, Weertype, Beschrijving, Categorie, Email, Straat, PostCode, Stad, Coordinaat)
-VALUES(".$NaamVar.", ".$BeschrijvingsVar.", ".$CategorieVar.", ".$EmailVar." ".$StraatVar.", ".$PostCodeVar.", ".$StadVar.", ".$CoordinaatVar.")") or die(mysql_error());
+$result = mysql_query("INSERT INTO Uitjes(Naam, Weertype, Beschrijving, Categorie, Email, Straat, PostCode, Stad, Coordinaat, upVoteCount, downVoteCount)
+VALUES(".$NaamVar.", ".$BeschrijvingsVar.", ".$CategorieVar.", ".$EmailVar." ".$StraatVar.", ".$PostCodeVar.", ".$StadVar.", ".$CoordinaatVar.", 0, 0)") or die(mysql_error());
 
    $response["Uitjes"] = array();
    

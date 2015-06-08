@@ -2,12 +2,14 @@ package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -17,16 +19,32 @@ import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,8 +64,30 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     private LocationManager mLocationManager;
     private Location MyLoc;
+    ArrayList<Marker> markers = new ArrayList<>();
 
     GoogleMap Theonemap;
+
+    //JSON STUFF
+    // Creating JSON Parser object
+    JSONParser jParser = new JSONParser();
+
+    List<HashMap<String, String>> uitjesList = new ArrayList<HashMap<String, String>>();
+
+    // url waar het PHPscript dat we willen zich bevind
+    private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
+
+    // Progress Dialog
+    private ProgressDialog pDialog;
+
+    // We maken hier vars aan voor de JSON Node names
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_UITJES = "Uitjes";
+    private static final String TAG_NAME = "Naam";
+    private static final String TAG_COORDINAAT = "Coordinaat";
+
+    // Hier maken we de uitjes JSONArray
+    JSONArray uitjes = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +100,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         mapFragment.getMapAsync(this);
 
         loadUI();
+
+        new LoadCoordinate().execute();
+
     }
 
     @Override
@@ -67,6 +110,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         super.onResume();
         selectItem(0);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,7 +159,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
-        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
 
 
     }
@@ -258,7 +303,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
 
     private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
 
         map.addMarker(new MarkerOptions()
                 .title(markerTitle)
@@ -303,4 +348,135 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         selectItem(0);
         //end of menu drawer
     }
+
+    //JSON CLASS FOR COORDINATES AND NAME
+    class LoadCoordinate extends AsyncTask<String, String, String> {
+
+        /**
+         * Voordat we de taak starten laten we netjes een "zandloper" zien
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MyActivity.this);
+            pDialog.setMessage("Uitjes worden opgehaald... even geduld!");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+
+        }
+
+        /**
+         * getting All from url
+         * */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+
+            JSONObject json = null;
+            try {
+                json = jParser.makeHttpRequest(url_all_products, "GET", params);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if (json == null) {
+                Log.d("jsonechek", "jsonempty");
+            }
+            // Check your log cat for JSON reponse
+            Log.d("Uitjes: ", json.toString());
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    uitjes = json.getJSONArray(TAG_UITJES);
+
+                    // looping through All Products
+                    for (int i = 0; i < uitjes.length(); i++) {
+                        JSONObject c = uitjes.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String name = c.getString(TAG_NAME);
+                        String coordinaat = c.getString(TAG_COORDINAAT);
+
+                        //Log.d("coordinaat van "+ name, coordinaat + " <--");
+
+
+                        // creating new HashMap
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // adding each child node to HashMap key => value
+                        map.put(TAG_NAME, name);
+                        map.put(TAG_COORDINAAT, coordinaat);
+
+                        map.values();
+
+                        // adding HashList to ArrayList
+                        uitjesList.add(map);
+
+                    }
+
+                }
+                else
+                {
+                    // no products found
+                    Log.d("Uitjes status", "Geen uitjes");
+                };
+
+            }
+            catch
+                    (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            setMarkers();
+            pDialog.dismiss();
+            // updating UI from Background Thread
+
+        }
+
+    }
+
+    private void setMarkers(){
+
+
+
+        for (int i = 0; i < uitjesList.size(); i++){
+            String Coordinaten = uitjesList.get(i).get(TAG_COORDINAAT);
+            String Naam = uitjesList.get(i).get(TAG_NAME);
+            int commaLocation = Coordinaten.indexOf(",");
+            String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);
+            String Coordinaat_Lng = Coordinaten.substring(commaLocation + 1);
+
+            double lat = Double.parseDouble(Coordinaat_Lat);
+            double lng = Double.parseDouble(Coordinaat_Lng);
+
+            LatLng latLng = new LatLng(lat, lng);
+
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            Marker marker = Theonemap.addMarker(markerOptions);
+
+            markers.add(marker);
+
+        }
+
+
+    }
+
 }
+
+

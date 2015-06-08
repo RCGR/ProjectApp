@@ -25,7 +25,10 @@ require_once 'db_connect.php';
  
 // We maken verbinding met onze database
 $db = new DB_CONNECT();
- 
+
+//We vervangen de plusjes die we in de url krijgen terug naar spaties
+str_replace("+", " ", $BeschrijvingsVar);
+
 // We voeren een query uit, en gooien het resultaat in $result
 $result = mysql_query("INSERT INTO Uitjes(Naam, Weertype, Beschrijving, Categorie, Email, Straat, PostCode, Stad, Coordinaat)
 VALUES(".$NaamVar.", ".$BeschrijvingsVar.", ".$CategorieVar.", ".$EmailVar." ".$StraatVar.", ".$PostCodeVar.", ".$StadVar.", ".$CoordinaatVar.")") or die(mysql_error());

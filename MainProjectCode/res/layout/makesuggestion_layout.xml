@@ -26,6 +26,12 @@
                     android:id="@+id/EditText_Suggestion_Name"
                     android:hint="Naam"
                     />
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/EditText_Suggestion_Email"
+                    android:hint="Email"
+                    />
 
             <Spinner
                     android:layout_width="match_parent"
@@ -49,7 +55,8 @@
 		    android:id="@+id/button_Suggestion_getlocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Selecteer Locatie"/>
+                    android:text="Selecteer Locatie"
+                    android:onClick="Suggestion_GetLocation"/>
             <Button
 	            android:id="@+id/button_Suggestion_submit"
                     android:layout_width="match_parent"
