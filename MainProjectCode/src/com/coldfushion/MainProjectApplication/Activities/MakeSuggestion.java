@@ -86,7 +86,7 @@ public class MakeSuggestion extends Activity {
         spinner_categorie = (Spinner)findViewById(R.id.spinner_Categorie);
         spinner_weer = (Spinner)findViewById(R.id.spinner_weertype);
 
-        String[] weeritems = new String[]{"Zonnig", "Bewolkt", "Regen"};
+        String[] weeritems = new String[]{"Sunny", "Cloudy", "Rainy"};
         ArrayAdapter<String> weer_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, weeritems);
         spinner_weer.setAdapter(weer_adapter);
 
@@ -189,4 +189,7 @@ public class MakeSuggestion extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     //end of drawer code
+    public void Suggestion_GetLocation(View view){
+        Toast.makeText(getApplicationContext(), "Kies een locatie", Toast.LENGTH_SHORT).show();
+    }
 }

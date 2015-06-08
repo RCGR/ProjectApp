@@ -353,53 +353,21 @@ public class ResultActivity extends ListActivity {
          * After completing background task Dismiss the progress dialog
          * **/
         protected void onPostExecute(String file_url) {
+            //call function for filtering
+            uitjesList = FilterOnType(uitjesList);
+
+            ListAdapter adapter = new SimpleAdapter(
+                    ResultActivity.this, uitjesList,
+                    R.layout.resultlistitem, new String[]{TAG_PID,
+                    TAG_NAME},
+                    new int[]{R.id.uitjesID, R.id.Naam});
+
+            // updating listview
+            setListAdapter(adapter);
+
+
             // dismiss the dialog after getting all products
             pDialog.dismiss();
-            // updating UI from Background Thread
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    /**
-                     * Updating parsed JSON data into ListView
-                     * */
-
-                    //Voordat we de JSON in de listview zetten, bouwen we deze comparator
-                    final Comparator<String> weatherComparator = new Comparator<String>()
-                    {
-                        public int compare(String uitjeweer, String huidigweer)
-                        {
-                            //We sorteren de uitjes op weerovereenkomst
-
-
-
-                            String filteredweather = currentweather.filterWeatherText();
-
-                            String x = TAG_WEERTYPE;
-                            String y = filteredweather;
-
-                            if(x.equals(y))
-                            {
-                                return +1;
-                            }
-                            else
-
-                            {
-                                return -1;
-                            }
-                        }
-                    };
-
-                    //Daarna maken we de Array die de ListAdapter zometeen nodig heeft
-                    String[] ArrayAdapter = new String[]{TAG_PID,TAG_NAME, TAG_WEERTYPE};
-                    //En sorteren we deze aan de hand vd criteria in de comparator
-                    Arrays.sort(ArrayAdapter, weatherComparator);
-                    //Last but not least stoppen we de array daadwerkelijk in de ListAdapater
-                    ListAdapter adapter = new SimpleAdapter(ResultActivity.this, uitjesList, R.layout.resultlistitem, ArrayAdapter, new int[]{R.id.uitjesID, R.id.Naam});
-
-                    // updating listview
-                    setListAdapter(adapter);
-                }
-            });
-
         }
 
     }
@@ -414,18 +382,57 @@ public class ResultActivity extends ListActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    private List<HashMap<String, String>> FilterOnType(List<HashMap<String, String>> uitjeslijst){
+        //defines lists for THE 3 types of weather
+        List<HashMap<String,String>> Sunny = new ArrayList<>();
+        List<HashMap<String,String>> Cloudy = new ArrayList<>();
+        List<HashMap<String,String>> Rainy = new ArrayList<>();
 
-
-
-    //CODE FOR ONCLICK OF THE LIST ITEMS
-//    private class DrawerItemClickListener implements ListView.OnItemClickListener{
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            selectItem(position);
-//        }
-//    }
-
-
-
-
+        //loop through the list checking for the types and adding to the right lists
+        for (int i = 0 ; i < uitjeslijst.size(); i++){
+            String Weertype = uitjeslijst.get(i).get(TAG_WEERTYPE);
+            Log.d("weertype ", Weertype);
+            if (Weertype.equals("Sunny")){
+                Sunny.add(uitjeslijst.get(i));
+            }else if(Weertype.equals("Rainy")){
+                Rainy.add(uitjeslijst.get(i));
+            }else {
+                Cloudy.add(uitjeslijst.get(i));
+            }
+        }
+        //gettting the weather of the moment
+        String filteredweather = currentweather.filterWeatherText();
+        //clear the return list
+        uitjeslijst.clear();
+        //filter for sunny
+        if (filteredweather.equals("Sunny")){
+            for (int i = 0; i < Sunny.size(); i ++){
+                uitjeslijst.add(Sunny.get(i));
+            }for (int i = 0; i < Cloudy.size(); i ++){
+                uitjeslijst.add(Cloudy.get(i));
+            }for (int i = 0; i < Rainy.size(); i ++){
+                uitjeslijst.add(Rainy.get(i));
+            }
+        }
+        //filter for rainy
+        else if(filteredweather.equals("Rainy")){
+            for (int i = 0; i < Rainy.size(); i ++){
+                uitjeslijst.add(Rainy.get(i));
+            }for (int i = 0; i < Cloudy.size(); i ++){
+                uitjeslijst.add(Cloudy.get(i));
+            }for (int i = 0; i < Sunny.size(); i ++){
+                uitjeslijst.add(Sunny.get(i));
+            }
+        }
+        //filter  for cloudy
+        else {for (int i = 0; i < Cloudy.size(); i ++){
+                uitjeslijst.add(Cloudy.get(i));
+            }for (int i = 0; i < Sunny.size(); i ++){
+                uitjeslijst.add(Sunny.get(i));
+            }for (int i = 0; i < Rainy.size(); i ++){
+                uitjeslijst.add(Rainy.get(i));
+            }
+        }
+        return uitjeslijst;
+    }
 }

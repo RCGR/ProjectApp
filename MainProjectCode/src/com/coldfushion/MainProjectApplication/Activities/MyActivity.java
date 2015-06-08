@@ -31,7 +31,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.NameValuePair;
@@ -62,6 +64,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     private LocationManager mLocationManager;
     private Location MyLoc;
+    ArrayList<Marker> markers = new ArrayList<>();
 
     GoogleMap Theonemap;
 
@@ -69,7 +72,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
-    List<HashMap<String, String>> uitjesList;
+    List<HashMap<String, String>> uitjesList = new ArrayList<HashMap<String, String>>();
 
     // url waar het PHPscript dat we willen zich bevind
     private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
@@ -97,6 +100,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         mapFragment.getMapAsync(this);
 
         loadUI();
+
+        new LoadCoordinate().execute();
+
     }
 
     @Override
@@ -104,6 +110,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         super.onResume();
         selectItem(0);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,7 +159,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
-        //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
 
 
     }
@@ -295,7 +303,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
 
     private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
 
         map.addMarker(new MarkerOptions()
                 .title(markerTitle)
@@ -396,7 +404,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         String name = c.getString(TAG_NAME);
                         String coordinaat = c.getString(TAG_COORDINAAT);
 
-                        Log.d("coordinaat van "+ name, coordinaat + " <--");
+                        //Log.d("coordinaat van "+ name, coordinaat + " <--");
 
 
                         // creating new HashMap
@@ -422,7 +430,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
             }
             catch
-            (JSONException e)
+                    (JSONException e)
             {
                 e.printStackTrace();
             }
@@ -434,12 +442,41 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
          * **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after getting all products
+            setMarkers();
             pDialog.dismiss();
             // updating UI from Background Thread
-
-            };
 
         }
 
     }
+
+    private void setMarkers(){
+
+
+
+        for (int i = 0; i < uitjesList.size(); i++){
+            String Coordinaten = uitjesList.get(i).get(TAG_COORDINAAT);
+            String Naam = uitjesList.get(i).get(TAG_NAME);
+            int commaLocation = Coordinaten.indexOf(",");
+            String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);
+            String Coordinaat_Lng = Coordinaten.substring(commaLocation + 1);
+
+            double lat = Double.parseDouble(Coordinaat_Lat);
+            double lng = Double.parseDouble(Coordinaat_Lng);
+
+            LatLng latLng = new LatLng(lat, lng);
+
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            Marker marker = Theonemap.addMarker(markerOptions);
+
+            markers.add(marker);
+
+        }
+
+
+    }
+
+}
+
 

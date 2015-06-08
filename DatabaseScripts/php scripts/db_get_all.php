@@ -32,6 +32,7 @@ if (mysql_num_rows($result) > 0)
         $uitje["uitjesID"] = $row["uitjesID"];
         $uitje["Naam"] = $row["Naam"];
         $uitje["weerType"] = $row["WeerType"];
+        $uitje["Coordinaat"] = $row["Coordinaat"];
  
         // Hier pushen we alle rijen in de vader-array 'Uitjes'.
         array_push($response["Uitjes"], $uitje);
