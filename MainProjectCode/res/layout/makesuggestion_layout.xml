@@ -46,10 +46,12 @@
                     android:hint="Beschrijving"
                     />
             <Button
+		    android:id="@+id/button_Suggestion_getlocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Selecteer Locatie"/>
             <Button
+	            android:id="@+id/button_Suggestion_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Suggereer uitje"/>

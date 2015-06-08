@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
 import com.coldfushion.MainProjectApplication.R;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -28,6 +30,8 @@ public class MakeSuggestion extends Activity {
     private CharSequence mDrawerTitle;
     //end of drawer code
 
+    Button submitButton;
+    Button getLocationButton;
 
     EditText editText_naam;
     EditText editText_beschrijving;
@@ -39,6 +43,8 @@ public class MakeSuggestion extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.makesuggestion_layout);
 
@@ -78,7 +84,8 @@ public class MakeSuggestion extends Activity {
         //set the standard selected item on  0 --> the first item (kaart)
 
         //end code for the drawer'
-
+        submitButton = (Button)findViewById(R.id.button_Suggestion_submit);
+        getLocationButton = (Button)findViewById(R.id.button_Suggestion_getlocation);
 
         editText_naam = (EditText)findViewById(R.id.EditText_Suggestion_Name);
         editText_beschrijving = (EditText)findViewById(R.id.EditText_Suggestion_Beschrijving);
@@ -94,6 +101,67 @@ public class MakeSuggestion extends Activity {
         ArrayAdapter<String> categorie_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorieen);
         spinner_categorie.setAdapter(categorie_adapter);
     }
+
+    //Deze methode wordt gecalled als de submitbutton geklikt is.
+    public void AddToDatabase()
+    {
+        //add location added check
+        if(editText_naam.getText().equals("") ||  editText_beschrijving.getText().equals("") || spinner_weer.getSelectedItem().toString().equals("") || spinner_categorie.getSelectedItem().toString().equals(""))
+        {
+            Toast.makeText(getApplicationContext(), "U hebt een van de velden niet ingevoerd!", Toast.LENGTH_SHORT);
+        }
+        else
+        {
+
+
+            String newNaam = editText_naam.getText().replace(" ", "+");
+            String newBeschrijving = editText_beschrijving.getText().replace(" ", "+");
+            String newCategorie = spinner_categorie.getSelectedItem().toString().replace(" ", "+");
+            String newWeerType = spinner_weer.getSelectedItem().toString().replace(" ", "+");
+            //String newemail = email.replace(" ", "+");
+            //String newStraat = straat.replace(" ", "+");
+            //String newPostcode = postcode.replace(" ", "+");
+            //String newStad = stad.replace(" ", "+");
+            //String parameters_url =
+
+                    "NaamVar=" + newNaam + "&WeerTypeVar=" + newWeerType + "&BeschrijvingVar=" + newBeschrijving +
+                            "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
+                            "&StraatVar=" +  + "&PostCodeVar=" + newPostcode +
+                            "&StadVar=" + newStad + "&CoordinaatVar=" + ;
+
+            final String insert_url = "http://coldfusiondata.site90.net/db_insert_suggestion.php?" + parameters_url + "";
+            Log.d("String url", insert_url);
+        }
+    }
+
+    //Deze methode word gecalled als de getlocation button geklikt is
+    public void getLocation()
+    {
+        Intent i = new Intent(this, SimpleLocationChoose.class);
+        startActivityForResult(i, 1);
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                String result = data.getStringExtra("result");
+                String x = result.substring(10, result.length()-1);
+                double latitude = Double.parseDouble(x.substring(0, x.indexOf(",")));
+                double longitude = Double.parseDouble(x.substring(x.indexOf(",") + 1));
+
+                LatLng NewLocation = new LatLng(latitude, longitude);
+
+            }
+            if (resultCode == RESULT_CANCELED)
+            {
+                Toast.makeText(getApplicationContext(), "Geen nieuwe locatie gevonden", Toast.LENGTH_SHORT).show();
+                //Write your code if there's no result
+            }
+        }
+    }
+
+
 
 
     @Override
