@@ -9,7 +9,7 @@
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher">
         <activity
-                android:name="MyActivity"
+                android:name=".Activities.MyActivity"
                 android:label="@string/app_name"
                 android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
                 >
@@ -18,26 +18,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ResultActivity" />
+        <activity android:name=".Activities.ResultActivity" />
         <activity
-                android:name=".LocationChoose"
+                android:name=".Activities.LocationChoose"
                 android:label="LocationChoose"/>
         <activity
-                android:name=".DateChoose"
+                android:name=".Activities.DateChoose"
                 android:label="DateChoose"/>
         <activity
-                android:name=".MakeSuggestion"
+                android:name=".Activities.MakeSuggestion"
                 android:label="MakeSuggestion"/>
         <activity
-                android:name=".RateActivities"
+                android:name=".Activities.RateActivities"
                 android:label="RateActivities"/>
         <activity
-                android:name=".DetailUitje"
+                android:name=".Activities.DetailUitje"
                 android:label="DetailUitje"/>
         <activity
-                android:name=".RateUitjeItem"
+                android:name=".Activities.RateUitjeItem"
                 android:label="RateUitjeItem"/>
-        <activity android:name=".getCurrentWeather" />
+        <activity android:name=".Helpers.getCurrentWeather" />
 
         <meta-data
                 android:name="com.google.android.gms.version"
