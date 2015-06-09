@@ -61,7 +61,8 @@
 	            android:id="@+id/button_Suggestion_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Suggereer uitje"/>
+                    android:text="Suggereer uitje"
+                    android:onClick="AddToDatabase"/>
         </LinearLayout>
 
     </ScrollView>

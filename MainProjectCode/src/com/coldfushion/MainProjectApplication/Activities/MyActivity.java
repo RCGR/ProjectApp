@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -19,13 +17,10 @@ import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
-import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,11 +37,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{
@@ -154,8 +146,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         else
         {
             //need to set location to standard position if the location of the device is not known
-            LatLng sydney = new LatLng(51.92, 4.48);
-            setMap(map, sydney, "Start Locatie", "Dit is uw startlocatie");
+            LatLng Rotterdam = new LatLng(51.92, 4.48);
+            setMap(map, Rotterdam, "Start Locatie", "Dit is uw startlocatie");
         }
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
@@ -384,9 +376,10 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             if (json == null) {
                 Log.d("jsonechek", "jsonempty");
             }
-            // Check your log cat for JSON reponse
-            Log.d("Uitjes: ", json.toString());
-
+            else {
+                // Check your log cat for JSON reponse
+                Log.d("Uitjes: ", json.toString());
+            }
             try {
                 // Checking for SUCCESS TAG
                 int success = json.getInt(TAG_SUCCESS);
@@ -426,7 +419,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 {
                     // no products found
                     Log.d("Uitjes status", "Geen uitjes");
-                };
+                }
 
             }
             catch
@@ -457,9 +450,12 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         for (int i = 0; i < uitjesList.size(); i++){
             String Coordinaten = uitjesList.get(i).get(TAG_COORDINAAT);
             String Naam = uitjesList.get(i).get(TAG_NAME);
+            Log.d(" naam", Naam);
             int commaLocation = Coordinaten.indexOf(",");
             String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);
+            Log.d(" coordinaatlat", Coordinaat_Lat);
             String Coordinaat_Lng = Coordinaten.substring(commaLocation + 1);
+            Log.d(" coordinaatlng", Coordinaat_Lng);
 
             double lat = Double.parseDouble(Coordinaat_Lat);
             double lng = Double.parseDouble(Coordinaat_Lng);
