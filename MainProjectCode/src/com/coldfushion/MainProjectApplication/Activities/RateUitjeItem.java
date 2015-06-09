@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getGooglePlacesData;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -101,8 +102,13 @@ public class RateUitjeItem extends Activity {
         textViewUpVote = (TextView) findViewById(R.id.Rate_upvotes);
         textViewDownVote = (TextView) findViewById(R.id.Rate_downvotes);
 
+        getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
+        getGooglePlacesData.id = id_detail;
+        getGooglePlacesData.execute();
+
         uitjesList = new ArrayList<HashMap<String, String>>();
         new LoadDetailsSuggestedUitjes().execute();
+
     }
 
     //onclick methods for xml
