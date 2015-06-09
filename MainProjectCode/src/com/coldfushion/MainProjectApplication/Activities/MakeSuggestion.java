@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -16,7 +17,17 @@ import android.view.View;
 import android.widget.*;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -46,9 +57,6 @@ public class MakeSuggestion extends Activity {
     String Straat;
     String Stad;
     String Postcode;
-
-    ProgressDialog pDialog;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -282,4 +290,6 @@ public class MakeSuggestion extends Activity {
         Intent i = new Intent(this, SimpleLocationChoose.class);
         startActivityForResult(i, 2);
     }
+
+
 }
