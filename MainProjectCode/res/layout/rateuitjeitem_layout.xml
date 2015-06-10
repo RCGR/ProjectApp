@@ -38,6 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Rate_Email"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Rate_Openingstijden"/>
 
         <TextView
             android:layout_width="match_parent"
