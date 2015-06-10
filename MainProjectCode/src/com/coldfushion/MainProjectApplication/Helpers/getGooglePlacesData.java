@@ -27,9 +27,11 @@ import java.util.List;
 
 
  public class getGooglePlacesData extends AsyncTask<String, String, String> {
+
     // Progress Dialog
     private ProgressDialog pDialog;
 
+    public String google_places_url = "";
     public String id = "";
 
     // Creating JSON Parser object
@@ -47,20 +49,13 @@ import java.util.List;
     private static final String TAG_UITJES = "Uitjes";
     private static final String TAG_PLACEID = "PlaceID";
 
-    private static final String TAG_RESULT = "result";
-    private static final String TAG_OPENINGHOURS = "opening_hours";
-
     // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
 
-    /**
-     * Voordat we de taak starten laten we netjes een "zandloper" zien
-     */
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        //ADD PROGRESSDIALOG
     }
 
     /**
@@ -117,60 +112,12 @@ import java.util.List;
                 */
 
                 //Hier maken we de url voor de volgende request, die naar de Google places api voor de openingstijden
-                String google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
+                google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
                 uitjesList.get(0).get(TAG_PLACEID);
 
-                getWebpageContent getWebpageContent = new getWebpageContent();
-                getWebpageContent.readWebpage(google_places_url);
-
-                JSONObject json2 = null;
-                JSONArray results = null;
-
                 Log.d("url google places", google_places_url);
-                try
-                {
-                    json2 = jParser.makeHttpRequest(google_places_url, "GET", params);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                if (json2 == null)
-                {
-                    Log.d("jsonechek", "jsonempty");
-                }
-                // Check your log cat for JSON reponse
-                Log.d("Openingstijden: ", json2.toString());
-                try
-                {
-                    // Checking for SUCCESS TAG
-                    String googlesucces = json2.getString("status");
-                    if (googlesucces.equals("OK"))
-                    {
-                        // products found
-                        // Getting Array of Products
-                        results = json2.getJSONArray(TAG_RESULT);
 
-                        // looping through All Products
-                        for (int i = 0; i < results.length(); i++)
-                        {
-                            JSONObject c = results.getJSONObject(i);
-                            // Storing each json item in variable
-                            String placeid = c.getString(TAG_OPENINGHOURS);
-                            Log.d("openintsijdden", placeid);
-                        }
 
-                    }
-                    else
-                    {
-                        // no products found
-                        Log.d("Uitjes status", "Geen uitjes");
-                    }
-                }
-                catch(JSONException e)
-                {
-                    Log.d("Exception", "" + e + "");
-                }
                 return null;
             }
         }
@@ -181,15 +128,7 @@ import java.util.List;
         return null;
     }
 
-    /**
-     * After completing background task Dismiss the progress dialog
-     * *
-     */
 
-    protected void onPostExecute(String file_url) {
-        // dismiss the dialog after getting all products
-       // pDialog.dismiss();
-    }
 
 }
 

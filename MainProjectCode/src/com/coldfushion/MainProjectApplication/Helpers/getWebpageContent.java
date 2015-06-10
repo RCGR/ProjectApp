@@ -1,6 +1,8 @@
 package com.coldfushion.MainProjectApplication.Helpers;
 
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import org.apache.http.HttpResponse;
@@ -10,12 +12,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by ceesjan on 10-6-2015.
  */
 public class getWebpageContent {
+    public String openingstijden = "";
+
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
+
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -42,33 +48,34 @@ public class getWebpageContent {
 
         @Override
         protected void onPostExecute(String result) {
-            //textView.setText(Html.fromHtml(result));
-            Log.d("resultaat: ",result);
+            Log.d("resultaat: ", result);
             String Result = result.replace("  ", " ");
             int x = Result.indexOf("weekday_text");
             if (x > 0) {
-                String partfromweekday = Result.substring(x);
-                String newx = partfromweekday.replace("      ", " ");
-                int asd = newx.indexOf("]");
-                String asdasd = newx.substring(0, asd);
-                Log.d("partfrom later", asdasd);
-                String woow = asdasd.replace("\", \"", "\n");
-                int asdasdasdasd = asdasd.indexOf(": [ \"");
-                String qwertyu = woow.substring(asdasdasdasd + 4);
-                String dfghjk = qwertyu.replace("\"", "\n");
-                Log.d("resutlatat", dfghjk);
+                String FromweekdayText = Result.substring(x);
+                String FromweekdayTextCleaned  = FromweekdayText.replace("      ", " ");
+                int endOfWeekText = FromweekdayTextCleaned.indexOf("]");
+                String OnlyWeekText = FromweekdayTextCleaned.substring(0, endOfWeekText);
+                Log.d("onlyweek text", OnlyWeekText);
+                String Enters = OnlyWeekText.replace("\", \"", "\n");
+                int startReworked = Enters.indexOf(": [ \"");
+                String TotalWeektext = Enters.substring(startReworked + 4);
+                String CleanTotalWeektext = TotalWeektext.replace("\"", "\n");
+                Log.d("resultaat", CleanTotalWeektext);
 
+                openingstijden = CleanTotalWeektext;
             }
             else {
                 Log.d("Openingstijden", "Geen tijden bekend");
+                openingstijden = "Geen tijden bekend";
             }
         }
     }
 
     public void readWebpage(String url) {
         DownloadWebPageTask task = new DownloadWebPageTask();
-        task.execute(new String[] { url });
-
+        task.execute(new String[]{url});
     }
+
 
 }

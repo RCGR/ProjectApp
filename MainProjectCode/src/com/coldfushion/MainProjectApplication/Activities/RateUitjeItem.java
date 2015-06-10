@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -12,11 +13,13 @@ import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
 import com.coldfushion.MainProjectApplication.Helpers.getGooglePlacesData;
+import com.coldfushion.MainProjectApplication.Helpers.getWebpageContent;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +30,7 @@ import java.util.List;
  */
 public class RateUitjeItem extends Activity {
 
+    public String openingstijden = "";
     TextView textViewBeschrijving;
     TextView textViewCategorie;
     TextView textViewWeertype;
@@ -37,6 +41,7 @@ public class RateUitjeItem extends Activity {
     TextView textViewName;
     TextView textViewUpVote;
     TextView textViewDownVote;
+    TextView textViewOpeninghours;
 
     private int upVotes;
     private int downVotes;
@@ -101,10 +106,36 @@ public class RateUitjeItem extends Activity {
         textViewWeertype = (TextView) findViewById(R.id.Rate_Weertype);
         textViewUpVote = (TextView) findViewById(R.id.Rate_upvotes);
         textViewDownVote = (TextView) findViewById(R.id.Rate_downvotes);
+        textViewOpeninghours = (TextView)findViewById(R.id.Rate_Openingstijden);
 
         getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
         getGooglePlacesData.id = id_detail;
         getGooglePlacesData.execute();
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String google_places_url = getGooglePlacesData.google_places_url;
+
+                getWebpageContent getWebpageContent = new getWebpageContent();
+                getWebpageContent.readWebpage(google_places_url);
+                Handler handler1 = new Handler();
+                handler1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        openingstijden = getWebpageContent.openingstijden;
+
+                        Log.d("openingstijden ", openingstijden);
+                        textViewOpeninghours.setText(openingstijden);
+                    }
+                }, 3000);
+            }
+        }, 3000);
+
+
+
 
         uitjesList = new ArrayList<HashMap<String, String>>();
         new LoadDetailsSuggestedUitjes().execute();
@@ -135,6 +166,7 @@ public class RateUitjeItem extends Activity {
             super.onPreExecute();
             pDialog = new ProgressDialog(RateUitjeItem.this);
             pDialog.setMessage("Details worden opgehaald... even geduld!");
+            pDialog.setTitle("Detail laden");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -241,14 +273,12 @@ public class RateUitjeItem extends Activity {
 
         protected void onPostExecute(String file_url)
         {
-            // dismiss the dialog after getting all products
-            pDialog.dismiss();
-            // updating UI from Background Thread
 
-                    /*
-                    * Updating parsed JSON data into textviews
-                    */
-                    Log.d("TEST", uitjesList.size()+"");
+            Handler handler1 = new Handler();
+            handler1.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    pDialog.setProgress(6);
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
                     textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
@@ -259,6 +289,18 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
                     textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
+                    pDialog.dismiss();
+                }
+            }, 5500);
+            // dismiss the dialog after getting all products
+
+            // updating UI from Background Thread
+
+                    /*
+                    * Updating parsed JSON data into textviews
+                    */
+                    Log.d("TEST", uitjesList.size()+"");
+
         }
     }
 
