@@ -33,6 +33,7 @@ public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
     public String google_places_url = "";
     public String id = "";
+    public boolean suggestion = true;
 
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -41,7 +42,7 @@ public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
     // url waar het PHPscript dat we willen zich bevind
     //ID MOET NOG HIERIN
-    private static String url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details_suggestion.php?id=";
+    private  String url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details_suggestion.php?id=";
 
 
     // We maken hier vars aan voor de JSON Node names
@@ -68,7 +69,15 @@ public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
         JSONObject json = null;
         try {
-            json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            if (suggestion) {
+                json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            }
+            else{
+
+                url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details.php?id=";
+                Log.d("url", url_all_suggestions + id);
+                json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,4 +140,7 @@ public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
 
 }
+
+
+
 

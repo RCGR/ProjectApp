@@ -128,6 +128,7 @@ public class RateUitjeItem extends Activity {
                         openingstijden = getWebpageContent.openingstijden;
 
                         Log.d("openingstijden ", openingstijden);
+
                         textViewOpeninghours.setText(openingstijden);
                     }
                 }, 3000);
@@ -289,6 +290,7 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
                     textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
+
                     pDialog.dismiss();
                 }
             }, 5500);
@@ -484,6 +486,7 @@ public class RateUitjeItem extends Activity {
         }
     }
 }
+
 
 
 

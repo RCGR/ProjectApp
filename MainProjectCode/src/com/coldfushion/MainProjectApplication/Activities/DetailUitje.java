@@ -82,6 +82,7 @@ public class DetailUitje extends Activity {
 
         getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
         getGooglePlacesData.id = id_detail;
+        getGooglePlacesData.suggestion = false;
         getGooglePlacesData.execute();
 
         Handler handler = new Handler();
@@ -202,25 +203,27 @@ public class DetailUitje extends Activity {
          * **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after getting all products
-            pDialog.dismiss();
+
             // updating UI from Background Thread
-            runOnUiThread(new Runnable() {
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
                 public void run() {
-                    /**
-                     * Updating parsed JSON data into textviews
-                     * */
-
-
-            textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
-            textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
-            textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
-            textViewEmail.setText(uitjesList.get(0).get(TAG_EMAIL));
-            textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
-            textViewName.setText(uitjesList.get(0).get(TAG_NAME));
-            textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
-            textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
+                    textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
+                    textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
+                    textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
+                    textViewEmail.setText(uitjesList.get(0).get(TAG_EMAIL));
+                    textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
+                    textViewName.setText(uitjesList.get(0).get(TAG_NAME));
+                    textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
+                    textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
+                    pDialog.dismiss();
                 }
-            });
+            },5500);
+
+
+
 
         }
 

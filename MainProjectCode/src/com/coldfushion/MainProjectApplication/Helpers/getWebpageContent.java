@@ -74,6 +74,7 @@ public class getWebpageContent {
 
     public void readWebpage(String url) {
         DownloadWebPageTask task = new DownloadWebPageTask();
+        Log.d("url", url);
         task.execute(new String[]{url});
     }
 
