@@ -270,14 +270,15 @@ public class LocationChoose extends Activity implements
             places.release();
             Toast.makeText(getApplicationContext(), newlatlng.toString(), Toast.LENGTH_SHORT).show();
 
-String result = newlatlng.toString();
+            String result = newlatlng.toString();
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result",result);
             setResult(RESULT_OK, returnIntent);
             finish();
-
         }
     };
+
+
 
 
 }

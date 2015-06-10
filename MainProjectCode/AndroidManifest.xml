@@ -38,6 +38,7 @@
                 android:name=".Activities.RateUitjeItem"
                 android:label="RateUitjeItem"/>
         <activity android:name=".Helpers.getCurrentWeather" />
+        <activity android:name=".Activities.SimpleLocationChoose" />
 
         <meta-data
                 android:name="com.google.android.gms.version"
