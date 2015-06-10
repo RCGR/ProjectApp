@@ -67,7 +67,7 @@ public class getWebpageContent {
             }
             else {
                 Log.d("Openingstijden", "Geen tijden bekend");
-                openingstijden = "Geen tijden bekend";
+                openingstijden = "Geen openingstijden bekend";
             }
         }
     }

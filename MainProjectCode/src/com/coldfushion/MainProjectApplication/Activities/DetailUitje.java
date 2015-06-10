@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getGooglePlacesData;
+import com.coldfushion.MainProjectApplication.Helpers.getWebpageContent;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -22,6 +25,8 @@ import java.util.List;
  * Created by ceesjan on 28-5-2015.
  */
 public class DetailUitje extends Activity {
+    public String openingstijden = "";
+    TextView textViewOpeningHours;
     TextView textViewBeschrijving;
     TextView textViewCategorie;
     TextView textViewWeertype;
@@ -73,6 +78,32 @@ public class DetailUitje extends Activity {
         textViewPostcode = (TextView)findViewById(R.id.Postcode);
         textViewStad = (TextView)findViewById(R.id.stad);
         textViewName = (TextView)findViewById(R.id.Naam);
+        textViewOpeningHours = (TextView)findViewById(R.id.Uitje_Openingstijden);
+
+        getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
+        getGooglePlacesData.id = id_detail;
+        getGooglePlacesData.execute();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String google_places_url = getGooglePlacesData.google_places_url;
+
+                getWebpageContent getWebpageContent = new getWebpageContent();
+                getWebpageContent.readWebpage(google_places_url);
+                Handler handler1 = new Handler();
+                handler1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        openingstijden = getWebpageContent.openingstijden;
+
+                        Log.d("openingstijden ", openingstijden);
+                        textViewOpeningHours.setText(openingstijden);
+                    }
+                }, 3000);
+            }
+        }, 3000);
 
         uitjesList = new ArrayList<HashMap<String, String>>();
         new LoadDetailUitje().execute();

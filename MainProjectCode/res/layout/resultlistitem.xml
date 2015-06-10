@@ -31,5 +31,9 @@
         android:paddingLeft="6dip"
         android:textSize="17dip"
         android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Rate_Openingstijden"/>
 
 </LinearLayout>

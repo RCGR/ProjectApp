@@ -26,7 +26,7 @@ import java.util.List;
  * */
 
 
- public class getGooglePlacesData extends AsyncTask<String, String, String> {
+public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -112,16 +112,8 @@ import java.util.List;
                 */
 
                 //Hier maken we de url voor de volgende request, die naar de Google places api voor de openingstijden
-<<<<<<< HEAD
-                String google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
-                uitjesList.get(0).get(TAG_PLACEID);
-
-                JSONObject json2 = null;
-                JSONArray results = null;
-=======
                 google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
-                uitjesList.get(0).get(TAG_PLACEID);
->>>>>>> dd6c8195d29ae35ec46e498221123ab0fabbfcad
+                        uitjesList.get(0).get(TAG_PLACEID);
 
                 Log.d("url google places", google_places_url);
 
@@ -137,16 +129,6 @@ import java.util.List;
     }
 
 
-<<<<<<< HEAD
-    protected void onPostExecute(String file_url) {
-        // dismiss the dialog after getting all products
-        // pDialog.dismiss();
-    }
-=======
->>>>>>> dd6c8195d29ae35ec46e498221123ab0fabbfcad
 
 }
-
-
-
 
