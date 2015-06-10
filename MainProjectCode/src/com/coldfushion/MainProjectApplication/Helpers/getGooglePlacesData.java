@@ -117,8 +117,8 @@ import java.util.List;
                 */
 
                 //Hier maken we de url voor de volgende request, die naar de Google places api voor de openingstijden
-                String google_places_url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" +
-                uitjesList.get(0).get(TAG_PLACEID) + "&key=AIzaSyDIISR3XY3XX2ts-ZsufAH6SiiEONQm7vE";
+                String google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
+                uitjesList.get(0).get(TAG_PLACEID);
 
                 JSONObject json2 = null;
                 JSONArray results = null;
@@ -185,7 +185,7 @@ import java.util.List;
 
     protected void onPostExecute(String file_url) {
         // dismiss the dialog after getting all products
-        pDialog.dismiss();
+        // pDialog.dismiss();
     }
 
 }
