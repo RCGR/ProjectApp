@@ -1,9 +1,12 @@
 package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,8 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
+import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
-import com.google.android.gms.maps.model.LatLng;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ceesjan on 22-5-2015.
@@ -35,11 +48,15 @@ public class MakeSuggestion extends Activity {
 
     EditText editText_naam;
     EditText editText_beschrijving;
+    EditText editText_email;
 
     Spinner spinner_weer;
     Spinner spinner_categorie;
 
-
+    String Coordinaten;
+    String Straat;
+    String Stad;
+    String Postcode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,6 +106,7 @@ public class MakeSuggestion extends Activity {
 
         editText_naam = (EditText)findViewById(R.id.EditText_Suggestion_Name);
         editText_beschrijving = (EditText)findViewById(R.id.EditText_Suggestion_Beschrijving);
+        editText_email = (EditText)findViewById(R.id.EditText_Suggestion_Email);
 
         spinner_categorie = (Spinner)findViewById(R.id.spinner_Categorie);
         spinner_weer = (Spinner)findViewById(R.id.spinner_weertype);
@@ -103,7 +121,7 @@ public class MakeSuggestion extends Activity {
     }
 
     //Deze methode wordt gecalled als de submitbutton geklikt is.
-    public void AddToDatabase()
+    public void AddToDatabase(View view)
     {
         //add location added check
         if(editText_naam.getText().equals("") ||  editText_beschrijving.getText().equals("") || spinner_weer.getSelectedItem().toString().equals("") || spinner_categorie.getSelectedItem().toString().equals(""))
@@ -114,43 +132,50 @@ public class MakeSuggestion extends Activity {
         {
 
 
-            String newNaam = editText_naam.getText().replace(" ", "+");
-            String newBeschrijving = editText_beschrijving.getText().replace(" ", "+");
+            String newNaam = editText_naam.getText().toString().replace(" ", "+");
+            String newBeschrijving = editText_beschrijving.getText().toString().replace(" ", "+");
             String newCategorie = spinner_categorie.getSelectedItem().toString().replace(" ", "+");
             String newWeerType = spinner_weer.getSelectedItem().toString().replace(" ", "+");
-            //String newemail = email.replace(" ", "+");
-            //String newStraat = straat.replace(" ", "+");
-            //String newPostcode = postcode.replace(" ", "+");
-            //String newStad = stad.replace(" ", "+");
-            //String parameters_url =
+            String newemail = editText_email.getText().toString().replace(" ", "+");
+            String newStraat = Straat.replace(" ", "+");
+            String newPostcode = Postcode.replace(" ", "+");
+            String newStad = Stad.replace(" ", "+");
+            String parameters_url =
 
                     "NaamVar=" + newNaam + "&WeerTypeVar=" + newWeerType + "&BeschrijvingVar=" + newBeschrijving +
                             "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
-                            "&StraatVar=" +  + "&PostCodeVar=" + newPostcode +
-                            "&StadVar=" + newStad + "&CoordinaatVar=" + ;
+                            "&StraatVar=" + newStraat +  "&PostCodeVar=" + newPostcode +
+                            "&StadVar=" + newStad + "&CoordinaatVar=" + Coordinaten ;
 
             final String insert_url = "http://coldfusiondata.site90.net/db_insert_suggestion.php?" + parameters_url + "";
             Log.d("String url", insert_url);
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            JSONParser jsonParser = new JSONParser();
+            jsonParser.simpleGetJSONfromURL(insert_url);
         }
     }
 
-    //Deze methode word gecalled als de getlocation button geklikt is
-    public void getLocation()
-    {
-        Intent i = new Intent(this, SimpleLocationChoose.class);
-        startActivityForResult(i, 1);
 
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (requestCode == 2) {
             if(resultCode == RESULT_OK){
                 String result = data.getStringExtra("result");
-                String x = result.substring(10, result.length()-1);
-                double latitude = Double.parseDouble(x.substring(0, x.indexOf(",")));
-                double longitude = Double.parseDouble(x.substring(x.indexOf(",") + 1));
+                int endCoor = result.indexOf("-//-");
+                Coordinaten = result.substring(10, endCoor -1);
+                Log.d("coordinate", Coordinaten  + " << dit zijn de coordinaten");
+                Log.d("rest", result.substring(endCoor + 4));
+                String rest = result.substring(endCoor +4);
+                int x = rest.indexOf(",")+2;
+                Log.d("straat", rest.substring(0, x-2));
+                Log.d("postcode", rest.substring(x, x + 8));
+                Log.d("Plaats", rest.substring(x+8, rest.lastIndexOf(",")));
 
-                LatLng NewLocation = new LatLng(latitude, longitude);
+
+                Straat = rest.substring(0, x-2);
+                Postcode = rest.substring(x, x + 8);
+                Stad = rest.substring(x+8, rest.lastIndexOf(","));
 
             }
             if (resultCode == RESULT_CANCELED)
@@ -160,6 +185,9 @@ public class MakeSuggestion extends Activity {
             }
         }
     }
+
+
+
 
 
 
@@ -259,5 +287,9 @@ public class MakeSuggestion extends Activity {
     //end of drawer code
     public void Suggestion_GetLocation(View view){
         Toast.makeText(getApplicationContext(), "Kies een locatie", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, SimpleLocationChoose.class);
+        startActivityForResult(i, 2);
     }
+
+
 }

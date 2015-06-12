@@ -1,13 +1,10 @@
 package com.coldfushion.MainProjectApplication.Helpers;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.widget.Toast;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,9 +12,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListAdapter;
-
-import com.coldfushion.MainProjectApplication.Activities.MyActivity;
-import org.json.JSONStringer;
 
 /**
  * Created by Kraaijeveld on 29-5-2015.
@@ -58,7 +52,7 @@ public class getCurrentWeather
             try
             {
                 // We gaan door alle JSONObjects heen tot we bij de array Item(s) aankomen
-                JSONObject json_data = JSONParser.getJSONfromURL(url);
+                JSONObject json_data = com.coldfushion.MainProjectApplication.Helpers.JSONParser.getJSONfromURL(url);
                 JSONObject json_query = json_data.getJSONObject("query");
                 JSONObject json_results = json_query.getJSONObject("results");
                 JSONObject json_json_result = json_results.getJSONObject("channel");

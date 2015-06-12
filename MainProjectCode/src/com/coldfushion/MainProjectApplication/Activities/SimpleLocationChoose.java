@@ -3,15 +3,12 @@ package com.coldfushion.MainProjectApplication.Activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ListView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.coldfushion.MainProjectApplication.Helpers.MyJavaScriptInterface;
 import com.coldfushion.MainProjectApplication.R;
@@ -51,18 +48,38 @@ public class SimpleLocationChoose extends Activity implements GoogleApiClient.Co
         GoogleApiClient mGoogleApiClient;
         private LatLng newlatlng;
         String placeId;
+        String placeAdress;
         ProgressDialog pDialog;
 
     //location choose event click
     public void ChooseLocation(View view) {
 
-        while (myjavascriptinterface.getPlaceID().equals("")) {
+        pDialog = new ProgressDialog(SimpleLocationChoose.this);
+        pDialog.setMessage("Locatie wordt geladen... even geduld!");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-            webview.loadUrl("javascript:window.HTMLViewer.getHTML(document.getElementById('placeid').innerHTML);");
-        }
-        placeId = myjavascriptinterface.getPlaceID();
+        webview.loadUrl("javascript:window.HTMLViewer.getHTML(document.getElementById('placeid').innerHTML);");
+        webview.loadUrl("http://school.ceesjannolen.nl/app/index.html");
+        webview.loadUrl("javascript:window.HTMLViewer.GetHTML(document.getElementById('placeadres').innerHTML);");
 
-        Test(placeId);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                placeId = myjavascriptinterface.getPlaceID();
+                Log.d("plaatsid", placeId);
+
+                placeAdress = myjavascriptinterface.getPlaceAdress();
+                Log.d("adres", placeAdress);
+
+                Test(placeId);
+                pDialog.dismiss();
+            }
+        }, 20000);
+
     }
 
     @Override
@@ -112,17 +129,17 @@ public class SimpleLocationChoose extends Activity implements GoogleApiClient.Co
             Log.d("PLACE FOUND", place.getName() + " latlng= " + place.getLatLng());
             newlatlng = place.getLatLng();
             Log.d(" latlng set", newlatlng.toString());
+            Log.d("plaats adres:",placeAdress);
             places.release();
             Toast.makeText(getApplicationContext(), newlatlng.toString(), Toast.LENGTH_SHORT).show();
 
-            String result = newlatlng.toString();
+            String result = newlatlng.toString() + "-//-" + placeAdress;
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result",result);
             setResult(RESULT_OK, returnIntent);
             finish();
         }
     };
-
 
 
 }

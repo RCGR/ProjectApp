@@ -1,9 +1,6 @@
 package com.coldfushion.MainProjectApplication.Helpers;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.webkit.JavascriptInterface;
 
 /**
  * Created by ceesjan on 28-5-2015.
@@ -11,6 +8,7 @@ import android.webkit.JavascriptInterface;
 public class MyJavaScriptInterface {
     private Context ctx;
     public String PlaceID = "";
+    public String PlaceAdress = "";
 
 
     public MyJavaScriptInterface(Context ctx) {
@@ -20,10 +18,20 @@ public class MyJavaScriptInterface {
     @android.webkit.JavascriptInterface
     public void getHTML(String html) {
         PlaceID = html;
+
+    }
+
+    @android.webkit.JavascriptInterface
+    public void GetHTML(String html) {
+        PlaceAdress = html;
     }
 
 
     public String getPlaceID() {
         return PlaceID;
+    }
+
+    public String getPlaceAdress(){
+        return PlaceAdress;
     }
 }

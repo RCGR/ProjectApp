@@ -2,9 +2,6 @@ package com.coldfushion.MainProjectApplication.Helpers;
 
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -168,12 +165,22 @@ public class JSONParser{
             {
 
             }
-            else
-            Log.d("Critical failure", "the inputstream was null");
+            else {
+                Log.d("Critical failure", "the inputstream was null");
+            }
         }
         catch (Exception e)
         {
-            Log.d("Exception was thrown: ", e.getLocalizedMessage());
+            Log.d("Exception was thrown: ", e.getLocalizedMessage() + " a");
+        }
+    }
+    public void ONLYURL(String url)
+    {
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpResponse execute = httpClient.execute(new HttpGet(url));
+        }catch (IOException e){
+            Log.d("exception", e.getMessage() + " a");
         }
     }
 }

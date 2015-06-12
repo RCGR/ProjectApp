@@ -1,0 +1,11 @@
+<?php
+
+$placeid = $_GET["placeid"];
+
+$url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + $placeid + "&key=AIzaSyDIISR3XY3XX2ts-ZsufAH6SiiEONQm7vE";
+
+$json = file_get_contents($url);
+
+echo json_encode($json);
+
+?>
