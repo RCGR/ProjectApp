@@ -128,6 +128,7 @@ public class RateUitjeItem extends Activity {
                         openingstijden = getWebpageContent.openingstijden;
 
                         Log.d("openingstijden ", openingstijden);
+
                         textViewOpeninghours.setText(openingstijden);
                     }
                 }, 3000);
@@ -188,9 +189,9 @@ public class RateUitjeItem extends Activity {
             try {
                 json =jParser.makeHttpRequest(final_url, "GET", params);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             if (json == null) {
                 Log.d("jsonechek", "jsonempty");
             }
@@ -289,6 +290,7 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
                     textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
+
                     pDialog.dismiss();
                 }
             }, 5500);
@@ -299,7 +301,7 @@ public class RateUitjeItem extends Activity {
                     /*
                     * Updating parsed JSON data into textviews
                     */
-                    Log.d("TEST", uitjesList.size()+"");
+            Log.d("TEST", uitjesList.size()+"");
 
         }
     }
@@ -387,18 +389,18 @@ public class RateUitjeItem extends Activity {
                         e.printStackTrace();
                     }
 
-                    }
-                    else
-                    {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
+                }
+                else
+                {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                    final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
 
-                        jParser.simpleGetJSONfromURL(upvote_url);
-                        //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
-                     }
+                    jParser.simpleGetJSONfromURL(upvote_url);
+                    //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
+                }
 
-            hasVoted = true;
+                hasVoted = true;
             }
             else
             {

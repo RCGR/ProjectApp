@@ -67,13 +67,14 @@ public class getWebpageContent {
             }
             else {
                 Log.d("Openingstijden", "Geen tijden bekend");
-                openingstijden = "Geen tijden bekend";
+                openingstijden = "Geen openingstijden bekend";
             }
         }
     }
 
     public void readWebpage(String url) {
         DownloadWebPageTask task = new DownloadWebPageTask();
+        Log.d("url", url);
         task.execute(new String[]{url});
     }
 

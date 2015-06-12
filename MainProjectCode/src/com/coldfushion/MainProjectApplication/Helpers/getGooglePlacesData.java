@@ -26,13 +26,14 @@ import java.util.List;
  * */
 
 
- public class getGooglePlacesData extends AsyncTask<String, String, String> {
+public class getGooglePlacesData extends AsyncTask<String, String, String> {
 
     // Progress Dialog
     private ProgressDialog pDialog;
 
     public String google_places_url = "";
     public String id = "";
+    public boolean suggestion = true;
 
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
@@ -41,7 +42,7 @@ import java.util.List;
 
     // url waar het PHPscript dat we willen zich bevind
     //ID MOET NOG HIERIN
-    private static String url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details_suggestion.php?id=";
+    private  String url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details_suggestion.php?id=";
 
 
     // We maken hier vars aan voor de JSON Node names
@@ -68,7 +69,15 @@ import java.util.List;
 
         JSONObject json = null;
         try {
-            json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            if (suggestion) {
+                json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            }
+            else{
+
+                url_all_suggestions = "http://coldfusiondata.site90.net/db_get_details.php?id=";
+                Log.d("url", url_all_suggestions + id);
+                json = jParser.makeHttpRequest(url_all_suggestions + id, "GET", params);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,7 +122,7 @@ import java.util.List;
 
                 //Hier maken we de url voor de volgende request, die naar de Google places api voor de openingstijden
                 google_places_url = "http://coldfusiondata.site90.net/google_get_opening_hours.php?placeid=" +
-                uitjesList.get(0).get(TAG_PLACEID);
+                        uitjesList.get(0).get(TAG_PLACEID);
 
                 Log.d("url google places", google_places_url);
 
