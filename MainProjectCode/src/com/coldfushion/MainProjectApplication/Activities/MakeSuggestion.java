@@ -48,7 +48,7 @@ public class MakeSuggestion extends Activity {
 
     EditText editText_naam;
     EditText editText_beschrijving;
-    EditText editText_email;
+    EditText editText_telefoon;
 
     Spinner spinner_weer;
     Spinner spinner_categorie;
@@ -106,7 +106,7 @@ public class MakeSuggestion extends Activity {
 
         editText_naam = (EditText)findViewById(R.id.EditText_Suggestion_Name);
         editText_beschrijving = (EditText)findViewById(R.id.EditText_Suggestion_Beschrijving);
-        editText_email = (EditText)findViewById(R.id.EditText_Suggestion_Email);
+        editText_telefoon = (EditText)findViewById(R.id.EditText_Suggestion_Telefoon);
 
         spinner_categorie = (Spinner)findViewById(R.id.spinner_Categorie);
         spinner_weer = (Spinner)findViewById(R.id.spinner_weertype);
@@ -136,14 +136,14 @@ public class MakeSuggestion extends Activity {
             String newBeschrijving = editText_beschrijving.getText().toString().replace(" ", "+");
             String newCategorie = spinner_categorie.getSelectedItem().toString().replace(" ", "+");
             String newWeerType = spinner_weer.getSelectedItem().toString().replace(" ", "+");
-            String newemail = editText_email.getText().toString().replace(" ", "+");
+            String newtelefoon = editText_telefoon.getText().toString().replace(" ", "+");
             String newStraat = Straat.replace(" ", "+");
             String newPostcode = Postcode.replace(" ", "+");
             String newStad = Stad.replace(" ", "+");
             String parameters_url =
 
                     "NaamVar=" + newNaam + "&WeerTypeVar=" + newWeerType + "&BeschrijvingVar=" + newBeschrijving +
-                            "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
+                            "&CategorieVar=" + newCategorie + "&TelefoonVar =" + newtelefoon +
                             "&StraatVar=" + newStraat +  "&PostCodeVar=" + newPostcode +
                             "&StadVar=" + newStad + "&CoordinaatVar=" + Coordinaten ;
 

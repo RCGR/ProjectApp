@@ -1,7 +1,12 @@
 package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +39,7 @@ public class RateUitjeItem extends Activity {
     TextView textViewBeschrijving;
     TextView textViewCategorie;
     TextView textViewWeertype;
-    TextView textViewEmail;
+    TextView textViewTelefoon;
     TextView textViewStraat;
     TextView textViewPostcode;
     TextView textViewStad;
@@ -53,12 +58,14 @@ public class RateUitjeItem extends Activity {
     String stad = "";
     String straat = "";
     String postcode = "";
-    String email = "";
+    String telefoon = "";
     String weertype = "";
     String coordinaat = "";
 
     // Progress Dialog
     private ProgressDialog pDialog;
+
+    private String PhoneNumber;
 
     ArrayList<HashMap<String, String>> uitjesList;
     // Creating JSON Parser object
@@ -75,7 +82,7 @@ public class RateUitjeItem extends Activity {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_BESCHRIJVING = "Beschrijving";
     private static final String TAG_CATEGORIE = "Categorie";
-    private static final String TAG_EMAIL = "Email";
+    private static final String TAG_TELEFOON = "Telefoon";
     private static final String TAG_STRAAT = "Straat";
     private static final String TAG_POSTCODE = "PostCode";
     private static final String TAG_STAD = "Stad";
@@ -99,7 +106,7 @@ public class RateUitjeItem extends Activity {
         textViewStraat = (TextView) findViewById(R.id.Rate_Straat);
         textViewPostcode = (TextView) findViewById(R.id.Rate_Postcode);
         textViewStad = (TextView) findViewById(R.id.Rate_Plaats);
-        textViewEmail = (TextView) findViewById(R.id.Rate_Email);
+        textViewTelefoon = (TextView) findViewById(R.id.Rate_Telefoon);
         textViewBeschrijving = (TextView) findViewById(R.id.Rate_Beschrijving);
         textViewCategorie = (TextView) findViewById(R.id.Rate_Categorie);
         textViewName = (TextView) findViewById(R.id.Rate_Name);
@@ -215,7 +222,7 @@ public class RateUitjeItem extends Activity {
                     stad = x.getString(TAG_STAD);
                     straat = x.getString(TAG_STRAAT);
                     postcode = x.getString(TAG_POSTCODE);
-                    email = x.getString(TAG_EMAIL);
+                    telefoon = x.getString(TAG_TELEFOON);
                     weertype = x.getString(TAG_WEERTYPE);
                     coordinaat = x.getString(TAG_COORDINAAT);
                     upVotes = x.getInt(TAG_UPVOTECOUNT);
@@ -245,7 +252,7 @@ public class RateUitjeItem extends Activity {
                     map.put(TAG_STAD, stad);
                     map.put(TAG_STRAAT, straat);
                     map.put(TAG_POSTCODE, postcode);
-                    map.put(TAG_EMAIL, email);
+                    map.put(TAG_TELEFOON, telefoon);
                     map.put(TAG_WEERTYPE, weertype);
                     map.put(TAG_UPVOTECOUNT, upVotes+"");
                     map.put(TAG_DOWNVOTECOUNT, downVotes+"");
@@ -283,7 +290,7 @@ public class RateUitjeItem extends Activity {
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
                     textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
-                    textViewEmail.setText(uitjesList.get(0).get(TAG_EMAIL));
+                    textViewTelefoon.setText(uitjesList.get(0).get(TAG_TELEFOON));
                     textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
                     textViewName.setText(uitjesList.get(0).get(TAG_NAME));
                     textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
@@ -351,7 +358,7 @@ public class RateUitjeItem extends Activity {
                     String newNaam = naam.replace(" ", "+");
                     String newBeschrijving = beschrijving.replace(" ", "+");
                     String newCategorie = categorie.replace(" ", "+");
-                    String newemail = email.replace(" ", "+");
+                    String newtelefoon = telefoon.replace(" ", "+");
                     String newStraat = straat.replace(" ", "+");
                     String newPostcode = postcode.replace(" ", "+");
                     String newStad = stad.replace(" ", "+");
@@ -359,7 +366,7 @@ public class RateUitjeItem extends Activity {
                     String parameters_url =
 
                             "NaamVar=" + newNaam + "&WeerTypeVar=" + newWeerType + "&BeschrijvingVar=" + newBeschrijving +
-                                    "&CategorieVar=" + newCategorie + "&EmailVar=" + newemail +
+                                    "&CategorieVar=" + newCategorie + "&TelefoonVar=" + newtelefoon +
                                     "&StraatVar=" + newStraat + "&PostCodeVar=" + newPostcode +
                                     "&StadVar=" + newStad + "&CoordinaatVar=" + coordinaat;
 
@@ -484,6 +491,48 @@ public class RateUitjeItem extends Activity {
             super.onPostExecute(s);
             pDialog.dismiss();
         }
+    }
+    public void makeCallToUitje(View view){
+        TextView x = (TextView)view;
+        PhoneNumber = x.getText().toString();
+        AlertBuilderCall();
+
+    }
+
+    public void makeCallToUitjeButton(View view){
+        PhoneNumber = textViewTelefoon.getText().toString();
+        AlertBuilderCall();
+    }
+
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    call(PhoneNumber);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    Toast.makeText(RateUitjeItem.this, "Geannuleerd.",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+    private void call(String number) {
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + number));
+            startActivity(callIntent);
+        } catch (ActivityNotFoundException e) {
+            Log.e("Dialing example", "Call failed", e);
+        }
+    }
+
+    private void AlertBuilderCall(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Doorgaan met bellen?").setMessage("Weet u het zeker? Er kunnen kosten van uw provider in rekening worden gebracht.").setIcon(17301543)
+                .setPositiveButton("Ga door",dialogClickListener ).setNegativeButton("Annuleer", dialogClickListener);
+        builder.show();
     }
 }
 

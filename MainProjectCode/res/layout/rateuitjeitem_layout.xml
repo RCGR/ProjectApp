@@ -34,10 +34,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Rate_Plaats"/>
-        <TextView
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Rate_Email"/>
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Rate_Telefoon"
+                    android:onClick="makeCallToUitje"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:height="20dp"
+                    android:width="20dp"
+                    android:id="@+id/telefoonbutton"
+                    android:drawableTop="@drawable/stat_sys_phone_call"
+                    android:onClick="makeCallToUitjeButton"/>
+        </LinearLayout>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

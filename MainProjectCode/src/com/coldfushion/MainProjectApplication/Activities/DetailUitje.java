@@ -1,11 +1,21 @@
 package com.coldfushion.MainProjectApplication.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
@@ -30,14 +40,16 @@ public class DetailUitje extends Activity {
     TextView textViewBeschrijving;
     TextView textViewCategorie;
     TextView textViewWeertype;
-    TextView textViewEmail;
+    TextView textViewTelefoon;
     TextView textViewStraat;
     TextView textViewPostcode;
     TextView textViewStad;
     TextView textViewName;
+    Button buttonTelefoon;
 
     // Progress Dialog
     private ProgressDialog pDialog;
+    private String PhoneNumber;
 
     ArrayList<HashMap<String, String>> uitjesList;
     // Creating JSON Parser object
@@ -54,7 +66,7 @@ public class DetailUitje extends Activity {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_BESCHRIJVING = "Beschrijving";
     private static final String TAG_CATEGORIE = "Categorie";
-    private static final String TAG_EMAIL = "Email";
+    private static final String TAG_TELEFOON = "Telefoon";
     private static final String TAG_STRAAT = "Straat";
     private static final String TAG_POSTCODE = "PostCode";
     private static final String TAG_STAD = "Stad";
@@ -73,12 +85,14 @@ public class DetailUitje extends Activity {
         textViewBeschrijving = (TextView)findViewById(R.id.beschrijving);
         textViewCategorie = (TextView)findViewById(R.id.Categorie);
         textViewWeertype = (TextView)findViewById(R.id.weertype);
-        textViewEmail = (TextView)findViewById(R.id.email);
+        textViewTelefoon = (TextView)findViewById(R.id.telefoon);
         textViewStraat = (TextView)findViewById(R.id.Straat);
         textViewPostcode = (TextView)findViewById(R.id.Postcode);
         textViewStad = (TextView)findViewById(R.id.stad);
         textViewName = (TextView)findViewById(R.id.Naam);
         textViewOpeningHours = (TextView)findViewById(R.id.Uitje_Openingstijden);
+        buttonTelefoon = (Button)findViewById(R.id.telefoonbutton);
+
 
         getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
         getGooglePlacesData.id = id_detail;
@@ -167,7 +181,7 @@ public class DetailUitje extends Activity {
                         String stad = x.getString(TAG_STAD);
                         String straat = x.getString(TAG_STRAAT);
                         String postcode = x.getString(TAG_POSTCODE);
-                        String email = x.getString(TAG_EMAIL);
+                        String telefoon = x.getString(TAG_TELEFOON);
                         String weertype = x.getString(TAG_WEERTYPE);
 
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -178,7 +192,7 @@ public class DetailUitje extends Activity {
                         map.put(TAG_STAD, stad);
                         map.put(TAG_STRAAT, straat);
                         map.put(TAG_POSTCODE, postcode);
-                        map.put(TAG_EMAIL, email);
+                        map.put(TAG_TELEFOON, telefoon);
                         map.put(TAG_WEERTYPE, weertype);
                         // adding HashList to ArrayList
                         uitjesList.add(map);
@@ -213,7 +227,7 @@ public class DetailUitje extends Activity {
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
                     textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
-                    textViewEmail.setText(uitjesList.get(0).get(TAG_EMAIL));
+                    textViewTelefoon.setText(uitjesList.get(0).get(TAG_TELEFOON));
                     textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
                     textViewName.setText(uitjesList.get(0).get(TAG_NAME));
                     textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
@@ -222,10 +236,50 @@ public class DetailUitje extends Activity {
                 }
             },5500);
 
-
-
-
         }
 
+    }
+
+    public void makeCallToUitje(View view){
+        TextView x = (TextView)view;
+        PhoneNumber = x.getText().toString();
+        AlertBuilderCall();
+
+    }
+
+    public void makeCallToUitjeButton(View view){
+        PhoneNumber = textViewTelefoon.getText().toString();
+        AlertBuilderCall();
+    }
+
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    call(PhoneNumber);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    Toast.makeText(DetailUitje.this, "Geannuleerd.",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+    private void call(String number) {
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:"+ number));
+            startActivity(callIntent);
+        } catch (ActivityNotFoundException e) {
+            Log.e("Dialing example", "Call failed", e);
+        }
+    }
+
+    private void AlertBuilderCall(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Doorgaan met bellen?").setMessage("Weet u het zeker? Er kunnen kosten van uw provider in rekening worden gebracht.").setIcon(17301543)
+                .setPositiveButton("Ga door",dialogClickListener ).setNegativeButton("Annuleer", dialogClickListener);
+        builder.show();
     }
 }
