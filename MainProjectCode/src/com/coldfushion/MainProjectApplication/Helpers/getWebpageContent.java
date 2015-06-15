@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class getWebpageContent {
     public String openingstijden = "";
+    public String Phonenumber = "";
 
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
 
@@ -68,6 +69,19 @@ public class getWebpageContent {
             else {
                 Log.d("Openingstijden", "Geen tijden bekend");
                 openingstijden = "Geen openingstijden bekend";
+            }
+            int y = Result.indexOf("formatted_phone_number");
+            if (y > 0){
+                String FromPhonenumber = Result.substring(y);
+                int endofphonenumber = FromPhonenumber.indexOf("\",   \"");
+                String PhonenumberTotal = FromPhonenumber.substring(0, endofphonenumber);
+                String Phonenumber1 = PhonenumberTotal.replace(" ", "");
+                int removesentences = Phonenumber1.lastIndexOf("\"");
+                Phonenumber = Phonenumber1.substring(removesentences);
+
+            }
+            else {
+                Phonenumber = "";
             }
         }
     }

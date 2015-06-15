@@ -90,7 +90,7 @@ public class RateUitjeItem extends Activity {
     private static final String TAG_UPVOTECOUNT = "upVoteCount";
     private static final String TAG_DOWNVOTECOUNT = "downVoteCount";
 
-    public boolean hasVoted;
+    public boolean hasVoted = false;
 
     // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
@@ -344,15 +344,17 @@ public class RateUitjeItem extends Activity {
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-            upVotes++;
-            totalVotes++;
-            Log.d("totalvotes", totalVotes+ "");
-            Log.d("upvotes", upVotes+ "");
-            double x = upVotes / totalVotes * 100.0;
-            Log.d("x", x + "");
 
-            if(hasVoted == false)
+
+            if(!hasVoted)
             {
+                upVotes++;
+                totalVotes++;
+                Log.d("totalvotes", totalVotes+ "");
+                Log.d("upvotes", upVotes+ "");
+                double upvotes = upVotes + 0.0;
+                double x = upvotes / totalVotes * 100.0;
+                Log.d("x", x + "");
                 if (totalVotes >= 10 && x > 75)
                 {
                     String newNaam = naam.replace(" ", "+");
@@ -375,7 +377,7 @@ public class RateUitjeItem extends Activity {
                     try
                     {
                         //ERRORS
-                        jParser.simpleGetJSONfromURL(insert_url);
+                        jParser.ONLYURL(insert_url);
                     }
                     catch (Exception e)
                     {
@@ -388,7 +390,7 @@ public class RateUitjeItem extends Activity {
                     final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
                     try
                     {
-                        jParser.simpleGetJSONfromURL(delete_url);
+                        jParser.ONLYURL(delete_url);
                         //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
                     }
                     catch (Exception e)
@@ -402,8 +404,9 @@ public class RateUitjeItem extends Activity {
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                     StrictMode.setThreadPolicy(policy);
                     final String upvote_url = "http://coldfusiondata.site90.net/db_insert_upvote.php?id=" + id_detail + "";
+                    Log.d("url", upvote_url);
 
-                    jParser.simpleGetJSONfromURL(upvote_url);
+                    jParser.ONLYURL(upvote_url);
                     //jParser.makeHttpRequestNoReturn(upvote_url, "POST", params);
                 }
 
@@ -411,7 +414,13 @@ public class RateUitjeItem extends Activity {
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
             return null;
         }
@@ -450,38 +459,50 @@ public class RateUitjeItem extends Activity {
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-
-            downVotes++;
-            totalVotes++;
-            Log.d("totalvotes", totalVotes+ "");
-            Log.d("downvotes", downVotes+ "");
-            double x = (downVotes / totalVotes) * 100.0;
-            Log.d("downvotes", downVotes + "");
-            Log.d("x", x + "");
-
-            if(hasVoted == false)
+            if(!hasVoted)
             {
+                downVotes++;
+                totalVotes++;
+                Log.d("totalvotes", totalVotes+ "");
+                Log.d("downvotes", downVotes+ "");
+                double downvotes = downVotes + 0.0;
+
+                double x = (downvotes / totalVotes) * 100.0;
+                Log.d("x", x + "");
+
                 if (totalVotes >= 10 && x > 50) {
                     //delete
-                    final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail + "";
+                    final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?id=" + id_detail;
 
-                    jParser.simpleGetJSONfromURL(delete_url);
-                    //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
+                    jParser.ONLYURL(delete_url);
 
                 }
                 else
                 {
-                    final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail + "";
+                    final String downvote_url = "http://coldfusiondata.site90.net/db_insert_downvote.php?id=" + id_detail;
 
-                    jParser.simpleGetJSONfromURL(downvote_url);
-                    //jParser.makeHttpRequestNoReturn(delete_url, "POST", params);
+                    Log.d("url", downvote_url);
+                    jParser.ONLYURL(downvote_url);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Stem succesvol uitgebracht", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
                 hasVoted = true;
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "U heeft al gestemd op dit uitje!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
             return null;
         }
@@ -512,7 +533,10 @@ public class RateUitjeItem extends Activity {
                     call(PhoneNumber);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    Toast.makeText(RateUitjeItem.this, "Geannuleerd.",Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(RateUitjeItem.this, "Geannuleerd.", Toast.LENGTH_SHORT).show();
+
+
             }
         }
     };
