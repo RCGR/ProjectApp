@@ -1,0 +1,2 @@
+- telefoon optie ipv mail --> laten doen door google api?
+- dat je ziet dat die open is of alleen alle tijden zoals nu?
