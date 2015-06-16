@@ -158,11 +158,7 @@ public class LocationChoose extends Activity implements
     }
 
     public void selectItem(int position) {
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")) {
-            this.finish();
-            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
-            startActivity(DateChooseIntent);
-        } else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")) {
+        if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")) {
             this.finish();
         } else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {
             this.finish();

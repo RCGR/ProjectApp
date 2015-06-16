@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,11 @@ public class RateUitjeItem extends Activity {
     TextView textViewPostcode;
     TextView textViewStad;
     TextView textViewName;
-    TextView textViewUpVote;
-    TextView textViewDownVote;
     TextView textViewOpeninghours;
+    TextView textViewPercentage;
+
+    Button buttonVoteUp;
+    Button buttonVoteDown;
 
     private int upVotes;
     private int downVotes;
@@ -110,9 +113,10 @@ public class RateUitjeItem extends Activity {
         textViewCategorie = (TextView) findViewById(R.id.Rate_Categorie);
         textViewName = (TextView) findViewById(R.id.Rate_Name);
         textViewWeertype = (TextView) findViewById(R.id.Rate_Weertype);
-        textViewUpVote = (TextView) findViewById(R.id.Rate_upvotes);
-        textViewDownVote = (TextView) findViewById(R.id.Rate_downvotes);
         textViewOpeninghours = (TextView)findViewById(R.id.Rate_Openingstijden);
+        textViewPercentage = (TextView)findViewById(R.id.Rate_Percentage);
+        buttonVoteDown = (Button)findViewById(R.id.DownVote_Button);
+        buttonVoteUp = (Button)findViewById(R.id.UpVote_Button);
 
         getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
         getGooglePlacesData.id = id_detail;
@@ -294,8 +298,14 @@ public class RateUitjeItem extends Activity {
                     textViewName.setText(uitjesList.get(0).get(TAG_NAME));
                     textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
-                    textViewUpVote.setText(uitjesList.get(0).get(TAG_UPVOTECOUNT));
-                    textViewDownVote.setText(uitjesList.get(0).get(TAG_DOWNVOTECOUNT));
+                    double ups = upVotes + 0.0;
+                    double downs = downVotes + 0.0;
+                    double percentage = ups / (ups + downs) * 100.0;
+                    String textpercentage = percentage + "% van de " + (upVotes+downVotes) + " personen vinden dit een leuk uitje";
+                    textViewPercentage.setText(textpercentage);
+
+                    buttonVoteUp.setText(buttonVoteUp.getText() + " (" + uitjesList.get(0).get(TAG_UPVOTECOUNT)+ ")");
+                    buttonVoteDown.setText(buttonVoteDown.getText() + " (" + uitjesList.get(0).get(TAG_DOWNVOTECOUNT)+ ")");
 
                     pDialog.dismiss();
                 }
@@ -410,6 +420,13 @@ public class RateUitjeItem extends Activity {
                 }
 
                 hasVoted = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        buttonVoteDown.setEnabled(false);
+                        buttonVoteUp.setEnabled(false);
+                    }
+                });
             }
             else
             {
@@ -492,6 +509,13 @@ public class RateUitjeItem extends Activity {
 
                 }
                 hasVoted = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        buttonVoteDown.setEnabled(false);
+                        buttonVoteUp.setEnabled(false);
+                    }
+                });
             }
             else
             {

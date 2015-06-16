@@ -18,8 +18,7 @@ public class MenuSelectItem {
     public int nameToInt(int position){
         mMenuItems = context.getResources().getStringArray(R.array.menu_items);
 
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){return 2;}
-        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){return 1;}
+        if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){return 1;}
         else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){return 0;}
         else if (mMenuItems[position].toLowerCase().equals("alle uitjes")) {return 5;}
         else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){return 3;}

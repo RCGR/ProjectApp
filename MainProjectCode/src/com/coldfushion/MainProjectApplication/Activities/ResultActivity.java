@@ -103,7 +103,7 @@ public class ResultActivity extends ListActivity {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
-                selectItem(5);
+                selectItem(4);
             }
 
             public void onDrawerOpened(View view) {
@@ -152,14 +152,14 @@ public class ResultActivity extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        selectItem(5);
+        selectItem(4);
     }
 
     //start of drawer code
     @Override
     protected void onResume() {
         super.onResume();
-        selectItem(5);
+        selectItem(4);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,13 +189,7 @@ public class ResultActivity extends ListActivity {
         }
     }
     public void selectItem(int position){
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
-            this.finish();
-            Toast.makeText(getApplicationContext(), "datum wijzigen ", Toast.LENGTH_SHORT).show();
-            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
-            startActivity(DateChooseIntent);
-        }
-        else if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
+        if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
             finish();
         }
         else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){

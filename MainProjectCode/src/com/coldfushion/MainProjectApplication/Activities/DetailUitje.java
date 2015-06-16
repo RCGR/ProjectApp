@@ -184,6 +184,7 @@ public class DetailUitje extends Activity {
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
+                        map.put(TAG_NAME, naam);
                         map.put(TAG_CATEGORIE, categorie);
                         map.put(TAG_BESCHRIJVING, beschrijving);
                         map.put(TAG_STAD, stad);

@@ -9,64 +9,106 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Rate_Name"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Categorie"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Weertype"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Beschrijving"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Straat"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Postcode"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Plaats"/>
+                android:id="@+id/Rate_Name"
+                android:text="naam"
+                android:textSize="20dp"/>
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="2"
+                      android:orientation="horizontal">
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="beschrijving"
+                    android:layout_weight="1"
+                    android:id="@+id/Rate_Beschrijving"/>
+
+            <LinearLayout android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                          android:orientation="vertical"
+                    >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="catefotie"
+                        android:id="@+id/Rate_Categorie"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="weer"
+                        android:id="@+id/Rate_Weertype"/>
+            </LinearLayout>
+        </LinearLayout>
+
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="2"
                 android:orientation="horizontal">
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Straat"
+                        android:id="@+id/Rate_Straat"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="postcode"
+                        android:id="@+id/Rate_Postcode"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="plaats"
+                        android:id="@+id/Rate_Plaats"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Rate_Telefoon"
+                            android:text="telefoon"
+                            android:onClick="makeCallToUitje"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:height="20dp"
+                            android:width="20dp"
+                            android:id="@+id/telefoonbutton"
+                            android:drawableTop="@drawable/stat_sys_phone_call"
+                            android:onClick="makeCallToUitjeButton"/>
+                </LinearLayout>
+            </LinearLayout>
+
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Rate_Telefoon"
-                    android:onClick="makeCallToUitje"/>
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:height="20dp"
-                    android:width="20dp"
-                    android:id="@+id/telefoonbutton"
-                    android:drawableTop="@drawable/stat_sys_phone_call"
-                    android:onClick="makeCallToUitjeButton"/>
+                    android:text="openingsttijden"
+                    android:layout_weight="1"
+                    android:id="@+id/Rate_Openingstijden"/>
+
         </LinearLayout>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rate_Openingstijden"/>
+
+
+
+
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Rate_upvotes"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Rate_downvotes"/>
+            android:layout_marginBottom="0dp"
+            android:id="@+id/Rate_Percentage"/>
 
         <LinearLayout android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
@@ -75,17 +117,21 @@
             <Button android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="LEUK UITJE! :D"
+                    android:id="@+id/UpVote_Button"
+                    android:text="LEUK UITJE!"
                     android:onClick="giveUpVote"/>
 
             <Button android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="SAAI UITJE :("
+                    android:id="@+id/DownVote_Button"
+                    android:text="SAAI UITJE"
                     android:onClick="giveDownVote"
                     />
         </LinearLayout>
 
+
     </LinearLayout>
+
 
 </ScrollView>

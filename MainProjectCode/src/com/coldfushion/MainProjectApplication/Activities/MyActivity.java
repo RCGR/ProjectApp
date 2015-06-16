@@ -65,9 +65,11 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     JSONParser jParser = new JSONParser();
 
     List<HashMap<String, String>> uitjesList = new ArrayList<HashMap<String, String>>();
+    List<HashMap<String, String>> SugUitjesList = new ArrayList<>();
 
     // url waar het PHPscript dat we willen zich bevind
-    private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
+    private static String url_all = "http://coldfusiondata.site90.net/db_get_all.php";
+    private static String url_all_suggested = "http://coldfusiondata.site90.net/db_get_all_suggestion.php";
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -93,7 +95,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
         loadUI();
 
-        new LoadCoordinate().execute();
+        if (markers.size() < 1) {
+            new LoadCoordinate().execute();
+        }
 
     }
 
@@ -187,11 +191,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
     }
     public void selectItem(int position){
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")){
-            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
-            startActivity(DateChooseIntent);
-        }
-        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
+        if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
             Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
             startActivityForResult(LocationChooseIntent, 1);
 
@@ -369,7 +369,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
             JSONObject json = null;
             try {
-                json = jParser.makeHttpRequest(url_all_products, "GET", params);
+                json = jParser.makeHttpRequest(url_all, "GET", params);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -427,6 +427,69 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             {
                 e.printStackTrace();
             }
+
+            //CODE FOR THE SUGGESTED UITJES
+            JSONObject json1 = null;
+            try {
+                json1 = jParser.makeHttpRequest(url_all_suggested, "GET", params);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if (json1 == null) {
+                Log.d("jsonechek", "jsonempty");
+            }
+            else {
+                // Check your log cat for JSON reponse
+                Log.d("Suggested Uitjes: ", json1.toString());
+            }
+            try {
+                // Checking for SUCCESS TAG
+                int success = json1.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    uitjes = json1.getJSONArray(TAG_UITJES);
+
+                    // looping through All Products
+                    for (int i = 0; i < uitjes.length(); i++) {
+                        JSONObject c = uitjes.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String name = c.getString(TAG_NAME);
+                        String coordinaat = c.getString(TAG_COORDINAAT);
+
+                        //Log.d("coordinaat van "+ name, coordinaat + " <--");
+
+
+                        // creating new HashMap
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        // adding each child node to HashMap key => value
+                        map.put(TAG_NAME, name);
+                        map.put(TAG_COORDINAAT, coordinaat);
+
+                        map.values();
+
+                        // adding HashList to ArrayList
+                        SugUitjesList.add(map);
+
+                    }
+
+                }
+                else
+                {
+                    // no products found
+                    Log.d("Uitjes status", "Geen uitjes");
+                }
+
+            }
+            catch
+                    (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
             return null;
         }
 
@@ -463,6 +526,29 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             LatLng latLng = new LatLng(lat, lng);
 
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            Marker marker = Theonemap.addMarker(markerOptions);
+
+            markers.add(marker);
+
+        }
+
+        for (int i = 0; i < SugUitjesList.size(); i++){
+            String Coordinaten = SugUitjesList.get(i).get(TAG_COORDINAAT);
+            String Naam = SugUitjesList.get(i).get(TAG_NAME);
+            Log.d(" naam", Naam);
+            int commaLocation = Coordinaten.indexOf(",");
+            String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);
+            Log.d(" coordinaatlat", Coordinaat_Lat);
+            String Coordinaat_Lng = Coordinaten.substring(commaLocation + 1);
+            Log.d(" coordinaatlng", Coordinaat_Lng);
+
+            double lat = Double.parseDouble(Coordinaat_Lat);
+            double lng = Double.parseDouble(Coordinaat_Lng);
+
+            LatLng latLng = new LatLng(lat, lng);
+
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
             Marker marker = Theonemap.addMarker(markerOptions);
 
