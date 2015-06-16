@@ -92,7 +92,7 @@ public class RateActivities extends ListActivity {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
-                selectItem(4);
+                selectItem(3);
             }
 
             public void onDrawerOpened(View view) {
@@ -140,14 +140,14 @@ public class RateActivities extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        selectItem(4);
+        selectItem(3);
     }
 
     //start of drawer code
     @Override
     protected void onResume() {
         super.onResume();
-        selectItem(4);
+        selectItem(3);
     }
 
     @Override
@@ -181,11 +181,7 @@ public class RateActivities extends ListActivity {
     }
 
     public void selectItem(int position) {
-        if (mMenuItems[position].toLowerCase().equals("datum kiezen")) {
-            this.finish();
-            Intent DateChooseIntent = new Intent(getApplicationContext(), DateChoose.class);
-            startActivity(DateChooseIntent);
-        } else if (mMenuItems[position].toLowerCase().equals("locatie wijzigen")) {
+        if (mMenuItems[position].toLowerCase().equals("locatie wijzigen")) {
             this.finish();
             Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
             startActivity(LocationChooseIntent);

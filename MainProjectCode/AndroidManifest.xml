@@ -23,9 +23,6 @@
                 android:name=".Activities.LocationChoose"
                 android:label="LocationChoose"/>
         <activity
-                android:name=".Activities.DateChoose"
-                android:label="DateChoose"/>
-        <activity
                 android:name=".Activities.MakeSuggestion"
                 android:label="MakeSuggestion"/>
         <activity

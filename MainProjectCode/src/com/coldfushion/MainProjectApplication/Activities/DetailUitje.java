@@ -10,11 +10,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -187,6 +184,7 @@ public class DetailUitje extends Activity {
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
+                        map.put(TAG_NAME, naam);
                         map.put(TAG_CATEGORIE, categorie);
                         map.put(TAG_BESCHRIJVING, beschrijving);
                         map.put(TAG_STAD, stad);
