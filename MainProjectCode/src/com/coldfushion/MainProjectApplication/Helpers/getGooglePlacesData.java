@@ -8,8 +8,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.coldfushion.MainProjectApplication.Activities.ResultActivity;
-
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
