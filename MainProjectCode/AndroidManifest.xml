@@ -30,10 +30,12 @@
                 android:label="RateActivities"/>
         <activity
                 android:name=".Activities.DetailUitje"
+                android:parentActivityName=".Activities.ResultActivity"
                 android:label="DetailUitje"/>
         <activity
                 android:name=".Activities.RateUitjeItem"
-                android:label="RateUitjeItem"/>
+                android:label="RateUitjeItem"
+                android:parentActivityName=".Activities.RateActivities"/>
         <activity android:name=".Activities.SimpleLocationChoose" />
 
         <meta-data

@@ -548,7 +548,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
             LatLng latLng = new LatLng(lat, lng);
 
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).alpha(0.5f);
 
             Marker marker = Theonemap.addMarker(markerOptions);
 

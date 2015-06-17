@@ -420,11 +420,20 @@ public class RateUitjeItem extends Activity {
                 }
 
                 hasVoted = true;
+
+                double ups = upVotes + 0.0;
+                double downs = downVotes + 0.0;
+                double percentage = ups / (ups + downs) * 100.0;
+                String textpercentage = percentage + "% van de " + (upVotes+downVotes) + " personen vinden dit een leuk uitje";
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         buttonVoteDown.setEnabled(false);
                         buttonVoteUp.setEnabled(false);
+                        textViewPercentage.setText(textpercentage);
+                        buttonVoteDown.setText(R.string.negUitje + " " + downVotes);
+                        buttonVoteUp.setText(R.string.posUitje + " " + upVotes);
                     }
                 });
             }

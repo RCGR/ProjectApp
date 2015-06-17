@@ -10,6 +10,8 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="main_button_showResults">Toon resultaten</string>
+    <string name="negUitje">SAAI UITJE</string>
+    <string name="posUitje">LEUK UITJE!</string>
 
     <string-array name="menu_items">
         <item>Bekijk uitjes op kaart</item>

@@ -118,14 +118,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/UpVote_Button"
-                    android:text="LEUK UITJE!"
+                    android:text="@string/posUitje"
                     android:onClick="giveUpVote"/>
 
             <Button android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/DownVote_Button"
-                    android:text="SAAI UITJE"
+                    android:text="@string/negUitje"
                     android:onClick="giveDownVote"
                     />
         </LinearLayout>
