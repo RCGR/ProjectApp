@@ -40,8 +40,6 @@ import android.util.Log;
  */
 
 public class ResultActivity extends ListActivity {
-
-
     getCurrentWeather currentweather;
     //start of drawer code
     private DrawerLayout mDrawerLayout;
@@ -53,6 +51,7 @@ public class ResultActivity extends ListActivity {
     private CharSequence mDrawerTitle;
     //end of drawer code
 
+    public Toast t;
     ListView listViewlist;
     TextView textView;
     Button button;
@@ -144,7 +143,8 @@ public class ResultActivity extends ListActivity {
             new LoadAllUitjes().execute();
         }
         else {
-            Toast.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
         }
 
     }
