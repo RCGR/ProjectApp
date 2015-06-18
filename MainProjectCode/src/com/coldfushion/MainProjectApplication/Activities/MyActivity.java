@@ -407,16 +407,23 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
                         map.values();
 
-                        Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
-                        {
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void onInfoWindowClick(Marker marker)
-                            {
-                                Intent intent = new Intent(MyActivity.this, DetailUitje.class);
-                                intent.putExtra("number", id);
-                                startActivity(intent);
+                            public void run() {
+                                Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                    @Override
+                                    public void onInfoWindowClick(Marker marker) {
+                                        String markerTitle = marker.getTitle();
+                                        int indexOfEndID = markerTitle.indexOf(", ");
+
+                                        Intent intent = new Intent(MyActivity.this, DetailUitje.class);
+                                        intent.putExtra("number", markerTitle.substring(0, indexOfEndID));
+                                        startActivity(intent);
+                                    }
+                                });
                             }
                         });
+
 
                         // adding HashList to ArrayList
                         uitjesList.add(map);
@@ -521,7 +528,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         for (int i = 0; i < uitjesList.size(); i++){
             String ids = uitjesList.get(i).get(TAG_ID);
             String Coordinaten = uitjesList.get(i).get(TAG_COORDINAAT);
-            String Naam = uitjesList.get(i).get(TAG_NAME);
+            String Naam = ids + ", " + uitjesList.get(i).get(TAG_NAME);
             Log.d(" naam", Naam);
             int commaLocation = Coordinaten.indexOf(",");
             String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);
@@ -537,6 +544,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(Naam).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
             Marker marker = Theonemap.addMarker(markerOptions);
+
 
             markers.add(marker);
 
