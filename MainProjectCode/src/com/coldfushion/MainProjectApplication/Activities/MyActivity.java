@@ -76,6 +76,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     // We maken hier vars aan voor de JSON Node names
     private static final String TAG_SUCCESS = "success";
+    private static final String TAG_ID ="uitjesID";
     private static final String TAG_UITJES = "Uitjes";
     private static final String TAG_NAME = "Naam";
     private static final String TAG_COORDINAAT = "Coordinaat";
@@ -139,8 +140,6 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         //get the location of the device to startlocation
         Location StartLocation = getLocation();
 
-
-
         //check if the startlocation is filled
         if (StartLocation != null) {
             //set the map to location of the device
@@ -155,9 +154,6 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
-
-
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -170,7 +166,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                 double longitude = Double.parseDouble(x.substring(x.indexOf(",") + 1));
 
                 LatLng NewLocation = new LatLng(latitude, longitude);
-                setMap(Theonemap, NewLocation, "Location", "Dit is uw locatie");
+                setMap(Theonemap, NewLocation, "Location", "Uw huidige locatie");
 
             }
             if (resultCode == RESULT_CANCELED) {
@@ -394,6 +390,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         JSONObject c = uitjes.getJSONObject(i);
 
                         // Storing each json item in variable
+                        String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String coordinaat = c.getString(TAG_COORDINAAT);
 
@@ -404,10 +401,22 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
+                        map.put(TAG_ID, id);
                         map.put(TAG_NAME, name);
                         map.put(TAG_COORDINAAT, coordinaat);
 
                         map.values();
+
+                        Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+                        {
+                            @Override
+                            public void onInfoWindowClick(Marker marker)
+                            {
+                                Intent intent = new Intent(MyActivity.this, DetailUitje.class);
+                                intent.putExtra("number", id);
+                                startActivity(intent);
+                            }
+                        });
 
                         // adding HashList to ArrayList
                         uitjesList.add(map);
@@ -456,6 +465,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         JSONObject c = uitjes.getJSONObject(i);
 
                         // Storing each json item in variable
+                        String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
                         String coordinaat = c.getString(TAG_COORDINAAT);
 
@@ -466,6 +476,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
+                        map.put(TAG_ID, id);
                         map.put(TAG_NAME, name);
                         map.put(TAG_COORDINAAT, coordinaat);
 
@@ -507,10 +518,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     }
 
     private void setMarkers(){
-
-
-
         for (int i = 0; i < uitjesList.size(); i++){
+            String ids = uitjesList.get(i).get(TAG_ID);
             String Coordinaten = uitjesList.get(i).get(TAG_COORDINAAT);
             String Naam = uitjesList.get(i).get(TAG_NAME);
             Log.d(" naam", Naam);

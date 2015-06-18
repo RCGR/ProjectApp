@@ -76,9 +76,11 @@ public class DetailUitje extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailuitje_layout);
+        //THIS LINE IS IMPORTANT
         Bundle extras = getIntent().getExtras();
         Toast.makeText(getApplicationContext(), extras.get("number").toString(), Toast.LENGTH_SHORT).show();
         id_detail = extras.get("number").toString();
+        //
         textViewBeschrijving = (TextView)findViewById(R.id.beschrijving);
         textViewCategorie = (TextView)findViewById(R.id.Categorie);
         textViewWeertype = (TextView)findViewById(R.id.weertype);
