@@ -43,6 +43,7 @@ public class DetailUitje extends Activity {
     TextView textViewStad;
     TextView textViewName;
     Button buttonTelefoon;
+    Button shareButton;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -244,12 +245,20 @@ public class DetailUitje extends Activity {
         TextView x = (TextView)view;
         PhoneNumber = x.getText().toString();
         AlertBuilderCall();
-
     }
 
     public void makeCallToUitjeButton(View view){
         PhoneNumber = textViewTelefoon.getText().toString();
         AlertBuilderCall();
+    }
+
+    public void makeCallToShareButton(View view)
+    {
+        Intent i=new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Uitje");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, "Ik heb " + textViewName.getText() + " bezocht!");
+        startActivity(Intent.createChooser(i,"Uitje delen"));
     }
 
     private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){

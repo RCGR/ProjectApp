@@ -242,7 +242,7 @@ public class ResultActivity extends ListActivity {
      * Het callen van ons PHP script en het binnenhalen van de JSON
      * Response dat het PHP script ons teruggeeft.
      * */
-    class LoadAllUitjes extends AsyncTask<String, String, String> {
+    public class LoadAllUitjes extends AsyncTask<String, String, String> {
 
         /**
          * Voordat we de taak starten laten we netjes een "zandloper" zien
