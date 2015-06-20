@@ -69,6 +69,7 @@ public class DetailUitje extends Activity {
     private static final String TAG_STRAAT = "Straat";
     private static final String TAG_POSTCODE = "PostCode";
     private static final String TAG_STAD = "Stad";
+    private static final String TAG_COORDINAAT = "Coordinaat";
 
 
     // Hier maken we de uitjes JSONArray
@@ -188,6 +189,7 @@ public class DetailUitje extends Activity {
                         String stad = x.getString(TAG_STAD);
                         String straat = x.getString(TAG_STRAAT);
                         String postcode = x.getString(TAG_POSTCODE);
+                        String coordinaat = x.getString(TAG_COORDINAAT);
                         String telefoon = x.getString(TAG_TELEFOON);
                         String weertype = x.getString(TAG_WEERTYPE);
 
@@ -199,6 +201,7 @@ public class DetailUitje extends Activity {
                         map.put(TAG_BESCHRIJVING, beschrijving);
                         map.put(TAG_STAD, stad);
                         map.put(TAG_STRAAT, straat);
+                        map.put(TAG_COORDINAAT, coordinaat);
                         map.put(TAG_POSTCODE, postcode);
                         map.put(TAG_TELEFOON, telefoon);
                         map.put(TAG_WEERTYPE, weertype);
@@ -278,6 +281,14 @@ public class DetailUitje extends Activity {
         if (!PhoneNumber.equals("")) {
             AlertBuilderCall();
         }
+    }
+
+    public void generateRoute(View view)
+    {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + uitjesList.get(0).get(TAG_COORDINAAT).toString());
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     public void ShareButton(View view)
