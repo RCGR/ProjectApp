@@ -87,19 +87,28 @@
                             android:id="@+id/Uitje_Openingstijden"/>
 
             </LinearLayout>
-            <Button
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/sharebutton"
+                    android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_share_black_24dp"
                     android:text="Delen"
                     android:onClick="ShareButton"/>
             <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:id="@+id/routebutton"
-                    android:text="Routebeschrijving"
+                    android:text="Route"
+                    android:drawableLeft="@drawable/ic_directions_black_24dp"
                     android:onClick="generateRoute"/>
+            </LinearLayout>
 
 
 

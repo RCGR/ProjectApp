@@ -55,6 +55,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     private CharSequence mDrawerTitle;
     //end of drawer code
 
+    LatLng StartLatLng;
+
 
     private LocationManager mLocationManager;
     private Location MyLoc;
@@ -153,7 +155,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         //check if the startlocation is filled
         if (StartLocation != null) {
             //set the map to location of the device
-            LatLng StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
+            StartLatLng = new LatLng(StartLocation.getLatitude(), StartLocation.getLongitude());
             setMap(map, StartLatLng, "Huidige Locatie", "Hier bevindt u zich momenteel");
         }
         else
@@ -324,6 +326,11 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     public void ShowResults(View view){
         Intent results = new Intent(getApplicationContext(), Results.class);
+        double latitude = StartLatLng.latitude;
+        double longitude = StartLatLng.longitude;
+
+        results.putExtra("latitude", latitude);
+        results.putExtra("longitude", longitude);
         startActivity(results);
     }
 

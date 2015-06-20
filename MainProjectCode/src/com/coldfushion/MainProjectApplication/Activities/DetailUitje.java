@@ -288,7 +288,13 @@ public class DetailUitje extends Activity {
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + uitjesList.get(0).get(TAG_COORDINAAT).toString());
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Kan google maps niet openen", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void ShareButton(View view)

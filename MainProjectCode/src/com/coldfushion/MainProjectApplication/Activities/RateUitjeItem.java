@@ -593,6 +593,20 @@ public class RateUitjeItem extends Activity {
         }
     }
 
+    public void generateRoute(View view)
+    {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + uitjesList.get(0).get(TAG_COORDINAAT).toString());
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Kan google maps niet openen", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){
         @Override
         public void onClick(DialogInterface dialog, int which) {

@@ -2,6 +2,7 @@ package com.coldfushion.MainProjectApplication.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
 import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
+import com.google.android.gms.maps.model.LatLng;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +38,9 @@ import android.util.Log;
 
 public class Results extends ListActivity {
     Network network;
+
+    double latitude;
+    double longitude;
 
     String[] mTypes;
 
@@ -76,6 +81,13 @@ public class Results extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
+        Intent receiveIntent = this.getIntent();
+        latitude = receiveIntent.getDoubleExtra("latitude", 51.92);
+        longitude = receiveIntent.getDoubleExtra("longitude", 4.48);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.results_layout);
 
@@ -123,6 +135,8 @@ public class Results extends ListActivity {
             Toast t = new Toast(getApplicationContext());
             t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
         }
+
+        distancecheck();
 
     }
 
@@ -329,5 +343,15 @@ public class Results extends ListActivity {
             setListAdapter(adapter);
 
         }
+    }
+
+    public void distancecheck(){
+        Location Home  = new Location("Home");
+        Home.setLatitude(latitude);
+        Home.setLongitude(longitude);
+
+        float [] distss = new float[1];
+        Location.distanceBetween(latitude, longitude, 51.92, 4.48,  distss);
+        Log.d(" dist 1122 ==== ", distss[0]*0.000621371192f + "");
     }
 }
