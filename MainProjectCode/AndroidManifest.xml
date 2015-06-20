@@ -37,6 +37,7 @@
                 android:label="Uitje beoordelen"
                 android:parentActivityName=".Activities.RateActivities"/>
         <activity android:name=".Activities.SimpleLocationChoose" />
+        <activity android:name=".Activities.ResultActivityWithoutFilters"/>
 
 
         <meta-data

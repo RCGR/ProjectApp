@@ -323,7 +323,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
 
     public void ShowResults(View view){
-        Intent results = new Intent(getApplicationContext(), ResultActivity.class);
+        Intent results = new Intent(getApplicationContext(), ResultActivityWithoutFilters.class);
         startActivity(results);
     }
 
