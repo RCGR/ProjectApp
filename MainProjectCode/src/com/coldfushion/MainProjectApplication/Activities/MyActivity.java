@@ -323,8 +323,8 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
 
     public void ShowResults(View view){
-        //Intent results = new Intent(getApplicationContext(), Results.class);
-        //startActivity(results);
+        Intent results = new Intent(getApplicationContext(), ResultActivity.class);
+        startActivity(results);
     }
 
     private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
