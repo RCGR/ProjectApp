@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +43,7 @@ import java.util.List;
 
 
 public class MyActivity extends Activity implements OnMapReadyCallback{
+    Network network;
 
     //start of drawer code
     private DrawerLayout mDrawerLayout;
@@ -86,8 +88,10 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        network = new Network(getApplicationContext());
 
         //set the map
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -96,8 +100,14 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
 
         loadUI();
 
-        if (markers.size() < 1) {
-            new LoadCoordinate().execute();
+        if (network.isOnline()) {
+            if (markers.size() < 1 ) {
+                new LoadCoordinate().execute();
+            }
+        }
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -152,6 +162,29 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
             LatLng Rotterdam = new LatLng(51.92, 4.48);
             setMap(map, Rotterdam, "Start Locatie", "Dit is uw startlocatie");
         }
+
+        Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+        {
+            @Override
+            public void onInfoWindowClick(Marker marker)
+            {
+                String markerTitle = marker.getTitle();
+                int indexOfEndID = markerTitle.indexOf(", ");
+                int indexOfEndIDSug = markerTitle.indexOf(". ");
+                if (indexOfEndID != -1) {
+
+                    Intent intent = new Intent(MyActivity.this, DetailUitje.class);
+                    intent.putExtra("number", markerTitle.substring(0, indexOfEndID));
+                    startActivity(intent);
+                }
+                else if ( indexOfEndIDSug != -1){
+                    Intent intent = new Intent(MyActivity.this, RateUitjeItem.class);
+                    intent.putExtra("number", markerTitle.substring(0, indexOfEndIDSug));
+                    startActivity(intent);
+                }
+
+            }
+        });
 
         //ADD CODE FOR ADDING MARKERS TO THE MAP FOR EVERY ACTIVITY
     }
@@ -289,6 +322,10 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
     }
 
 
+    public void ShowResults(View view){
+        //Intent results = new Intent(getApplicationContext(), Results.class);
+        //startActivity(results);
+    }
 
     private void setMap(GoogleMap map, LatLng latLng, String markerTitle, String markerSnippet){
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
@@ -408,26 +445,7 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         map.values();
                         if(Theonemap.equals(null) != true)
                         {
-                            runOnUiThread(new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
-                                    {
-                                        @Override
-                                        public void onInfoWindowClick(Marker marker)
-                                        {
-                                            String markerTitle = marker.getTitle();
-                                            int indexOfEndID = markerTitle.indexOf(", ");
 
-                                            Intent intent = new Intent(MyActivity.this, DetailUitje.class);
-                                            intent.putExtra("number", markerTitle.substring(0, indexOfEndID));
-                                            startActivity(intent);
-                                        }
-                                    });
-                                }
-                            });
                         }
 
                         // adding HashList to ArrayList
@@ -556,8 +574,9 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
         }
 
         for (int i = 0; i < SugUitjesList.size(); i++){
+            String ids = SugUitjesList.get(i).get(TAG_ID);
             String Coordinaten = SugUitjesList.get(i).get(TAG_COORDINAAT);
-            String Naam = SugUitjesList.get(i).get(TAG_NAME);
+            String Naam = ids + ". " + SugUitjesList.get(i).get(TAG_NAME);
             Log.d(" naam", Naam);
             int commaLocation = Coordinaten.indexOf(",");
             String Coordinaat_Lat = Coordinaten.substring(0, commaLocation);

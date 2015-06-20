@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
@@ -40,6 +41,8 @@ import android.util.Log;
  */
 
 public class ResultActivity extends ListActivity {
+    Network network;
+
     getCurrentWeather currentweather;
     //start of drawer code
     private DrawerLayout mDrawerLayout;
@@ -81,6 +84,8 @@ public class ResultActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultlist);
+
+        network = new Network(getApplicationContext());
 
         //code for the drawer
         mTitle = mDrawerTitle = getTitle();
@@ -139,7 +144,7 @@ public class ResultActivity extends ListActivity {
         //Bij het starten van deze activity maken we een KVP hashmap om de uitjes in te bewaren,
         //En starten we de LoadAllUitjes thread.
         uitjesList = new ArrayList<HashMap<String, String>>();
-        if (isOnline()) {
+        if (network.isOnline()) {
             new LoadAllUitjes().execute();
         }
         else {
@@ -368,12 +373,7 @@ public class ResultActivity extends ListActivity {
         this.finish();
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+
 
     private List<HashMap<String, String>> FilterOnType(List<HashMap<String, String>> uitjeslijst){
         //defines lists for THE 3 types of weather
@@ -427,5 +427,12 @@ public class ResultActivity extends ListActivity {
             }
         }
         return uitjeslijst;
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

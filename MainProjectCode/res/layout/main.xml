@@ -36,6 +36,7 @@
                     android:padding="7dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:onClick="ShowResults"
                     android:text="@string/main_button_showResults"/>
 
     </RelativeLayout>

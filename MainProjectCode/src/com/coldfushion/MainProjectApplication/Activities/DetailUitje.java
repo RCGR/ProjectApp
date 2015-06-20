@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.Helpers.getGooglePlacesData;
 import com.coldfushion.MainProjectApplication.Helpers.getWebpageContent;
 import com.coldfushion.MainProjectApplication.R;
@@ -32,6 +33,7 @@ import java.util.List;
  * Created by ceesjan on 28-5-2015.
  */
 public class DetailUitje extends Activity {
+    Network network;
     public String openingstijden = "";
     TextView textViewOpeningHours;
     TextView textViewBeschrijving;
@@ -43,7 +45,6 @@ public class DetailUitje extends Activity {
     TextView textViewStad;
     TextView textViewName;
     Button buttonTelefoon;
-    Button shareButton;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -77,6 +78,7 @@ public class DetailUitje extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailuitje_layout);
+        network = new Network(getApplicationContext());
         //THIS LINE IS IMPORTANT
         Bundle extras = getIntent().getExtras();
         Toast.makeText(getApplicationContext(), extras.get("number").toString(), Toast.LENGTH_SHORT).show();
@@ -93,37 +95,42 @@ public class DetailUitje extends Activity {
         textViewOpeningHours = (TextView)findViewById(R.id.Uitje_Openingstijden);
         buttonTelefoon = (Button)findViewById(R.id.telefoonbutton);
 
+        if(network.isOnline()) {
 
-        getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
-        getGooglePlacesData.id = id_detail;
-        getGooglePlacesData.suggestion = false;
-        getGooglePlacesData.execute();
+            getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
+            getGooglePlacesData.id = id_detail;
+            getGooglePlacesData.suggestion = false;
+            getGooglePlacesData.execute();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String google_places_url = getGooglePlacesData.google_places_url;
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String google_places_url = getGooglePlacesData.google_places_url;
 
-                getWebpageContent getWebpageContent = new getWebpageContent();
-                getWebpageContent.readWebpage(google_places_url);
-                Handler handler1 = new Handler();
-                handler1.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        openingstijden = getWebpageContent.openingstijden;
+                    getWebpageContent getWebpageContent = new getWebpageContent();
+                    getWebpageContent.readWebpage(google_places_url);
+                    Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            openingstijden = getWebpageContent.openingstijden;
 
-                        Log.d("openingstijden ", openingstijden);
-                        textViewOpeningHours.setText(openingstijden);
-                    }
-                }, 3000);
-            }
-        }, 3000);
+                            Log.d("openingstijden ", openingstijden);
+                            textViewOpeningHours.setText(openingstijden);
+                        }
+                    }, 3000);
+                }
+            }, 3000);
 
-        uitjesList = new ArrayList<HashMap<String, String>>();
-        new LoadDetailUitje().execute();
+            uitjesList = new ArrayList<HashMap<String, String>>();
+            new LoadDetailUitje().execute();
 
-
+        }
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -227,12 +234,29 @@ public class DetailUitje extends Activity {
                 public void run() {
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
-                    textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
+                    if (uitjesList.get(0).get(TAG_WEERTYPE).equals("Sunny")) {
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.ic_brightness_7_black_24dp));
+                    }
+                    else if (uitjesList.get(0).get(TAG_WEERTYPE).equals("Cloudy")){
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.ic_cloud_queue_black_24dp));
+                    }
+                    else{
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.light_rain50));
+                    }
                     textViewTelefoon.setText(uitjesList.get(0).get(TAG_TELEFOON));
                     textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
                     textViewName.setText(uitjesList.get(0).get(TAG_NAME));
                     textViewPostcode.setText(uitjesList.get(0).get(TAG_POSTCODE));
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (uitjesList.get(0).get(TAG_TELEFOON).equals("")) {
+                                buttonTelefoon.setVisibility(View.GONE);
+                            }
+                        }
+                    });
                     pDialog.dismiss();
                 }
             },5500);
@@ -244,20 +268,24 @@ public class DetailUitje extends Activity {
     public void makeCallToUitje(View view){
         TextView x = (TextView)view;
         PhoneNumber = x.getText().toString();
-        AlertBuilderCall();
+        if (!PhoneNumber.equals("")) {
+            AlertBuilderCall();
+        }
     }
 
     public void makeCallToUitjeButton(View view){
         PhoneNumber = textViewTelefoon.getText().toString();
-        AlertBuilderCall();
+        if (!PhoneNumber.equals("")) {
+            AlertBuilderCall();
+        }
     }
 
-    public void makeCallToShareButton(View view)
+    public void ShareButton(View view)
     {
         Intent i=new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Uitje");
-        i.putExtra(android.content.Intent.EXTRA_TEXT, "Ik heb " + textViewName.getText() + " bezocht!");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, "Ik heb " + textViewName.getText() + " bezocht! \ndankzij de " + getResources().getString(R.string.app_name) + " app");
         startActivity(Intent.createChooser(i,"Uitje delen"));
     }
 

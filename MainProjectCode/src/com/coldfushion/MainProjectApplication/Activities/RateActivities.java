@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.R;
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -32,6 +33,8 @@ import java.util.List;
  * Created by ceesjan on 22-5-2015.
  */
 public class RateActivities extends ListActivity {
+    Network network;
+
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -71,6 +74,8 @@ public class RateActivities extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rateactivities_layout);
+
+        network = new Network(getApplicationContext());
 
         //code for the drawer
         mTitle = mDrawerTitle = getTitle();
@@ -128,7 +133,7 @@ public class RateActivities extends ListActivity {
         });
 
         uitjesList = new ArrayList<HashMap<String, String>>();
-        if (isOnline()) {
+        if (network.isOnline()) {
             new LoadAllSuggestedUitjes().execute();
         } else {
             Toast.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();

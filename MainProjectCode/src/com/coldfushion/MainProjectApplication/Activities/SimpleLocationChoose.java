@@ -11,6 +11,7 @@ import android.widget.Toast;
 import android.os.Handler;
 
 import com.coldfushion.MainProjectApplication.Helpers.MyJavaScriptInterface;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,10 +26,15 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Kraaijeveld on 8-6-2015.
  */
 public class SimpleLocationChoose extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    Network network;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locationchoose_layout);
+
+        network = new Network(getApplicationContext());
+
+        if (network.isOnline()){
         webview = (WebView) findViewById(R.id.WebviewLocationChoose);
         webview.getSettings().setJavaScriptEnabled(true);
 
@@ -38,7 +44,12 @@ public class SimpleLocationChoose extends Activity implements GoogleApiClient.Co
 
         //googleapiclient
         mGoogleApiClient = new GoogleApiClient.Builder(SimpleLocationChoose.this).addApi(Places.GEO_DATA_API).addConnectionCallbacks(this).build();
-        mGoogleApiClient.connect();
+        mGoogleApiClient.connect();}
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
         //VARS
@@ -75,7 +86,7 @@ public class SimpleLocationChoose extends Activity implements GoogleApiClient.Co
                 placeAdress = myjavascriptinterface.getPlaceAdress();
                 Log.d("adres", placeAdress);
 
-                Test(placeId);
+                Getplaceinfo(placeId);
                 pDialog.dismiss();
             }
         }, 20000);
@@ -103,7 +114,7 @@ public class SimpleLocationChoose extends Activity implements GoogleApiClient.Co
         Log.e("error apicleint", "Google Places API connection suspended.");
     }
 
-    public void Test(String placeId) {
+    public void Getplaceinfo(String placeId) {
         Log.d("place id = : ", placeId);
         if (mGoogleApiClient.isConnected() && mGoogleApiClient != null) {
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi

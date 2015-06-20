@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.MyJavaScriptInterface;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class LocationChoose extends Activity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    Network network;
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -57,6 +60,8 @@ public class LocationChoose extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locationchoose_layout);
+
+        network = new Network(getApplicationContext());
 
         //code for the drawer
         mTitle = mDrawerTitle = getTitle();
@@ -92,16 +97,23 @@ public class LocationChoose extends Activity implements
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //end code for the drawer
 
-        webview = (WebView) findViewById(R.id.WebviewLocationChoose);
-        webview.getSettings().setJavaScriptEnabled(true);
+        if (network.isOnline()) {
+            webview = (WebView) findViewById(R.id.WebviewLocationChoose);
+            webview.getSettings().setJavaScriptEnabled(true);
 
-        webview.addJavascriptInterface(myjavascriptinterface, "HTMLViewer");
+            webview.addJavascriptInterface(myjavascriptinterface, "HTMLViewer");
 
-        webview.loadUrl("http://school.ceesjannolen.nl/app/index.html");
+            webview.loadUrl("http://school.ceesjannolen.nl/app/index.html");
 
-        //googleapiclient
-        mGoogleApiClient = new GoogleApiClient.Builder(LocationChoose.this).addApi(Places.GEO_DATA_API).addConnectionCallbacks(this).build();
-        mGoogleApiClient.connect();
+            //googleapiclient
+            mGoogleApiClient = new GoogleApiClient.Builder(LocationChoose.this).addApi(Places.GEO_DATA_API).addConnectionCallbacks(this).build();
+            mGoogleApiClient.connect();
+        }
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     @Override
@@ -203,78 +215,88 @@ public class LocationChoose extends Activity implements
     //location choose event click
     public void ChooseLocation(View view) {
 
-        while (myjavascriptinterface.getPlaceID().equals("")) {
+        pDialog = new ProgressDialog(LocationChoose.this);
+        pDialog.setMessage("Locatie wordt geladen... even geduld!");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
 
             webview.loadUrl("javascript:window.HTMLViewer.getHTML(document.getElementById('placeid').innerHTML);");
-        }
-        placeId = myjavascriptinterface.getPlaceID();
-
-        Test(placeId);
 
 
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    placeId = myjavascriptinterface.getPlaceID();
+
+                    Getplaceinfo(placeId);
+                    pDialog.dismiss();
+                }
+            }, 20000);
 
     }
 
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        //mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
-        Log.i("Log Scues Apicleint", "Google Places API connected.");
+            @Override
+            public void onConnected(Bundle bundle) {
+                //mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
+                Log.i("Log Scues Apicleint", "Google Places API connected.");
 
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(this,
-                "Google Places API connection failed with error code:" +
-                        connectionResult.getErrorCode(),
-                Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        //mPlaceArrayAdapter.setGoogleApiClient(null);
-        Log.e("error apicleint", "Google Places API connection suspended.");
-    }
-
-    public void Test(String placeId) {
-        Log.d("place id = : ", placeId);
-        if (mGoogleApiClient.isConnected() && mGoogleApiClient != null) {
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-        } else {
-            Toast.makeText(getApplicationContext(), " googleapicleint error", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                Log.e("errormesgae", "Place query did not complete. Error: " +
-                        places.getStatus().toString());
-                places.release();
-                return;
             }
-            // Selecting the first object buffer.
-            final Place place = places.get(0);
-            Log.d("PLACE FOUND", place.getName() + " latlng= " + place.getLatLng());
-            newlatlng = place.getLatLng();
-            Log.d(" latlng set", newlatlng.toString());
-            places.release();
-            Toast.makeText(getApplicationContext(), newlatlng.toString(), Toast.LENGTH_SHORT).show();
 
-            String result = newlatlng.toString();
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result",result);
-            setResult(RESULT_OK, returnIntent);
-            finish();
+            @Override
+            public void onConnectionFailed(ConnectionResult connectionResult) {
+                Toast.makeText(this,
+                        "Google Places API connection failed with error code:" +
+                                connectionResult.getErrorCode(),
+                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+                //mPlaceArrayAdapter.setGoogleApiClient(null);
+                Log.e("error apicleint", "Google Places API connection suspended.");
+            }
+
+            public void Getplaceinfo(String placeId) {
+                Log.d("place id = : ", placeId);
+                if (mGoogleApiClient.isConnected() && mGoogleApiClient != null) {
+                    PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                            .getPlaceById(mGoogleApiClient, placeId);
+                    placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+                } else {
+                    Toast.makeText(getApplicationContext(), " googleapicleint error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+                    = new ResultCallback<PlaceBuffer>() {
+                @Override
+                public void onResult(PlaceBuffer places) {
+                    if (!places.getStatus().isSuccess()) {
+                        Log.e("errormesgae", "Place query did not complete. Error: " +
+                                places.getStatus().toString());
+                        places.release();
+                        return;
+                    }
+                    // Selecting the first object buffer.
+                    final Place place = places.get(0);
+                    Log.d("PLACE FOUND", place.getName() + " latlng= " + place.getLatLng());
+                    newlatlng = place.getLatLng();
+                    Log.d(" latlng set", newlatlng.toString());
+                    places.release();
+                    Toast.makeText(getApplicationContext(), newlatlng.toString(), Toast.LENGTH_SHORT).show();
+
+                    String result = newlatlng.toString();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result", result);
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
+            };
+
+
         }
-    };
-
-
-
-
-}

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.*;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.Helpers.getCurrentWeather;
 import com.coldfushion.MainProjectApplication.R;
 
@@ -33,6 +34,7 @@ import java.util.List;
  * Created by ceesjan on 22-5-2015.
  */
 public class MakeSuggestion extends Activity {
+    Network network;
     //start of drawer code
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -64,6 +66,8 @@ public class MakeSuggestion extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.makesuggestion_layout);
+
+        network = new Network(getApplicationContext());
 
         //code for the drawer
         mTitle = mDrawerTitle = getTitle();
@@ -124,9 +128,12 @@ public class MakeSuggestion extends Activity {
     public void AddToDatabase(View view)
     {
         //add location added check
-        if(editText_naam.getText().equals("") ||  editText_beschrijving.getText().equals("") || spinner_weer.getSelectedItem().toString().equals("") || spinner_categorie.getSelectedItem().toString().equals(""))
+        if(editText_naam.getText().equals("") ||  editText_beschrijving.getText().equals("") || spinner_weer.getSelectedItem().toString().equals("") || spinner_categorie.getSelectedItem().toString().equals("") )
         {
             Toast.makeText(getApplicationContext(), "U hebt een van de velden niet ingevoerd!", Toast.LENGTH_SHORT);
+        }
+        else if ( Stad == null || Postcode == null || Straat == null || Coordinaten == null) {
+            Toast.makeText(getApplicationContext(), "U heeft geen locatie geselecteerd" , Toast.LENGTH_SHORT);
         }
         else
         {
@@ -281,9 +288,15 @@ public class MakeSuggestion extends Activity {
     }
     //end of drawer code
     public void Suggestion_GetLocation(View view){
-        Toast.makeText(getApplicationContext(), "Kies een locatie", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, SimpleLocationChoose.class);
-        startActivityForResult(i, 2);
+        if (network.isOnline()) {
+            Toast.makeText(getApplicationContext(), "Kies een locatie", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, SimpleLocationChoose.class);
+            startActivityForResult(i, 2);
+        }
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_LONG).show();
+        }
     }
 
 

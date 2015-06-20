@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
+import com.coldfushion.MainProjectApplication.Helpers.Network;
 import com.coldfushion.MainProjectApplication.Helpers.getGooglePlacesData;
 import com.coldfushion.MainProjectApplication.Helpers.getWebpageContent;
 import com.coldfushion.MainProjectApplication.R;
@@ -34,6 +35,7 @@ import java.util.List;
  * Created by ceesjan on 29-5-2015.
  */
 public class RateUitjeItem extends Activity {
+    Network network;
 
     public String openingstijden = "";
     TextView textViewBeschrijving;
@@ -49,6 +51,8 @@ public class RateUitjeItem extends Activity {
 
     Button buttonVoteUp;
     Button buttonVoteDown;
+
+    Button button_telefoonbutton;
 
     private int upVotes;
     private int downVotes;
@@ -102,6 +106,8 @@ public class RateUitjeItem extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rateuitjeitem_layout);
 
+        network = new Network(getApplicationContext());
+
         Bundle extras = getIntent().getExtras();
         id_detail = extras.get("number").toString();
 
@@ -117,51 +123,68 @@ public class RateUitjeItem extends Activity {
         textViewPercentage = (TextView)findViewById(R.id.Rate_Percentage);
         buttonVoteDown = (Button)findViewById(R.id.DownVote_Button);
         buttonVoteUp = (Button)findViewById(R.id.UpVote_Button);
+        button_telefoonbutton = ( Button)findViewById(R.id.telefoonbutton);
 
-        getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
-        getGooglePlacesData.id = id_detail;
-        getGooglePlacesData.execute();
+        if (network.isOnline()) {
+            getGooglePlacesData getGooglePlacesData = new getGooglePlacesData();
+            getGooglePlacesData.id = id_detail;
+            getGooglePlacesData.execute();
 
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String google_places_url = getGooglePlacesData.google_places_url;
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String google_places_url = getGooglePlacesData.google_places_url;
+                    getWebpageContent getWebpageContent = new getWebpageContent();
+                    getWebpageContent.readWebpage(google_places_url);
+                    Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            openingstijden = getWebpageContent.openingstijden;
 
-                getWebpageContent getWebpageContent = new getWebpageContent();
-                getWebpageContent.readWebpage(google_places_url);
-                Handler handler1 = new Handler();
-                handler1.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        openingstijden = getWebpageContent.openingstijden;
+                            Log.d("openingstijden ", openingstijden);
 
-                        Log.d("openingstijden ", openingstijden);
+                            textViewOpeninghours.setText(openingstijden);
+                        }
+                    }, 3000);
+                }
+            }, 3000);
+            uitjesList = new ArrayList<HashMap<String, String>>();
+            new LoadDetailsSuggestedUitjes().execute();
+        }
+        else {
+            Toast t = new Toast(getApplicationContext());
+            t.makeText(getApplicationContext(), "Geen internet verbinding beschikbaar", Toast.LENGTH_LONG).show();
+        }
 
-                        textViewOpeninghours.setText(openingstijden);
-                    }
-                }, 3000);
-            }
-        }, 3000);
+    }
 
-
-
-
-        uitjesList = new ArrayList<HashMap<String, String>>();
-        new LoadDetailsSuggestedUitjes().execute();
-
+    public void ShareButton(View view)
+    {
+        Intent i=new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Uitje");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, "Ik heb " + textViewName.getText() + " bezocht! \ndankzij de " + getResources().getString(R.string.app_name) + " app");
+        startActivity(Intent.createChooser(i,"Uitje delen"));
     }
 
     //onclick methods for xml
     public void giveDownVote(View view)
     {
-        new giveDownVoteThread().execute();
+        if (network.isOnline()){
+            new giveDownVoteThread().execute();
+        }
+
     }
 
     public void giveUpVote(View view)
     {
-        new giveUpVoteThread().execute();
+        if (network.isOnline()) {
+            new giveUpVoteThread().execute();
+        }
+
     }
 
 
@@ -233,19 +256,6 @@ public class RateUitjeItem extends Activity {
 
 
 
-//                    //VoteCounter stuff
-//                    //Call checkmethod when loading
-//                    //Call addVoteMethod when buttonpress
-//                    if(upVotes > 10)
-//                    {
-//
-//                    }
-//                    else if(downVotes > 5)
-//                    {
-//                        final String delete_url = "http://coldfusiondata.site90.net/db_remove_suggestion.php?NaamVar=" + naam + "";
-//                        jParser.makeHttpRequest(delete_url, "POST", params);
-//                        //remove uitje from suggestion
-//                    }
                     HashMap<String, String> map = new HashMap<String, String>();
 
                     // adding each child node to HashMap key => value
@@ -292,7 +302,15 @@ public class RateUitjeItem extends Activity {
                     pDialog.setProgress(6);
                     textViewBeschrijving.setText(uitjesList.get(0).get(TAG_BESCHRIJVING));
                     textViewCategorie.setText(uitjesList.get(0).get(TAG_CATEGORIE));
-                    textViewWeertype.setText(uitjesList.get(0).get(TAG_WEERTYPE));
+                    if (uitjesList.get(0).get(TAG_WEERTYPE).equals("Sunny")) {
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.ic_brightness_7_black_24dp));
+                    }
+                    else if (uitjesList.get(0).get(TAG_WEERTYPE).equals("Cloudy")){
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.ic_cloud_queue_black_24dp));
+                    }
+                    else{
+                        textViewWeertype.setBackground(getResources().getDrawable(R.drawable.light_rain50));
+                    }
                     textViewTelefoon.setText(uitjesList.get(0).get(TAG_TELEFOON));
                     textViewStraat.setText(uitjesList.get(0).get(TAG_STRAAT));
                     textViewName.setText(uitjesList.get(0).get(TAG_NAME));
@@ -300,13 +318,28 @@ public class RateUitjeItem extends Activity {
                     textViewStad.setText(uitjesList.get(0).get(TAG_STAD));
                     double ups = upVotes + 0.0;
                     double downs = downVotes + 0.0;
-                    double percentage = ups / (ups + downs) * 100.0;
-                    String textpercentage = percentage + "% van de " + (upVotes+downVotes) + " personen vinden dit een leuk uitje";
+
+                    String textpercentage;
+                    if (ups > 0.0 && downs > 0.0) {
+                        double percentage = ups / (ups + downs) * 100.0;
+                        textpercentage = percentage + "% van de " + (upVotes + downVotes) + " personen vinden dit een leuk uitje";
+                    }
+                    else{
+                        textpercentage = "Nog geen stemmen uitgebracht";
+                    }
                     textViewPercentage.setText(textpercentage);
 
                     buttonVoteUp.setText(buttonVoteUp.getText() + " (" + uitjesList.get(0).get(TAG_UPVOTECOUNT)+ ")");
                     buttonVoteDown.setText(buttonVoteDown.getText() + " (" + uitjesList.get(0).get(TAG_DOWNVOTECOUNT)+ ")");
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (uitjesList.get(0).get(TAG_TELEFOON).equals("")){
+                                button_telefoonbutton.setVisibility(View.GONE);
+                            }
+                        }
+                    });
                     pDialog.dismiss();
                 }
             }, 5500);
@@ -323,7 +356,6 @@ public class RateUitjeItem extends Activity {
     }
 
 
-    // to do : call appropriate methods of this class when button is clicked
 
     //
     //UPVOTE
@@ -545,16 +577,20 @@ public class RateUitjeItem extends Activity {
             pDialog.dismiss();
         }
     }
+
     public void makeCallToUitje(View view){
         TextView x = (TextView)view;
         PhoneNumber = x.getText().toString();
-        AlertBuilderCall();
-
+        if (!PhoneNumber.equals("")) {
+            AlertBuilderCall();
+        }
     }
 
     public void makeCallToUitjeButton(View view){
         PhoneNumber = textViewTelefoon.getText().toString();
-        AlertBuilderCall();
+        if (!PhoneNumber.equals("")) {
+            AlertBuilderCall();
+        }
     }
 
     private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener(){

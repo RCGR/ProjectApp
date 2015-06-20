@@ -10,7 +10,7 @@
             android:icon="@drawable/ic_launcher">
         <activity
                 android:name=".Activities.MyActivity"
-                android:label="@string/app_name"
+                android:label="Uitjes op kaart"
                 android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
                 >
             <intent-filter>
@@ -18,25 +18,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ResultActivity" />
+        <activity android:name=".Activities.ResultActivity" android:label="Uitjes lijst" />
         <activity
                 android:name=".Activities.LocationChoose"
-                android:label="LocationChoose"/>
+                android:label="Locatie kiezen"/>
         <activity
                 android:name=".Activities.MakeSuggestion"
-                android:label="MakeSuggestion"/>
+                android:label="Maak Suggestie"/>
         <activity
                 android:name=".Activities.RateActivities"
-                android:label="RateActivities"/>
+                android:label="Beoordeel uitjes"/>
         <activity
                 android:name=".Activities.DetailUitje"
                 android:parentActivityName=".Activities.ResultActivity"
-                android:label="DetailUitje"/>
+                android:label="Uitje overzicht"/>
         <activity
                 android:name=".Activities.RateUitjeItem"
-                android:label="RateUitjeItem"
+                android:label="Uitje beoordelen"
                 android:parentActivityName=".Activities.RateActivities"/>
         <activity android:name=".Activities.SimpleLocationChoose" />
+
 
         <meta-data
                 android:name="com.google.android.gms.version"

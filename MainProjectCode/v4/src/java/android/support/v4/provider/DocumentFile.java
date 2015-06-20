@@ -135,7 +135,7 @@ public abstract class DocumentFile {
     }
 
     /**
-     * Test if given Uri is backed by a
+     * Getplaceinfo if given Uri is backed by a
      * {@link android.provider.DocumentsProvider}.
      */
     public static boolean isDocumentUri(Context context, Uri uri) {
