@@ -2,7 +2,6 @@ package com.coldfushion.MainProjectApplication.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,11 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.coldfushion.MainProjectApplication.Helpers.JSONParser;
@@ -40,24 +34,19 @@ import android.util.Log;
  * Voor nu, krijgen we alleen alle namen van alle uitjes in onze DB terug.
  */
 
-public class ResultActivityWithoutFilters extends ListActivity {
+public class Results extends ListActivity {
     Network network;
 
-    getCurrentWeather currentweather;
-    //start of drawer code
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    String[] mTypes;
 
-    private String[] mMenuItems;
-    private CharSequence mTitle;
-    private CharSequence mDrawerTitle;
-    //end of drawer code
+    getCurrentWeather currentweather;
 
     public Toast t;
     ListView listViewlist;
     TextView textView;
     Button button;
+
+    Spinner spinnerType ;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -67,6 +56,10 @@ public class ResultActivityWithoutFilters extends ListActivity {
 
     List<HashMap<String, String>> uitjesList;
 
+    List<HashMap<String,String>> Pretpark = new ArrayList<>();
+    List<HashMap<String,String>> Museum = new ArrayList<>();
+    List<HashMap<String,String>> Restaurant = new ArrayList<>();
+
     // url waar het PHPscript dat we willen zich bevind
     private static String url_all_products = "http://coldfusiondata.site90.net/db_get_all.php";
 
@@ -75,6 +68,7 @@ public class ResultActivityWithoutFilters extends ListActivity {
     private static final String TAG_UITJES = "Uitjes";
     private static final String TAG_PID = "uitjesID";
     private static final String TAG_NAME = "Naam";
+    private static final String TAG_TYPE = "Categorie";
     private static final String TAG_WEERTYPE = "weerType";
 
     // Hier maken we de uitjes JSONArray
@@ -83,57 +77,35 @@ public class ResultActivityWithoutFilters extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.resultlist);
+        setContentView(R.layout.results_layout);
 
         network = new Network(getApplicationContext());
 
-        //code for the drawer
-        mTitle = mDrawerTitle = getTitle();
-        mMenuItems = getResources().getStringArray(R.array.menu_items);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        //set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mMenuItems));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu();
-                selectItem(4);
-            }
-
-            public void onDrawerOpened(View view) {
-                mDrawerList.bringToFront();
-                mDrawerLayout.requestLayout();
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-
-
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //set the standard selected item on  0 --> the first item (kaart)
-
-        //end code for the drawer
-
-
         textView = (TextView)findViewById(R.id.textview_noUitjes);
         button = (Button)findViewById(R.id.ButtonIDGoback);
+
+        mTypes = getResources().getStringArray(R.array.Types);
+
+        spinnerType = (Spinner)findViewById(R.id.spinner_SelectType);
+
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemTypeChange(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //getlistview
         listViewlist = getListView();
         listViewlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                Toast.makeText(ResultActivityWithoutFilters.this, "You Clicked at " + uitjesList.get(position).get("uitjesID"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Results.this, "You Clicked at " + uitjesList.get(position).get("uitjesID"), Toast.LENGTH_SHORT).show();
                 Intent DetailPageIntent = new Intent(getApplicationContext(), DetailUitje.class);
                 DetailPageIntent.putExtra("number", uitjesList.get(position).get("uitjesID"));
                 startActivity(DetailPageIntent);
@@ -154,93 +126,7 @@ public class ResultActivityWithoutFilters extends ListActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        selectItem(4);
-    }
 
-    //start of drawer code
-    @Override
-    protected void onResume() {
-        super.onResume();
-        selectItem(4);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-    /* Called whenever we call invalidateOptionsMenu() */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        // ActionBarDrawerToggle will take care of this.
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle action buttons
-        return super.onOptionsItemSelected(item);
-    }
-    private class DrawerItemClickListener implements ListView.OnItemClickListener{
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-    public void selectItem(int position){
-        if (mMenuItems[position].toLowerCase().equals("bekijk uitjes op kaart")){
-            finish();
-        }
-        else if(mMenuItems[position].toLowerCase().equals("locatie wijzigen")){
-            this.finish();
-            Toast.makeText(getApplicationContext(), "lcaotie wijzigen", Toast.LENGTH_SHORT).show();
-            Intent LocationChooseIntent = new Intent(getApplicationContext(), LocationChoose.class);
-            startActivity(LocationChooseIntent);
-        }
-        else if (mMenuItems[position].toLowerCase().equals("suggestie maken")){
-            this.finish();
-            Toast.makeText(getApplicationContext(), "suggestie maken ofzo", Toast.LENGTH_SHORT).show();
-            Intent MakeSuggestionIntent = new Intent(getApplicationContext(), MakeSuggestion.class);
-            startActivity(MakeSuggestionIntent);
-        }
-        else if(mMenuItems[position].toLowerCase().equals("uitje beoordelen")){
-            this.finish();
-            Toast.makeText(getApplicationContext(), "uitjes beoordelen", Toast.LENGTH_SHORT).show();
-            Intent RateActivityIntent = new Intent(getApplicationContext(), RateActivities.class);
-            startActivity(RateActivityIntent);
-        }
-        // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mMenuItems[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-    //end of drawer code
 
     /**
      * Deze achtergrondthread doet het daadwerkelijke werk:
@@ -255,7 +141,7 @@ public class ResultActivityWithoutFilters extends ListActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ResultActivityWithoutFilters.this);
+            pDialog = new ProgressDialog(Results.this);
             pDialog.setMessage("Uitjes worden opgehaald... even geduld!");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -300,9 +186,7 @@ public class ResultActivityWithoutFilters extends ListActivity {
                         // Storing each json item in variable
                         String id = c.getString(TAG_PID);
                         String name = c.getString(TAG_NAME);
-                        String weertype = c.getString(TAG_WEERTYPE);
-
-                        Log.d("weertype van "+ name, weertype + " <--");
+                        String type = c.getString(TAG_TYPE);
 
 
                         // creating new HashMap
@@ -311,7 +195,7 @@ public class ResultActivityWithoutFilters extends ListActivity {
                         // adding each child node to HashMap key => value
                         map.put(TAG_PID, id);
                         map.put(TAG_NAME, name);
-                        map.put(TAG_WEERTYPE, weertype);
+                        map.put(TAG_TYPE, type);
 
                         map.values();
 
@@ -351,9 +235,12 @@ public class ResultActivityWithoutFilters extends ListActivity {
          * After completing background task Dismiss the progress dialog
          * **/
         protected void onPostExecute(String file_url) {
+
+            FilterOnType(uitjesList);
+
             //call function for filtering
             ListAdapter adapter = new SimpleAdapter(
-                    ResultActivityWithoutFilters.this, uitjesList,
+                    Results.this, uitjesList,
                     R.layout.resultlistitem, new String[]{TAG_PID,
                     TAG_NAME},
                     new int[]{R.id.uitjesID, R.id.Naam});
@@ -376,5 +263,71 @@ public class ResultActivityWithoutFilters extends ListActivity {
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private void FilterOnType(List<HashMap<String, String>> uitjeslijst){
+
+        //loop through the list checking for the types and adding to the right lists
+        for (int i = 0 ; i < uitjeslijst.size(); i++){
+            String Type = uitjeslijst.get(i).get(TAG_TYPE);
+            Log.d("weertype ", Type);
+            if (Type.equals("Museum")){
+                Museum.add(uitjeslijst.get(i));
+            }else if(Type.equals("Pretpark")){
+                Pretpark.add(uitjeslijst.get(i));
+            }else {
+                Restaurant.add(uitjeslijst.get(i));
+            }
+        }
+
+
+    }
+
+    private void itemTypeChange(int number){
+        listViewlist.setAdapter(null);
+        if(mTypes[number].equals("Geen")){
+            ListAdapter adapter = new SimpleAdapter(
+                    Results.this, uitjesList,
+                    R.layout.resultlistitem, new String[]{TAG_PID,
+                    TAG_NAME},
+                    new int[]{R.id.uitjesID, R.id.Naam});
+
+            // updating listview
+            setListAdapter(adapter);
+
+        }
+        else if(mTypes[number].equals("Pretpark")){
+            ListAdapter adapter = new SimpleAdapter(
+                    Results.this, Pretpark,
+                    R.layout.resultlistitem, new String[]{TAG_PID,
+                    TAG_NAME},
+                    new int[]{R.id.uitjesID, R.id.Naam});
+
+            // updating listview
+            setListAdapter(adapter);
+
+        }
+        else if(mTypes[number].equals("Restaurant")){
+            ListAdapter adapter = new SimpleAdapter(
+                    Results.this, Restaurant,
+                    R.layout.resultlistitem, new String[]{TAG_PID,
+                    TAG_NAME},
+                    new int[]{R.id.uitjesID, R.id.Naam});
+
+            // updating listview
+            setListAdapter(adapter);
+
+        }
+        else {
+            ListAdapter adapter = new SimpleAdapter(
+                    Results.this, Museum,
+                    R.layout.resultlistitem, new String[]{TAG_PID,
+                    TAG_NAME},
+                    new int[]{R.id.uitjesID, R.id.Naam});
+
+            // updating listview
+            setListAdapter(adapter);
+
+        }
     }
 }
