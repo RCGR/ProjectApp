@@ -406,24 +406,29 @@ public class MyActivity extends Activity implements OnMapReadyCallback{
                         map.put(TAG_COORDINAAT, coordinaat);
 
                         map.values();
+                        if(Theonemap.equals(null) != true)
+                        {
+                            runOnUiThread(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+                                    {
+                                        @Override
+                                        public void onInfoWindowClick(Marker marker)
+                                        {
+                                            String markerTitle = marker.getTitle();
+                                            int indexOfEndID = markerTitle.indexOf(", ");
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Theonemap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                                    @Override
-                                    public void onInfoWindowClick(Marker marker) {
-                                        String markerTitle = marker.getTitle();
-                                        int indexOfEndID = markerTitle.indexOf(", ");
-
-                                        Intent intent = new Intent(MyActivity.this, DetailUitje.class);
-                                        intent.putExtra("number", markerTitle.substring(0, indexOfEndID));
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
-                        });
-
+                                            Intent intent = new Intent(MyActivity.this, DetailUitje.class);
+                                            intent.putExtra("number", markerTitle.substring(0, indexOfEndID));
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            });
+                        }
 
                         // adding HashList to ArrayList
                         uitjesList.add(map);
