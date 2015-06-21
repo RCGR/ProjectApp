@@ -44,6 +44,9 @@ public class Results extends ListActivity {
 
     String[] mTypes;
 
+    int Type = 0;
+    // 0 = geen | 1 = Pretpark | 2 = Restaurant | 3 = museum
+
     getCurrentWeather currentweather;
 
     public Toast t;
@@ -117,9 +120,19 @@ public class Results extends ListActivity {
         listViewlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                Toast.makeText(Results.this, "You Clicked at " + uitjesList.get(position).get("uitjesID"), Toast.LENGTH_SHORT).show();
                 Intent DetailPageIntent = new Intent(getApplicationContext(), DetailUitje.class);
-                DetailPageIntent.putExtra("number", uitjesList.get(position).get("uitjesID"));
+                if (Type == 0) {
+                    DetailPageIntent.putExtra("number", uitjesList.get(position).get("uitjesID"));
+                }
+                else if ( Type == 1) {
+                    DetailPageIntent.putExtra("number", Pretpark.get(position).get("uitjesID"));
+                }
+                else if (Type == 2){
+                    DetailPageIntent.putExtra("number", Restaurant.get(position).get("uitjesID"));
+                }
+                else {
+                    DetailPageIntent.putExtra("number", Museum.get(position).get("uitjesID"));
+                }
                 startActivity(DetailPageIntent);
 
             }
@@ -300,6 +313,7 @@ public class Results extends ListActivity {
     private void itemTypeChange(int number){
         listViewlist.setAdapter(null);
         if(mTypes[number].equals("Geen")){
+            Type = 0;
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, uitjesList,
                     R.layout.resultlistitem, new String[]{TAG_PID,
@@ -311,6 +325,7 @@ public class Results extends ListActivity {
 
         }
         else if(mTypes[number].equals("Pretpark")){
+            Type = 1;
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Pretpark,
                     R.layout.resultlistitem, new String[]{TAG_PID,
@@ -322,6 +337,7 @@ public class Results extends ListActivity {
 
         }
         else if(mTypes[number].equals("Restaurant")){
+            Type = 2;
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Restaurant,
                     R.layout.resultlistitem, new String[]{TAG_PID,
@@ -333,6 +349,7 @@ public class Results extends ListActivity {
 
         }
         else {
+            Type = 3;
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Museum,
                     R.layout.resultlistitem, new String[]{TAG_PID,
