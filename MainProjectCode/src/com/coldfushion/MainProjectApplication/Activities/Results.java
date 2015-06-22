@@ -272,8 +272,8 @@ public class Results extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, uitjesList,
                     R.layout.resultlistitem, new String[]{TAG_PID,
-                    TAG_NAME},
-                    new int[]{R.id.uitjesID, R.id.Naam});
+                    TAG_NAME, TAG_AFSTAND},
+                    new int[]{R.id.uitjesID, R.id.Naam,R.id.Afstand});
 
             // updating listview
             setListAdapter(adapter);
@@ -325,22 +325,38 @@ public class Results extends ListActivity {
             newlist.add(uitjeslijst.get(i));
         }
         uitjeslijst.clear();
-        
+
 
         //loop through the extra list
+        for (int i = 0 ; i < newlist.size(); i ++) {
 
-        //inside loop the total list.
+            double newlistaftand = Double.parseDouble(newlist.get(i).get(TAG_AFSTAND)) ;
+            Log.d( "adts", newlistaftand + "");
+            if (uitjeslijst.size() < 1){
+                uitjeslijst.add(newlist.get(i));
 
-        //check if the distance is smaller then the current item of total list.
+            }
+            else {
+                //inside loop the total list.
+                int lenghtlist = uitjeslijst.size();
+                for (int j = 0; j < uitjeslijst.size(); j++) {
+                    double uitjeslijstaftand = Double.parseDouble(uitjeslijst.get(j).get(TAG_AFSTAND));
+                    //check if the distance is smaller then the current item of total list.
+                    if (newlistaftand < uitjeslijstaftand) {
+                        uitjeslijst.add(j, newlist.get(i));
+                        break;
 
-        //then add
+                    }
+                    if (j == lenghtlist - 1) {
+                        uitjeslijst.add(newlist.get(i));
+                    }
 
-        // else keep looping
+                }
+            }
+        }
 
         // at the end clear extra list.
-
-        //and go filter
-
+        newlist.clear();
 
 
         //filtering
@@ -368,8 +384,8 @@ public class Results extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, uitjesList,
                     R.layout.resultlistitem, new String[]{TAG_PID,
-                    TAG_NAME},
-                    new int[]{R.id.uitjesID, R.id.Naam});
+                    TAG_NAME, TAG_AFSTAND},
+                    new int[]{R.id.uitjesID, R.id.Naam,R.id.Afstand});
 
             // updating listview
             setListAdapter(adapter);
@@ -380,8 +396,8 @@ public class Results extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Pretpark,
                     R.layout.resultlistitem, new String[]{TAG_PID,
-                    TAG_NAME},
-                    new int[]{R.id.uitjesID, R.id.Naam});
+                    TAG_NAME, TAG_AFSTAND},
+                    new int[]{R.id.uitjesID, R.id.Naam,R.id.Afstand});
 
             // updating listview
             setListAdapter(adapter);
@@ -392,8 +408,8 @@ public class Results extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Restaurant,
                     R.layout.resultlistitem, new String[]{TAG_PID,
-                    TAG_NAME},
-                    new int[]{R.id.uitjesID, R.id.Naam});
+                    TAG_NAME, TAG_AFSTAND},
+                    new int[]{R.id.uitjesID, R.id.Naam,R.id.Afstand});
 
             // updating listview
             setListAdapter(adapter);
@@ -404,8 +420,8 @@ public class Results extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     Results.this, Museum,
                     R.layout.resultlistitem, new String[]{TAG_PID,
-                    TAG_NAME},
-                    new int[]{R.id.uitjesID, R.id.Naam});
+                    TAG_NAME, TAG_AFSTAND},
+                    new int[]{R.id.uitjesID, R.id.Naam,R.id.Afstand});
 
             // updating listview
             setListAdapter(adapter);

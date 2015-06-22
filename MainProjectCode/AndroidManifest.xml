@@ -10,7 +10,7 @@
             android:icon="@drawable/ic_launcher">
         <activity
                 android:name=".Activities.MyActivity"
-                android:label="Uitjes op kaart"
+                android:label="Day out"
                 android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
                 >
             <intent-filter>
