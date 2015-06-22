@@ -39,8 +39,8 @@ import android.util.Log;
 public class Results extends ListActivity {
     Network network;
 
-    double latitude;
-    double longitude;
+    double latitude_Home;
+    double longitude_Home;
 
     String[] mTypes;
 
@@ -77,7 +77,8 @@ public class Results extends ListActivity {
     private static final String TAG_PID = "uitjesID";
     private static final String TAG_NAME = "Naam";
     private static final String TAG_TYPE = "Categorie";
-    private static final String TAG_WEERTYPE = "weerType";
+    private static final String TAG_AFSTAND = "afstand";
+    private static final String TAG_COORDINATEN = "Coordinaat";
 
     // Hier maken we de uitjes JSONArray
     JSONArray uitjes = null;
@@ -87,8 +88,8 @@ public class Results extends ListActivity {
 
 
         Intent receiveIntent = this.getIntent();
-        latitude = receiveIntent.getDoubleExtra("latitude", 51.92);
-        longitude = receiveIntent.getDoubleExtra("longitude", 4.48);
+        latitude_Home = receiveIntent.getDoubleExtra("latitude", 51.92);
+        longitude_Home = receiveIntent.getDoubleExtra("longitude", 4.48);
 
 
         super.onCreate(savedInstanceState);
@@ -214,6 +215,7 @@ public class Results extends ListActivity {
                         String id = c.getString(TAG_PID);
                         String name = c.getString(TAG_NAME);
                         String type = c.getString(TAG_TYPE);
+                        String coordinaten = c.getString(TAG_COORDINATEN);
 
 
                         // creating new HashMap
@@ -223,6 +225,7 @@ public class Results extends ListActivity {
                         map.put(TAG_PID, id);
                         map.put(TAG_NAME, name);
                         map.put(TAG_TYPE, type);
+                        map.put(TAG_COORDINATEN, coordinaten);
 
                         map.values();
 
@@ -294,10 +297,57 @@ public class Results extends ListActivity {
 
     private void FilterOnType(List<HashMap<String, String>> uitjeslijst){
 
+        List<HashMap<String, String>> newlist = new ArrayList<>();
+        float [] dists = new float[1];
+
+        //sorting on distance
+        for (int i = 0; i < uitjeslijst.size(); i ++) {
+
+            //getting coordinaten
+            String coordinaten = uitjeslijst.get(i).get(TAG_COORDINATEN);
+            int commaLocation = coordinaten.indexOf(",");
+            String Coordinaat_Lat = coordinaten.substring(0, commaLocation);
+            String Coordinaat_Lng = coordinaten.substring(commaLocation + 1);
+            //converting to doubles (lat long)
+            double lat = Double.parseDouble(Coordinaat_Lat);
+            double lng = Double.parseDouble(Coordinaat_Lng);
+
+            //getting distance between home and selected thing
+            Location.distanceBetween(latitude_Home, longitude_Home, lat, lng,  dists);
+            Log.d("distance (Home - Uitje)", dists[0] * 0.000621371192f + "");
+            //adding the distance to the hashmap
+            uitjeslijst.get(i).put(TAG_AFSTAND, dists[0]*0.000621371192f + "");
+
+        }
+
+        //add all to a extra list and clear the total list
+        for (int i = 0 ; i < uitjeslijst.size(); i ++){
+            newlist.add(uitjeslijst.get(i));
+        }
+        uitjeslijst.clear();
+        
+
+        //loop through the extra list
+
+        //inside loop the total list.
+
+        //check if the distance is smaller then the current item of total list.
+
+        //then add
+
+        // else keep looping
+
+        // at the end clear extra list.
+
+        //and go filter
+
+
+
+        //filtering
+
         //loop through the list checking for the types and adding to the right lists
         for (int i = 0 ; i < uitjeslijst.size(); i++){
             String Type = uitjeslijst.get(i).get(TAG_TYPE);
-            Log.d("weertype ", Type);
             if (Type.equals("Museum")){
                 Museum.add(uitjeslijst.get(i));
             }else if(Type.equals("Pretpark")){
@@ -311,6 +361,7 @@ public class Results extends ListActivity {
     }
 
     private void itemTypeChange(int number){
+
         listViewlist.setAdapter(null);
         if(mTypes[number].equals("Geen")){
             Type = 0;
@@ -364,11 +415,11 @@ public class Results extends ListActivity {
 
     public void distancecheck(){
         Location Home  = new Location("Home");
-        Home.setLatitude(latitude);
-        Home.setLongitude(longitude);
+        Home.setLatitude(latitude_Home);
+        Home.setLongitude(longitude_Home);
 
         float [] distss = new float[1];
-        Location.distanceBetween(latitude, longitude, 51.92, 4.48,  distss);
+        Location.distanceBetween(latitude_Home, longitude_Home, 51.92, 4.48,  distss);
         Log.d(" dist 1122 ==== ", distss[0]*0.000621371192f + "");
     }
 }
